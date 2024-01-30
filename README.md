@@ -1,2 +1,0 @@
-# Minishell
-Minishell Yassine/Salah
