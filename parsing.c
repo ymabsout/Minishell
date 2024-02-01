@@ -17,10 +17,14 @@ void buildtree(t_cms *fs)
 	fs->i = -1;
 	while (fs->meta[++fs->i])
 		btree_insert_data(&fs->root, (char *)fs->meta[fs->i]);
-	// puts("test");
+	fs->i = -1;
+	while (fs->com[++fs->i])
+		btree_insert_data(&fs->root, (char *)fs->com[fs->i]);
 	while (fs->root != NULL)
 	{
-		printf("%s\n", (char*)fs->root->item);
+		printf("((%s))\n", (char*)fs->root->item);
+		if (fs->root->left)
+			printf("(%s)\n", (char*)fs->root->left->item);
 		fs->root = fs->root->right;
 	}
 }

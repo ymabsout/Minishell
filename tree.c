@@ -32,9 +32,11 @@ void btree_insert_data(t_btree **root, void *item)
         *root = btree_create_node(item);
         return ;
     }
-   if (!ft_strncmp(item, "<", 1) || !ft_strncmp(item, ">", 1) \
+   if (!ft_strncmp((char *)item, "<", 1) || !ft_strncmp((char *)item, ">", 1) \
 			 || !ft_strncmp(item, "|", 1))
         btree_insert_data(&(*root)->right, item);
-    else 
+    else if (!(*root)->left)
         btree_insert_data(&(*root)->left, item);
+    else
+        btree_insert_data(&(*root)->right, item);
 }

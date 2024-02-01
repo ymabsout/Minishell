@@ -192,6 +192,8 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 	size_t	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (-1);
 	while (i < n)
 	{
 		if ((unsigned char)s1[i] == (unsigned char)s2[i] && i < ft_strlen(s1))
