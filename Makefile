@@ -1,6 +1,6 @@
 CC = cc
 #CFLAGS = -Wall -Wextra -Werror  -c 
-SRCS = main.c ft_split.c utils.c
+SRCS = main.c ft_split.c utils.c 
 OBJS = $(SRCS:.c=.o)
 NAME = shell
 HEADER = m1.h
