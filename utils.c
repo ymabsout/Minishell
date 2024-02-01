@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/01 13:26:20 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:48:31 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,26 @@ char	*ft_strrchr(char *s, int c)
 		length_str--;
 	}
 	return (NULL);
+}
+
+int	ft_strncmp(char *s1, char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if ((unsigned char)s1[i] == (unsigned char)s2[i] && i < ft_strlen(s1))
+			i++;
+		else
+		{
+			if ((unsigned char)s1[i] > (unsigned char)s2[i])
+				return (1);
+			else if ((unsigned char)s1[i] < (unsigned char)s2[i])
+				return (-1);
+			else
+				return (0);
+		}
+	}
+	return (0);
 }

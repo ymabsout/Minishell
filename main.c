@@ -1,5 +1,17 @@
-#include "m1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/01 17:55:02 by ymabsout          #+#    #+#             */
+/*   Updated: 2024/02/01 19:20:47 by ymabsout         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+
+#include "m1.h"
 
 void *fillcmd(char **cmd, int size, char *s)
 {
@@ -19,19 +31,18 @@ void *fillcmd(char **cmd, int size, char *s)
         }
     }
     cmd[++id] = ft_strdup(s);
+    if (!ft_strncmp(cmd[id], "", ft_strlen(cmd[id])) && id != 0)
+        return(printf("Redirection invalid\n"), NULL);
     cmd[++id] = NULL;
-    id = -1;
-    while (cmd[++id])
-        printf("(%s)\n", cmd[id]);
     return (cmd);
 }
-
 
 void *token(char *str)
 {
     int i;
     int count;
     char **cmd;
+    int keep;
     i = 0;
     count = 0;
     while (str[i])
@@ -40,11 +51,13 @@ void *token(char *str)
             count++;
         i++;
     }
+    keep = count;
     count += count +1;
     cmd = malloc((sizeof(char *) * count ) + 1);
-    if (!cmd)
+    if (!cmd || !fillcmd(cmd, count, str))
         return (NULL);
-    fillcmd(cmd, count, str);
+    if (!checkcmds(cmd, str, keep))
+        return (NULL);
     return (str);
 }
 

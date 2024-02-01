@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "m1.h": "c",
-        "fcntl.h": "c",
-        "termios.h": "c"
-    }
-}
