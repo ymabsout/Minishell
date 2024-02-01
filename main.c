@@ -1,5 +1,6 @@
 #include "m1.h"
 
+
 void *fillcmd(char **cmd, int size, char *s)
 {
     int i;
@@ -9,7 +10,6 @@ void *fillcmd(char **cmd, int size, char *s)
     i = -1;
     while (s[++i])
     {
-        // printf("((%s))\n", s);
         if (s[i] == '|' || s[i] == '<' || s[i] == '>')
         {
             cmd[++id] = ft_substr(s, 0, i);
