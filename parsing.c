@@ -19,7 +19,11 @@ void buildtree(t_cms *fs)
 		btree_insert_data(&fs->root, (char *)fs->meta[fs->i]);
 	fs->i = -1;
 	while (fs->com[++fs->i])
+	{
+		if (!fs->com[fs->i][0])
+			fs->i++;
 		btree_insert_data(&fs->root, (char *)fs->com[fs->i]);
+	}
 	while (fs->root != NULL)
 	{
 		printf("((%s))\n", (char*)fs->root->item);

@@ -22,7 +22,19 @@ void *fillcmd(char **cmd, int size, char *s)
     i = -1;
     while (s[++i])
     {
-        if (s[i] == '|' || s[i] == '<' || s[i] == '>')
+        if (s[i] == '<')
+        {
+            cmd[++id] = ft_substr(s, 0, );
+            s = ft_strdup(s + i);
+            while (s[++i] && s[i] == ' ')
+                ;
+            while (s[++i] != ' ')
+                ;
+            cmd[++id] = ft_substr(s, 0, i);
+            s = ft_strdup(s + i);
+            i = -1;
+        }
+        else if (s[i] == '|' || s[i] == '>')
         {
             cmd[++id] = ft_substr(s, 0, i);
             cmd[++id] = ft_substr(s, i, 1);
@@ -84,5 +96,6 @@ int main (int ac, char *av[], char **env)
             printf("Parsing Error\n");
         add_history(input);
         input = readline("Minishell:");
+
     }
 }
