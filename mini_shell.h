@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:01:43 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/02 18:33:39 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/02 19:32:31 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void    syntax_error(void);
 void    err_handler(int num);
 
 char    *expand_env_vars(char *str, int state_code);
+void handle_unclosed_quotes(char *line, int *state);
 int find_num_char(char *str, int c);
 
 

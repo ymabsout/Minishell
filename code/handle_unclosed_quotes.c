@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handle_unclosed_quotes.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 17:06:49 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/02 18:54:27 by smoumni          ###   ########.fr       */
+/*   Created: 2024/02/02 19:31:30 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/02 19:32:04 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_shell.h"
+#include "../mini_shell.h"
 
-void parse_input()
+void handle_unclosed_quotes(char *line, int *state)
 {
-    char *line;
     pid_t pid;
-    int state;
 
-    line = readline(READLINE_TITLE);
-    if (!line)
-        return ;
     err_handler((pid = fork()));
     if (!pid)
     {
@@ -30,18 +25,5 @@ void parse_input()
             syntax_error();
         exit(0);
     }
-    err_handler(waitpid(pid, &state, 0));
-    free(expand_env_vars(line, state));
-}
-
-void lol()
-{
-    system("leaks minishell");
-}
-
-int main()
-{
-    // atexit(lol);
-    while (1)
-        parse_input();
+    err_handler(waitpid(pid, state, 0));
 }
