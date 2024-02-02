@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:03:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/01 19:47:20 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:53:15 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,12 @@ void buildtree(t_cms *fs)
 		btree_insert_data(&fs->root, (char *)fs->meta[fs->i]);
 	fs->i = -1;
 	while (fs->com[++fs->i])
-	{
-		if (!fs->com[fs->i][0])
-			fs->i++;
 		btree_insert_data(&fs->root, (char *)fs->com[fs->i]);
-	}
 	while (fs->root != NULL)
 	{
-		printf("((%s))\n", (char*)fs->root->item);
+		printf("metacharacter : %s\n", (char*)fs->root->item);
 		if (fs->root->left)
-			printf("(%s)\n", (char*)fs->root->left->item);
+			printf("command in left node %s\n", (char*)fs->root->left->item);
 		fs->root = fs->root->right;
 	}
 }

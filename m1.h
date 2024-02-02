@@ -50,7 +50,7 @@ char	*ft_strrchr(char *s, int c);
 int     ft_strncmp(char *s1, char *s2, size_t n);
 void    *checkcmds(char **cmd, char *str, int count);
 void    splitcmds(t_cms *infs, char **cmd);
-void btree_insert_data(t_btree **root, void *item);
+void    btree_insert_data(t_btree **root, void *item);
 
 
 #endif 

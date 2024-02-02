@@ -1,5 +1,5 @@
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror  -c 
+CFLAGS = -Wall -Wextra -Werror  -c 
 SRCS = main.c ft_split.c utils.c parsing.c tree.c
 OBJS = $(SRCS:.c=.o)
 NAME = shell
@@ -11,7 +11,7 @@ $(NAME): $(OBJS)
 	$(CC) -lreadline -fsanitize=address -g $^ -o $(NAME) 
 
 %.o:%.c $(HEADER)
-	$(CC) $(CFLAGS) -g -c $< -o $@
+	$(CC) $(CFLAGS) -g  $< -o $@
 
 clean :
 	rm -rf $(OBJS)
