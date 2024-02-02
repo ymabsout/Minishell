@@ -10,16 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
+// work with the double pointer to build the tree later , but the double pointer should be perfect before building the tree
 #include "m1.h"
 
 void printcmd(char **cmd)
 {
     int i=-1;
     while (cmd[++i])
-        printf("*%s*\n", cmd[i]);
+        printf("((%s))\n", cmd[i]);
 }
-
 
 void *fillcmd(char **cmd, int size, char *s)
 {
@@ -33,7 +32,7 @@ void *fillcmd(char **cmd, int size, char *s)
     {
         if (s[i] == '<')
         {
-            cmd[++id] = ft_substr(s, 0, 1);
+            cmd[++id] = ft_substr(s, i, 1);
             s = ft_strdup(s + i + 1);
             while (s[++i] && s[i] == ' ')
                 ;
@@ -52,7 +51,7 @@ void *fillcmd(char **cmd, int size, char *s)
         }
         else if (s[i] == '>')
         {
-            if (!cmd[id] && (cmd[id][0] == '>' || cmd[id][0] == '<'))
+            if (cmd[id][0] == '>' || cmd[id][0] == '<')
                 return(printf("redirection error\n"), NULL);
             if (s[i + 1] == '>')
             {
@@ -68,8 +67,8 @@ void *fillcmd(char **cmd, int size, char *s)
             i = -1;
         }
     }
-    cmd[++id] = ft_strdup(s);
-    if (!ft_strncmp(cmd[id], "", ft_strlen(cmd[id])) && id != 0)
+    cmd[++id] = ft_strdup(s); //need to find a way to parse the last argument in  the command.
+    if (!ft_strncmp(cmd[id], " ", ft_strlen(cmd[id])) && id != 0)
         return(printf("Redirection invalid\n"), NULL);
     cmd[++id] = NULL;
     printcmd(cmd);
@@ -95,19 +94,18 @@ void *token(char *str)
     cmd = malloc((sizeof(char *) * count ) + 1);
     if (!cmd || !fillcmd(cmd, count, str))
         return (NULL);
-    if (!checkcmds(cmd, str, keep))
-        return (NULL);
+    // if (!checkcmds(cmd, str, keep))
+    //     return (NULL);
     return (str);
 }
 
 void *parsing(char *input , char **env)
 {
     char *cmd;
-    int i;
+
     (void)env;
-    i = 0;
     cmd = ft_strdup(input);
-    if (!token(input))
+    if (!token(cmd))
         return (NULL);
     return (input);
 }
