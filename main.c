@@ -20,6 +20,31 @@ void printcmd(char **cmd)
         printf("((%s))\n", cmd[i]);
 }
 
+// void *inputfix(char *s, char **cmd, int index)
+// {
+
+// }
+void *trimcmd(char **cmd)
+{
+    int i;
+
+    i = -1;
+    while (cmd[++i])
+        cmd[i] = ft_strtrim(cmd[i], " ");
+    return (cmd);
+}
+
+// void *noinput(char *s, char **cmd)
+// {
+//     int i;
+
+//     i = -1;
+//     while (s[++i])
+//     {
+        
+//     }
+// }
+
 void *fillcmd(char **cmd, int size, char *s)
 {
     int i;
@@ -32,11 +57,13 @@ void *fillcmd(char **cmd, int size, char *s)
     {
         if (s[i] == '<')
         {
-            cmd[++id] = ft_substr(s, i, 1);
+            cmd[++id] = ft_substr(s, 0, i + 1);
+            cmd[id] = ft_strtrim(cmd[id], " ");
+
             s = ft_strdup(s + i + 1);
             while (s[++i] && s[i] == ' ')
                 ;
-            while (s[i] && s[++i] != ' ')
+            while (s[++i] && s[i] != ' ')
                 ;
             cmd[++id] = ft_substr(s, 0, i);
             s = ft_strdup(s + i);
@@ -55,6 +82,7 @@ void *fillcmd(char **cmd, int size, char *s)
                 return(printf("redirection error\n"), NULL);
             if (s[i + 1] == '>')
             {
+                cmd[++id] = ft_substr(s, 0, i);
                 cmd[++id] = ft_substr(s, i, 2);
                 s = ft_substr(s, i + 2, ft_strlen(s));
             }
@@ -71,6 +99,7 @@ void *fillcmd(char **cmd, int size, char *s)
     if (!ft_strncmp(cmd[id], " ", ft_strlen(cmd[id])) && id != 0)
         return(printf("Redirection invalid\n"), NULL);
     cmd[++id] = NULL;
+    trimcmd(cmd);
     printcmd(cmd);
     return (cmd);
 }
@@ -105,6 +134,7 @@ void *parsing(char *input , char **env)
 
     (void)env;
     cmd = ft_strdup(input);
+    cmd = ft_strtrim(cmd, " ");
     if (!token(cmd))
         return (NULL);
     return (input);

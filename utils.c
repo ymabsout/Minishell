@@ -167,7 +167,7 @@ char	*ft_strtrim(char *s1, char *set)
 	while (first_index <= last_index)
 		ptr[i++] = s1[first_index++];
 	ptr[i] = '\0';
-	free(s1);
+		free(s1);
 	return (ptr);
 }
 
