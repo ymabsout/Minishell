@@ -57,9 +57,14 @@ void *fillcmd(char **cmd, int size, char *s)
     {
         if (s[i] == '<')
         {
+            if (i != 0)
+            {
+                cmd[++id] = ft_substr(s, 0, i);
+                s = ft_substr(s, i - 1, ft_strlen(s));
+                i = -1;
+            }
             cmd[++id] = ft_substr(s, 0, i + 1);
             cmd[id] = ft_strtrim(cmd[id], " ");
-
             s = ft_strdup(s + i + 1);
             while (s[++i] && s[i] == ' ')
                 ;
