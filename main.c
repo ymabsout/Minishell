@@ -45,37 +45,42 @@ void *trimcmd(char **cmd)
 //     }
 // }
 
-void *fillcmd(char **cmd, int size, char *s)
+void *fillcmd(char **cmd, int size, char *s) 
 {
     int i;
     int id;
-
+    int j;
+// when there is input redirection, we will open the latest file displayed before a pipe or redirection 
+ // in this commands : // cat < makefile main.c | grep e | wc -l, main.c will be opened and read from , use strrchr to search for space if there are any
+ //if not then open the whole char *, JUST in case there is a command before redirection.
     (void)size;
+    j = 0;
     id = -1;
     i = -1;
     while (s[++i])
     {
-        if (s[i] == '<')
+        if (id == -1 && s[i] == '<')
         {
-            if (i != 0 && id == 0)
-            {
-                cmd[++id] = ft_substr(s, 0, i);
-                s = ft_substr(s, i - 1, ft_strlen(s));
-                i = 0;
-            }
-            cmd[++id] = ft_substr(s, 0, i + 1);
-            cmd[id] = ft_strtrim(cmd[id], " ");
-            s = ft_strdup(s + i + 1);
-            while (s[++i] && s[i] == ' ')
-                ;
-            while (s[++i] && s[i] != ' ')
-                ;
-            cmd[++id] = ft_substr(s, 0, i);
-            s = ft_strdup(s + i);
+            cmd[++id] = ft_strtrim(ft_substr(s, 0, i), " ");
+            s = ft_substr(s, i - 1, ft_strlen(s));
             i = -1;
         }
-        else if (s[i] == '|')
+        else if (s[i] == '<')
         {
+            cmd[++id] = ft_substr(s, i, i + 1);
+            cmd[id] = ft_strtrim(cmd[id], " ");
+            s = ft_strdup(s + i + 1);
+            // while (s[++i] && s[i] == ' ')
+            //     ;
+            // while (s[++i] && s[i] != ' ')
+            //     ;   
+            // cmd[++id] = ft_substr(s, 0, i);
+            // s = ft_strdup(s + i);
+            i = -1;
+        }
+         if (s[i] == '|')
+        {
+
             cmd[++id] = ft_substr(s, 0, i);
             cmd[++id] = ft_substr(s, i, 1);
             s = ft_strdup(s + i + 1);
