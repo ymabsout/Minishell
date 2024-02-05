@@ -1,19 +1,27 @@
 #ifndef M1_H
 # define M1_H
 
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <termios.h>
+
 enum token_type
 {
+    token_and,
+    token_or,
     token_red_out_trunc,
     token_red_out_append,
     token_red_here_doc,
     token_red_input,
     token_pipe,
-    token_and,
-    token_or,
-    token_space,
     token_word,
     token_fd_out,
-    token_fd_in
+    token_fd_in,
+    token_space
 };
 
 typedef struct s_btree
@@ -42,13 +50,6 @@ typedef struct s_conv
     t_btree *root;
 }   t_cms;
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <fcntl.h>
-# include <sys/stat.h>
-# include <termios.h>
 
 t_btree *btree_create_node(void *item);
 char	**ft_split(char const *s, char c);
