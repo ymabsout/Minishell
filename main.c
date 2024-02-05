@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 18:39:21 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:05:39 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void *tokenize_lex(char *cmd)
     t_list *holder;
 
     root = NULL;
-    index = 0;
+    index = 0; // still need to be fixed infinite loop 
     while (cmd[index])
     {
         if (cmd[index] == ' ')
