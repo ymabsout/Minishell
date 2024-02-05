@@ -1,6 +1,21 @@
 #ifndef M1_H
 # define M1_H
 
+enum token_type
+{
+    token_red_out_trunc,
+    token_red_out_append,
+    token_red_here_doc,
+    token_red_input,
+    token_pipe,
+    token_and,
+    token_or,
+    token_space,
+    token_word,
+    token_fd_out,
+    token_fd_in
+};
+
 typedef struct s_btree
 {
     struct s_btree *left;
@@ -12,6 +27,7 @@ typedef struct s_list
 {
     void *content;
     struct s_list *next;
+    int typeofcontent;
 }   t_list;
 
 typedef struct s_conv
@@ -25,7 +41,6 @@ typedef struct s_conv
 	int k;
     t_btree *root;
 }   t_cms;
-
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -51,6 +66,10 @@ int     ft_strncmp(char *s1, char *s2, size_t n);
 void    *checkcmds(char **cmd, char *str, int count);
 void    splitcmds(t_cms *infs, char **cmd);
 void    btree_insert_data(t_btree **root, void *item);
-
+void    lst_addback(t_list **root, t_list *node);
+t_list  *lst_new(char *content);
+char	*ft_strjoin(char *s1, char *s2);
+void    *parsing(char *input);
+void    *tokenize_lex(char *cmd);
 
 #endif 

@@ -5,150 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 17:55:02 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/02 21:31:36 by ymabsout         ###   ########.fr       */
+/*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
+/*   Updated: 2024/02/05 17:31:28 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// work with the double pointer to build the tree later , but the double pointer should be perfect before building the tree
 #include "m1.h"
 
-void printcmd(char **cmd)
+void *set_correct_type(t_list *root)
 {
-    int i=-1;
-    while (cmd[++i])
-        printf("((%s))\n", cmd[i]);
+    if (ft_strchr(root->content, '<'))
+        root->typeofcontent = token_red_input;
+    else if (ft_strchr(root->content, '>'))
+        root->typeofcontent = token_red_out_trunc;
+    else if (ft_strchr(root->content, '|'))
+        root->typeofcontent = token_pipe;
+    else if (ft_strchr(root->content, ' '))
+        root->typeofcontent = token_space;
+    else
+        root->typeofcontent = token_word;
+    return (root);
 }
 
-// void *inputfix(char *s, char **cmd, int index)
-// {
-
-// }
-void *trimcmd(char **cmd)
+void printlist(t_list *root)
 {
-    int i;
-
-    i = -1;
-    while (cmd[++i])
-        cmd[i] = ft_strtrim(cmd[i], " ");
-    return (cmd);
-}
-
-// void *noinput(char *s, char **cmd)
-// {
-//     int i;
-
-//     i = -1;
-//     while (s[++i])
-//     {
-        
-//     }
-// }
-
-void *fillcmd(char **cmd, int size, char *s) 
-{
-    int i;
-    int id;
-    int j;
-// when there is input redirection, we will open the latest file displayed before a pipe or redirection 
- // in this commands : // cat < makefile main.c | grep e | wc -l, main.c will be opened and read from , use strrchr to search for space if there are any
- //if not then open the whole char *, JUST in case there is a command before redirection.
-    (void)size;
-    j = 0;
-    id = -1;
-    i = -1;
-    while (s[++i])
+    while (root)
     {
-        if (id == -1 && s[i] == '<')
-        {
-            cmd[++id] = ft_strtrim(ft_substr(s, 0, i), " ");
-            s = ft_substr(s, i - 1, ft_strlen(s));
-            i = -1;
-        }
-        else if (s[i] == '<')
-        {
-            cmd[++id] = ft_substr(s, i, i + 1);
-            cmd[id] = ft_strtrim(cmd[id], " ");
-            s = ft_strdup(s + i + 1);
-            // while (s[++i] && s[i] == ' ')
-            //     ;
-            // while (s[++i] && s[i] != ' ')
-            //     ;   
-            // cmd[++id] = ft_substr(s, 0, i);
-            // s = ft_strdup(s + i);
-            i = -1;
-        }
-         if (s[i] == '|')
-        {
-
-            cmd[++id] = ft_substr(s, 0, i);
-            cmd[++id] = ft_substr(s, i, 1);
-            s = ft_strdup(s + i + 1);
-            i = -1;
-        }
-        else if (s[i] == '>')
-        {
-            if (cmd[id][0] == '>' || cmd[id][0] == '<')
-                return(printf("redirection error\n"), NULL);
-            if (s[i + 1] == '>')
-            {
-                cmd[++id] = ft_substr(s, 0, i);
-                cmd[++id] = ft_substr(s, i, 2);
-                s = ft_substr(s, i + 2, ft_strlen(s));
-            }
-            else
-            {
-                cmd[++id] = ft_substr(s, 0, i);
-                cmd[++id] = ft_substr(s, i, 1);
-                s = ft_strdup(s + i + 1);
-            }
-            i = -1;
-        }
+        printf("{%s} --> type :{%d}\n", root->content, root->typeofcontent);
+        root = root->next;
     }
-    cmd[++id] = ft_strdup(s); //need to find a way to parse the last argument in  the command.
-    if (!ft_strncmp(cmd[id], " ", ft_strlen(cmd[id])) && id != 0)
-        return(printf("Redirection invalid\n"), NULL);
-    cmd[++id] = NULL;
-    trimcmd(cmd);
-    printcmd(cmd);
-    return (cmd);
 }
-
-void *token(char *str)
+void *tokenize_lex(char *cmd)
 {
-    int i;
-    int count;
-    char **cmd;
-    int keep;
-    i = 0;
-    count = 0;
-    while (str[i])
+    t_list *root;
+    int index;
+    char *keeper;
+    t_list *holder;
+
+    root = NULL;
+    index = 0;
+    while (cmd[index])
     {
-        if (str[i] == '|' || str[i] == '<' || str[i] == '>')
-            count++;
-        i++;
+        if (cmd[index] == ' ')
+        {
+            keeper = ft_strdup(" ");
+            holder = lst_new(keeper);
+            lst_addback(&root, set_correct_type(lst_new(keeper)));
+            while (cmd[index] && cmd[index] == ' ')
+                index++;
+            cmd = ft_substr(cmd, index, ft_strlen(cmd));
+            index = 0;
+        }
+        while (cmd[index] && cmd[index] != ' ')
+            index++;
+        keeper = ft_substr(cmd, 0, index); 
+        holder = lst_new(keeper);
+        holder = set_correct_type(holder);
+        lst_addback(&root, holder);
     }
-    keep = count;
-    count += count +1;
-    cmd = malloc((sizeof(char *) * count ) + 1);
-    if (!cmd || !fillcmd(cmd, count, str))
-        return (NULL);
-    // if (!checkcmds(cmd, str, keep))
-    //     return (NULL);
-    return (str);
+    printlist(root);
+    // cmd = ft_substr(cmd, index, ft_strlen(cmd));
 }
 
-void *parsing(char *input , char **env)
+void *parsing(char *input)
 {
     char *cmd;
+    t_list *saved_list;
 
-    (void)env;
-    cmd = ft_strdup(input);
-    cmd = ft_strtrim(cmd, " ");
-    if (!token(cmd))
+    cmd = ft_strtrim(ft_strdup(input), " ");
+    if (!cmd)
         return (NULL);
-    return (input);
+    saved_list = tokenize_lex(cmd);
+    if (!saved_list)
+        return (NULL);
+    return (cmd);
 }
+
 
 int main (int ac, char *av[], char **env)
 {
@@ -158,7 +90,7 @@ int main (int ac, char *av[], char **env)
     char *input = readline("Minishell:");
     while (input)
     {
-        if (!parsing(input, env))
+        if (!parsing(input))
             printf("Parsing Error\n");
         add_history(input);
         input = readline("Minishell:");

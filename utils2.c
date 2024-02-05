@@ -1,44 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 17:28:37 by ymabsout         ###   ########.fr       */
+/*   Created: 2024/02/05 13:19:16 by ymabsout          #+#    #+#             */
+/*   Updated: 2024/02/05 13:34:24 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "m1.h"
 
-t_list *lst_new(char *content)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	t_list *node;
+	size_t	i;
+	size_t	j;
+	char	*ptr;
 
-	node = malloc(sizeof (t_list));
-	if (!node)
+	if (!s2 && !s1)
 		return (NULL);
-	node->content = ft_strdup((char *)content);
-	// free(content);
-	node->next = NULL;
-	return (node);
-}
-
-void	lst_addback(t_list **lst, t_list *new)
-{
-	t_list	*head;
-
-	if (!lst || !new)
-		return ;
-	if (!(*lst))
+	if (!s1)
+		return(ft_strdup(s2));
+	if (!s2)
+		return(ft_strdup(s1));
+	ptr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!ptr)
+		return (NULL);
+	i = -1;
+	while (++i < ft_strlen(s1))
+		ptr[i] = s1[i];
+	j = 0;
+	while (j < ft_strlen(s2))
 	{
-		(*lst) = new;
-		new->next = NULL;
-		return ;
+		ptr[i] = s2[j];
+		i++;
+		j++;
 	}
-	head = (*lst);
-	while (head->next != NULL)
-		head = head->next;
-	head->next = new;
+	ptr[i] = '\0';
+	return (ptr);
 }
