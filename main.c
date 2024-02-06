@@ -6,15 +6,18 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 23:05:39 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:09:32 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "m1.h"
 
-int delimeter(char *str, int index)
+int delimeter(int c)
 {
-
+    if (c == '|' || c == '>' || c == '<' || c == '\0')
+        return (0);
+    else
+        return (1);
 }
 
 void *set_correct_type(t_list *root, int numb)
@@ -88,35 +91,37 @@ void *tokenize_lex(char *cmd)
     int index;
     char *keeper;
     t_list *holder;
+    int track = 0;
 
     root = NULL;
-    index = 0; // still need to be fixed infinite loop 
-    while (cmd[index])
+    index = -1;
+    while (++index <= ft_strlen(cmd))
     {
-        if (cmd[index] == ' ')
+        if (cmd[index] == ' ' || cmd[index] == '\t')
         {
-            keeper = ft_strdup(" ");
-            holder = lst_new(keeper);
-            lst_addback(&root, set_correct_type(lst_new(keeper), 1));
+            if (index != 0)
+                lst_addback(&root, (t_list*)set_correct_type(lst_new(ft_substr(cmd, 0 , index)), 1));
+            lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
             while (cmd[index] && cmd[index] == ' ')
                 index++;
-            cmd = ft_substr(cmd, index, ft_strlen(cmd));
-            index = 0;
+            cmd = ft_strdup(cmd + index);
+            index = -1;
         }
-        // while (cmd && cmd[index] != ' ')
-        // {
-        //     printf("%s\n", cmd);
-        //     handle_special_char(cmd, &index, &root);
-        //     index ++;
-        // }
-        keeper = ft_substr(cmd, 0, index); 
-        holder = lst_new(keeper);
-        holder = set_correct_type(holder, 1);
-        lst_addback(&root, holder);
+        else if (!delimeter(cmd[index]))
+        {
+            if (index  != 0)
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
+            if (cmd[index] != '\0')
+                lst_addback(&root, (t_list *)set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+            if (index != ft_strlen(cmd))
+            {
+                cmd = ft_strdup(cmd + index + 1);
+                index = -1;
+            }
+        }
     }
     printlist(root);
-    // cmd = ft_substr(cmd, index, ft_strlen(cmd));
-}
+    }
 
 void *parsing(char *input)
 {
