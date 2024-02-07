@@ -21,6 +21,8 @@ enum token_type
     token_word,
     token_fd_out,
     token_fd_in,
+    token_double_q,
+    token_single_q,
     token_space
 };
 
