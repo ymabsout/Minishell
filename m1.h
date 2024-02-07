@@ -33,7 +33,7 @@ typedef struct s_btree
 
 typedef struct s_list
 {
-    void *content;
+    char *content;
     struct s_list *next;
     int typeofcontent;
 }   t_list;
@@ -58,7 +58,7 @@ char	**freearr(int index, char **arr);
 int     count_words(char *s, char c);
 int     len_world(char *s, char c);
 char	*ft_strdup(char *s);
-size_t	ft_strlen(const char *s);
+int	ft_strlen(const char *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strchr(char *s, int c);
 char	*ft_strtrim(char *s1, char *set);

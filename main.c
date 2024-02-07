@@ -49,7 +49,7 @@ void printlist(t_list *root)
 {
     while (root)
     {
-        printf("{%s} --> type :{%d}\n", root->content, root->typeofcontent);
+        printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
         root = root->next;
     }
 }
@@ -85,12 +85,11 @@ void *handle_special_char(char *cmd, int *indx, t_list **root)
     return (cmd);
 }
 
+
 void *tokenize_lex(char *cmd)
 {
     t_list *root;
     int index;
-    char *keeper;
-    t_list *holder;
     int track = 0;
 
     root = NULL;
@@ -112,15 +111,27 @@ void *tokenize_lex(char *cmd)
             if (index  != 0)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
             if (cmd[index] != '\0')
-                lst_addback(&root, (t_list *)set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+            {
+                if (!delimeter(cmd[index + 1]))
+                {
+                    if (cmd[index] != cmd[index + 1])
+                        return(printf("Syntax Error near %c\n", cmd[index]), NULL);
+                    lst_addback(&root, (t_list *)set_correct_type(lst_new(ft_substr(cmd, index, 2)), 2));
+                    track = 1;
+                }
+                else
+                    lst_addback(&root, (t_list *)set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+            }
             if (index != ft_strlen(cmd))
             {
-                cmd = ft_strdup(cmd + index + 1);
+                cmd = ft_strdup(cmd + index + 1 + track);
+                track = 0;
                 index = -1;
             }
         }
     }
     printlist(root);
+    return(root);
     }
 
 void *parsing(char *input)
@@ -140,6 +151,7 @@ void *parsing(char *input)
 
 int main (int ac, char *av[], char **env)
 {
+    (void)env;
     if (ac != 1)
         return (printf("error arguments\n"), 0);
     (void)av;

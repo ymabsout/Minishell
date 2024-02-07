@@ -69,9 +69,9 @@ char	*ft_strdup(char *s)
 	ptr[i] = '\0';
 	return (ptr);
 }
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	length;
+	int	length;
 
 	length = 0;
 	while (s[length])
