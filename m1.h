@@ -11,7 +11,7 @@
 
 enum token_type
 {
-    token_and,
+    token_ampersand,
     token_or,
     token_red_out_trunc,
     token_red_out_append,
