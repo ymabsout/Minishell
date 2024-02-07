@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/07 20:13:14 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/07 21:14:07 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,37 +56,6 @@ void printlist(t_list *root)
         printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
         root = root->next;
     }
-}
-
-void *handle_special_char(char *cmd, int *indx, t_list **root)
-{
-    if (cmd[(*indx)] == '<')
-    {
-        if (cmd[(*indx) + 1] == '<')
-        {
-            lst_addback(root, set_correct_type(lst_new("<<"), 2));
-            cmd = ft_substr(cmd, (*indx) + 1, ft_strlen(cmd));
-        }
-        else
-        {
-            lst_addback(root, set_correct_type(lst_new("<"), 1));
-            cmd = ft_substr(cmd, (*indx), ft_strlen(cmd));
-        }
-    }
-    else if (cmd[(*indx)] == '>')
-    {
-         if (cmd[(*indx) + 1] == '>')
-        {
-            lst_addback(root, set_correct_type(lst_new(">>"), 2));
-            cmd = ft_substr(cmd, (*indx) + 1, ft_strlen(cmd));
-        }
-        else
-        {
-            lst_addback(root, set_correct_type(lst_new(">"), 1));
-            cmd = ft_substr(cmd, (*indx), ft_strlen(cmd));
-        }
-    }
-    return (cmd);
 }
 
 int db_sl_quote(int c)
