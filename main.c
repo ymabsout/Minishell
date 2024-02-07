@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/07 18:36:16 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/07 20:13:14 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,25 +146,26 @@ void *tokenize_lex(char *cmd)
         {
             if (cmd[index] == '\"')
             {
-                track = index;
-                while (cmd[index] && db_sl_quote(cmd[index]) && cmd[index] != '\"')
-                    index++;
-                printf("test:%s\n", cmd + index);
-                if(!cmd[index])
-                    return(printf("Syntax Error near %c\n", cmd[index - 1]), NULL);
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, track, index + 1)), 1));
-                printf("222%s222\n",ft_substr(cmd, track, index + 1));
-                cmd = ft_substr(cmd, index + 1, ft_strlen(cmd));
+                if (index != 0)
+                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
+                savepos = index;
+                while (cmd[++index] && db_sl_quote(cmd[index]) && cmd[index] != '\"')
+                    ;
+                if(!cmd[index] || !delimeter(cmd[index]) || cmd[index] != '\"')
+                    return(printf("Syntax Error near %c\n", cmd[index]), NULL);
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, savepos, index + 1)), 1));
+                cmd = ft_strdup(cmd+ index+ 1);
             }
             else
             {
-                track = index;
-                while (cmd[index] && db_sl_quote(cmd[index]) && cmd[index] != '\'')
-                    index++;
-                if(!cmd[index] || !delimeter(cmd[index]) || cmd[index] == '\"')
-                    return(printf("Syntax Error near %c\n", cmd[index - 1]), NULL);
-                // printf("(%s)\n", cmd + track);
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, track, index + 1)), 1));
+                if (index != 0)
+                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
+                savepos = index;
+                while (cmd[++index] && db_sl_quote(cmd[index]) && cmd[index] != '\'')
+                    ;
+                if(!cmd[index] || !delimeter(cmd[index]) || cmd[index] != '\'')
+                    return(printf("Syntax Error near %c\n", cmd[index ]), NULL);
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, savepos, index + 1)), 1));
                 cmd = ft_substr(cmd, index + 1, ft_strlen(cmd));
             }
         }
@@ -181,6 +182,8 @@ void *parsing(char *input)
     cmd = ft_strtrim(ft_strdup(input), " ");
     if (!cmd)
         return (NULL);
+    if (!cmd[0])
+        return(cmd);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
