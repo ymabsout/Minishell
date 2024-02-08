@@ -14,8 +14,7 @@
 
 int delimeter(int c)
 {
-    if (c == '|' || c == '>' || c == '<' || c == '\0' \
-        || c == '&')
+    if (c == '|' || c == '>' || c == '<' || c == '\0')
         return (0);
     else
         return (1);
@@ -41,10 +40,6 @@ void *set_correct_type(t_list *root, int numb)
         root->typeofcontent = token_double_q;
     else if (ft_strchr(root->content, '\''))
         root->typeofcontent = token_single_q;
-    else if (!ft_strncmp(root->content, "&&", 2))
-        root->typeofcontent = token_ampersand;
-    else if (!ft_strncmp(root->content, "||", 2))
-        root->typeofcontent = token_or;
     else if (ft_strchr(root->content, '|'))
         root->typeofcontent = token_pipe;
     else if (ft_strchr(root->content, ' '))
