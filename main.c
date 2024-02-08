@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/07 21:15:44 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:36:25 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void *tokenize_lex(char *cmd)
         if (cmd[index] == ' ' || cmd[index] == '\t')
         {
             if (index != 0)
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0 , index)), 1));
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0 , index--)), 1));
             lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
-            while (cmd[index] && cmd[index] == ' ')
-                index++;
+            while (cmd[++index] && cmd[index] == ' ')
+                ;
             cmd = ft_strdup(cmd + index);
             index = -1;
         }
