@@ -28,7 +28,7 @@ int parse_substract(char **s)
     {
         (*s)++;
         tmp1 = parse_sum(s);
-        tmp = tmp1 - tmp;
+        tmp = tmp - tmp1;
     }
     return(tmp);
 }
@@ -61,13 +61,18 @@ int cal(char **s)
 
 int parse_fac(char **s)
 {
+    int a;
     if (**s >= '0' && **s <= '9')
     {
-        int a = (**s) - '0';
-        (*s)++;
+        a = 0;
+        while (**s >= '0' && **s <= '9')
+        {
+            a = a * 10 + (**s) - '0' ;
+            (*s)++;
+        }
         return(a);
     }   
-    else if (**s == '(')
+    if (**s == '(')
     {
         (*s)++;
         int a = parse_sum(s);
@@ -81,7 +86,7 @@ int parse_fac(char **s)
 
 int main()
 {
-    char *s= "(1+9)*9+(4*5)-1/6"; // should output 88
+    char *s= "(1+900)*90+(4123*541)-101324"; // should output idk
     int a = parse_divide(&s);
     printf("%d\n", a);
 }
