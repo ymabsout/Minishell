@@ -1,10 +1,37 @@
-#include "m1.h"
 
+#include "m1.h"
 #include <stdio.h>
 
 int parse_sum(char **s);
 int cal(char **s);
 int parse_fac(char **s);
+int parse_substract(char **s);
+
+int parse_divide(char **s)
+{
+    int tmp = parse_substract(s);
+    int tmp1 = tmp;
+    while (**s == '/')
+    {
+        (*s)++;
+        tmp1 = parse_substract(s);
+        tmp = tmp / tmp1;
+    }
+    return (tmp);
+}
+
+int parse_substract(char **s)
+{
+    int tmp = parse_sum(s);
+    int tmp1 = tmp;
+    while (**s == '-')
+    {
+        (*s)++;
+        tmp1 = parse_sum(s);
+        tmp = tmp1 - tmp;
+    }
+    return(tmp);
+}
 
 int parse_sum(char **s)
 {
@@ -14,7 +41,7 @@ int parse_sum(char **s)
     {
         (*s)++;
         tmp1 = cal(s);
-        tmp = tmp+ tmp1;
+        tmp = tmp + tmp1;
     }
     return (tmp);
 }
@@ -22,7 +49,7 @@ int parse_sum(char **s)
 int cal(char **s)
 {
     int tmp2 = parse_fac(s);
-    int tmp;
+    int tmp = tmp2;
     while (**s == '*')
     {
         (*s)++;
@@ -44,7 +71,7 @@ int parse_fac(char **s)
     {
         (*s)++;
         int a = parse_sum(s);
-        printf("%d\n", a);
+        (*s)++;
         return (a);
     }
     else 
@@ -54,7 +81,7 @@ int parse_fac(char **s)
 
 int main()
 {
-    char *s= "(1+9)*9"; // should output 82
-    int a = parse_sum(&s);
+    char *s= "(1+9)*9+(4*5)-1/6"; // should output 88
+    int a = parse_divide(&s);
     printf("%d\n", a);
 }
