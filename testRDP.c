@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 typedef struct s_tree {
     void *content;
     struct s_tree *left;
     struct s_tree *right;
     int type;
 } t_btree;
-
 
 enum{
     TOKEN_ADD,
@@ -85,7 +85,6 @@ t_btree *parse_divide(char **s) {
     return (node);
 }
 
-
 t_btree *parse_fac(char **s) {
     char *a= malloc(sizeof(char )+ 1);
     char c;
@@ -121,8 +120,8 @@ void print_tree(t_btree *root) {
 }
 
 int main() {
-    char *s = "5/1+2/1*7+3"; // should output something like 2 MIL
-    char *s1 = "1*5+9+7+2*8+1+4"; // should output something like 2 MIL
+    char *s = "3/(1+2)-8"; 
+    char *s1 = "1*5+9+7+2*8+1+4"; 
     t_btree *root = parse_sum(&s);
 
     print_tree(root);
