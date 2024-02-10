@@ -1,92 +1,130 @@
-
-#include "m1.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct s_tree {
+    void *content;
+    struct s_tree *left;
+    struct s_tree *right;
+    int type;
+} t_btree;
 
-int parse_sum(char **s);
-int cal(char **s);
-int parse_fac(char **s);
-int parse_substract(char **s);
 
-int parse_divide(char **s)
-{
-    int tmp = parse_substract(s);
-    int tmp1 = tmp;
-    while (**s == '/')
-    {
-        (*s)++;
-        tmp1 = parse_substract(s);
-        tmp = tmp / tmp1;
-    }
-    return (tmp);
+enum{
+    TOKEN_ADD,
+    TOKEN_MULT,
+    TOKEN_NUMBER,
+    TOKEN_DIVIDE,
+    TOKEN_MINUS
+};
+
+t_btree *parse_sum(char **s);
+t_btree *parse_fac(char **s);
+t_btree *parse_divide(char **s);
+
+t_btree *create_node(void *content) {
+    t_btree *node = malloc(sizeof(t_btree));
+    if (!node)
+        return NULL;
+    memset(node, 0, sizeof(t_btree));
+    node->content = content;
+    return (node);
 }
 
-int parse_substract(char **s)
-{
-    int tmp = parse_sum(s);
-    int tmp1 = tmp;
-    while (**s == '-')
-    {
+t_btree *parse_sum(char **s) {
+    t_btree *tmp = parse_divide(s);
+    t_btree *fact;
+    char c;
+    while (**s == ' ')
         (*s)++;
-        tmp1 = parse_sum(s);
-        tmp = tmp - tmp1;
-    }
-    return(tmp);
-}
-
-int parse_sum(char **s)
-{
-    int tmp = cal(s);
-    int tmp1;
-    while (**s == '+')
-    {
+    while (**s == '+' || **s == '-') {
+        c = **s;
         (*s)++;
-        tmp1 = cal(s);
-        tmp = tmp + tmp1;
-    }
-    return (tmp);
-}
-
-int cal(char **s)
-{
-    int tmp2 = parse_fac(s);
-    int tmp = tmp2;
-    while (**s == '*')
-    {
-        (*s)++;
-        tmp = parse_fac(s);
-        tmp = tmp * tmp2;
-    }
-    return (tmp);
-}
-
-int parse_fac(char **s)
-{
-    int a;
-    if (**s >= '0' && **s <= '9')
-    {
-        a = 0;
-        while (**s >= '0' && **s <= '9')
+        t_btree *tmp1 = parse_divide(s);
+        if (c == '+')
         {
-            a = a * 10 + (**s) - '0' ;
-            (*s)++;
+            fact = create_node("+");
+            fact->type = TOKEN_ADD;// set the correct token for the node
         }
-        return(a);
-    }   
-    if (**s == '(')
-    {
-        (*s)++;
-        int a = parse_sum(s);
-        (*s)++;
-        return (a);
+        else 
+        {
+            fact = create_node("-");
+            fact->type = TOKEN_MINUS;// set the correct token for the node
+        }
+        fact->left = tmp;
+        fact->right = tmp1;
+        tmp = fact;
     }
-    else 
-        printf("expected number got %c", **s);
-    return(-1);
+    return (tmp);
 }
 
-int main()
-{
-    char *s= "(1+900)*90+(4123*541)-101324"; // should output idk
-    int a = parse_divide(&s);
-    printf("%d\n", a);
+t_btree *parse_divide(char **s) {
+    t_btree *node = parse_fac(s);
+    t_btree *fact;
+    char c;
+    while (**s == ' ')
+        (*s)++;
+    while (**s == '/' || **s == '*') {
+        c = **s;
+        (*s)++;
+        t_btree *tmp1 = parse_fac(s);
+        t_btree *tmp2 = node;
+        if (c == '/')
+        {
+            fact = create_node("/");
+            fact->type = TOKEN_DIVIDE; // set the correct token for the node
+        }
+        else 
+        {
+            fact = create_node("*");
+            fact->type = TOKEN_MULT;
+        }
+        fact->left = tmp2;
+        fact->right = tmp1;
+        node = fact;
+    }
+    return (node);
+}
+
+
+t_btree *parse_fac(char **s) {
+    char *a= malloc(sizeof(char )+ 1);
+    char c;
+    t_btree *node;
+    while (**s == ' ')
+        (*s)++;
+    if (**s >= '0' && **s <= '9') {
+        a[0]= **s;
+        a[1]= '\0';
+        node = create_node(a);
+        node->type = TOKEN_NUMBER;
+        (*s)++;
+        return (node); // Pass the dynamically allocated integer to the node, with the specified token ":number"
+    }
+    if (**s == '(') {
+        (*s)++;
+        t_btree *tmp = parse_sum(s);
+        (*s)++;
+        return (tmp);
+    } else {
+        fprintf(stderr, "Expected number or '(' got %c\n", **s);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void print_tree(t_btree *root) {
+    if (!root)
+        return ;
+    printf("%s\n", (char *)root->content);
+    print_tree(root->left);
+    printf("^^^%s^^^\n", (char *)root->content);
+    print_tree(root->right);
+}
+
+int main() {
+    char *s = "5/1+2/1*7+3"; // should output something like 2 MIL
+    char *s1 = "1*5+9+7+2*8+1+4"; // should output something like 2 MIL
+    t_btree *root = parse_sum(&s);
+
+    print_tree(root);
+    return 0;
 }
