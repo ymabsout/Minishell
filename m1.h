@@ -1,6 +1,13 @@
 #ifndef M1_H
 # define M1_H
 
+typedef struct s_tree {
+    char  *item;
+    struct s_tree *left;
+    struct s_tree *right;
+    int type;
+} t_btree;
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -26,19 +33,12 @@ enum token_type
     token_space
 };
 
-// typedef struct s_btree
-// {
-//     struct s_btree *left;
-//     struct s_btree *right;
-//     void *item;
-// }   t_btree;
-
-typedef struct s_list
+typedef struct s_btree
 {
-    char *content;
-    struct s_list *next;
-    int typeofcontent;
-}   t_list;
+    struct s_btree *left;
+    struct s_btree *right;
+    void *item;
+}   t_btree;
 
 typedef struct s_conv
 {

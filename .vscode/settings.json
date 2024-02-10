@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "m1.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "readline.h": "c",
+        "stdio.h": "c"
     }
 }
