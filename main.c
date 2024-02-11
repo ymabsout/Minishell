@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/08 18:36:25 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:33:32 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,50 @@ int db_sl_quote(int c)
         return (0);
     return (1);
 }
+void *get_quotes(t_list **root, char *cmd, int index)
+{
+    int dbl;
+    int sgl;
+    int saver;
+    
+    index = 0;
+    sgl = 0;
+    dbl = 0;
+    (cmd[index] == '\'') && (sgl = 1);
+    (cmd[index] == '\"') && (dbl = 1);
+    saver = 0;
+    index = 0;
+    while (cmd[++index])
+    {
+        if (cmd[index] == '\'' && !dbl && sgl)
+        {
+            sgl = 0;
+            lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
+            saver = index;
+            lst_last(*root)->typeofcontent = token_single_q;
+            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+            index = -1;
+        }
+        else if (cmd[index] == '\"' && !sgl && dbl)
+        {
+            dbl = 0;
+            lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
+            saver = index;
+            lst_last(*root)->typeofcontent = token_double_q;
+            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd+ index));
+            printf("test:%s\n", cmd);
+            index = -1;
+        }
+        else if (cmd[index] == '\"' && !dbl && !sgl)
+            dbl = 1;
+        else if (cmd[index] == '\'' && !sgl && !dbl)
+            sgl = 1;
+    }
+    // printf("value of sgl:%d ^^^^  value of dbl:%d\n",sgl ,dbl);
+    if (sgl || dbl)
+        return(printf("Syntax Error\n"), NULL);
+    return (cmd);
+}
 
 void *tokenize_lex(char *cmd)
 {
@@ -114,19 +158,40 @@ void *tokenize_lex(char *cmd)
         else if (!db_sl_quote(cmd[index]))
         {
             if (index != 0)
+            {
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
-            savepos = index;
-            while (cmd[++index] && cmd[savepos] != cmd[index])
-                ;
-            if(!cmd[index] || !delimeter(cmd[index]))
-                return(printf("Syntax Error near %c\n", cmd[index]), NULL);
-            lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, savepos, index + 1)), 1));
-            cmd = ft_strdup(cmd + index + 1);
+                cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
+            printf("TSTING INDEX:%s\n", cmd);
+            }
+            cmd = get_quotes(&root, cmd, index);
+            if (!cmd)
+                return (printf("ghalat\n"), NULL);
+            printf("%s\n", cmd);
+            index = -1;
         }
     }
     printlist(root);
     return(root);
     }
+    
+// void *remove_space_join(t_list *root)
+// {
+//     t_list *newlist;
+//     t_list *holder;
+//     newlist = duplicate_node(root);
+//     holder = root;
+//     root = root->next;
+//     while (root)
+//     {
+//         if (root->typeofcontent & token_quote)
+//             lst_last(newlist)->content = ft_strjoin(newlist->content ,ft_strtrim(root->content, "\""));
+//         else if (root->typeofcontent & (token_word | token_pipe))
+//             lst_addback(&newlist, duplicate_node(root));
+//         holder = root;
+//         root = root->next;
+//     }
+//     return (newlist);
+// }
 
 void *parsing(char *input)
 {
@@ -141,6 +206,8 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
+    // saved_list = remove_space_join(saved_list);
+    // printlist(saved_list);
     return (cmd);
 }
 

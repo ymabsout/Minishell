@@ -120,8 +120,8 @@ void print_tree(t_btree *root) {
 }
 
 int main() {
-    char *s = "3/1+2-8+(8+7-12)"; 
-    char *s1 = "1*5+9+7+2*8+1+4"; 
+    char *s = "2*(7+3)+8-7-2*4"; 
+    char *s1 = "2*(5/5)"; 
     t_btree *root = parse_sum(&s);
 
     print_tree(root);

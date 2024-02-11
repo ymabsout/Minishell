@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 17:28:37 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/11 15:54:49 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,34 @@ void	lst_addback(t_list **lst, t_list *new)
 	while (head->next != NULL)
 		head = head->next;
 	head->next = new;
+}
+
+t_list *duplicate_node(t_list *root)
+{
+	t_list *new;
+
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = ft_strdup(root->content);
+	new->typeofcontent = root->typeofcontent;
+	new->next = NULL;
+	return (new);
+}
+
+void deletenode(t_list *holder, t_list *node_delete)
+{
+	t_list *next_curr;
+
+	if (node_delete->next)
+		next_curr = node_delete->next;
+	(free(node_delete), node_delete = NULL);
+	holder->next = next_curr;
+}
+
+t_list *lst_last(t_list *root)
+{
+	while(root->next)
+		root = root->next;
+	return (root);
 }

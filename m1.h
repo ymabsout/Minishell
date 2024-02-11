@@ -25,19 +25,22 @@ typedef struct s_list
 
 enum token_type
 {
-    token_ampersand,
-    token_or,
-    token_red_out_trunc,
-    token_red_out_append,
-    token_red_here_doc,
-    token_red_input,
-    token_pipe,
-    token_word,
-    token_fd_out,
-    token_fd_in,
-    token_double_q,
-    token_single_q,
-    token_space
+    token_ampersand = 1 << 0,
+    token_or = 1 << 1,
+    token_red_out_trunc = 1 << 2,
+    token_red_out_append = 1 << 3,
+    token_red_here_doc = 1 << 4,
+    token_red_input = 1 << 5,
+    token_pipe = 1 << 6,
+    token_word = 1 << 7,
+    token_fd_out = 1 << 8,
+    token_fd_in = 1 << 9,
+    token_double_q = 1 << 10,
+    token_single_q = 1 << 11,
+    token_space = 1 << 12,
+    token_quote = (token_double_q | token_single_q),
+    token_and_or = (token_ampersand | token_or),
+    token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input)
 };
 
 typedef struct s_conv
@@ -74,5 +77,10 @@ t_list  *lst_new(char *content);
 char	*ft_strjoin(char *s1, char *s2);
 void    *parsing(char *input);
 void    *tokenize_lex(char *cmd);
+t_list  *duplicate_node(t_list *root);
+void    deletenode(t_list *holder, t_list *node_delete);
+t_list *lst_last(t_list *root);
+void *remove_space_join(t_list *root);
+
 
 #endif 
