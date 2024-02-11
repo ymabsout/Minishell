@@ -8,6 +8,13 @@ typedef struct s_tree {
     int type;
 } t_btree;
 
+typedef struct s_list
+{
+    char *content;
+    int typeofcontent;
+    struct s_list *next;
+}   t_list;
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -32,13 +39,6 @@ enum token_type
     token_single_q,
     token_space
 };
-
-typedef struct s_btree
-{
-    struct s_btree *left;
-    struct s_btree *right;
-    void *item;
-}   t_btree;
 
 typedef struct s_conv
 {

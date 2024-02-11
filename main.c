@@ -113,15 +113,15 @@ void *tokenize_lex(char *cmd)
         }
         else if (!db_sl_quote(cmd[index]))
         {
-                if (index != 0)
-                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
-                savepos = index;
-                while (cmd[++index] && cmd[savepos] != cmd[index])
-                    ;
-                if(!cmd[index] || !delimeter(cmd[index]))
-                    return(printf("Syntax Error near %c\n", cmd[index]), NULL);
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, savepos, index + 1)), 1));
-                cmd = ft_strdup(cmd + index + 1);
+            if (index != 0)
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
+            savepos = index;
+            while (cmd[++index] && cmd[savepos] != cmd[index])
+                ;
+            if(!cmd[index] || !delimeter(cmd[index]))
+                return(printf("Syntax Error near %c\n", cmd[index]), NULL);
+            lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, savepos, index + 1)), 1));
+            cmd = ft_strdup(cmd + index + 1);
         }
     }
     printlist(root);
