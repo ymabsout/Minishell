@@ -77,7 +77,7 @@ void *get_quotes(t_list **root, char *cmd, int index)
     (cmd[index] == '\"') && (dbl = 1);
     saver = 0;
     index = 0;
-    while (cmd[++index])
+    while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
         if (cmd[index] == '\'' && !dbl && sgl)
         {
@@ -102,6 +102,15 @@ void *get_quotes(t_list **root, char *cmd, int index)
             dbl = 1;
         else if (cmd[index] == '\'' && !sgl && !dbl)
             sgl = 1;
+        else if (!dbl && !sgl && (!delimeter(cmd[index]) || cmd[index] == ' '))
+        {
+            if (index != 0)
+            {
+                lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
+                cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+            }
+            break;
+        }
     }
     // printf("value of sgl:%d ^^^^  value of dbl:%d\n",sgl ,dbl);
     if (sgl || dbl)
@@ -161,7 +170,7 @@ void *tokenize_lex(char *cmd)
             {
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
                 cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
-            printf("TSTING INDEX:%s\n", cmd);
+                printf("TSTING INDEX:%s\n", cmd);
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
