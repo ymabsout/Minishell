@@ -6,11 +6,11 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 19:42:23 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/01/31 18:35:46 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:36:11 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m1.h"
+#include "../../m1.h"
 
 char	**freearr(int index, char **arr)
 {

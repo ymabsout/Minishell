@@ -6,11 +6,11 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 13:22:17 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:36:36 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m1.h"
+#include "../../m1.h"
 
 int	checker(char *s1, char *s2, int index)
 {

@@ -6,11 +6,11 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/02 19:54:15 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:36:45 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m1.h"
+#include "../../m1.h"
 
 t_btree *btree_create_node(void *item)
 {

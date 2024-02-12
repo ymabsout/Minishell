@@ -1,8 +1,9 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror  -c 
-SRCS = main.c ft_split.c utils.c parsing.c tree.c list.c utils2.c
+SRCS = main.c ./utils/helper_functions/ft_split.c ./utils/helper_functions/utils.c \
+	./utils/tree/tree.c ./utils/list/list.c ./utils/helper_functions/utils2.c
 OBJS = $(SRCS:.c=.o)
-NAME = hell
+NAME = ms
 HEADER = m1.h
 
 all : $(NAME)

@@ -6,11 +6,11 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 13:19:16 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/05 13:34:24 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:36:41 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "m1.h"
+#include "../../m1.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

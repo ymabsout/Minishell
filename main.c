@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/11 21:33:32 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:31:28 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,36 +83,23 @@ void *get_quotes(t_list **root, char *cmd, int index)
         {
             sgl = 0;
             lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
-            saver = index;
             lst_last(*root)->typeofcontent = token_single_q;
             cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
-            index = -1;
+            break ;
         }
         else if (cmd[index] == '\"' && !sgl && dbl)
         {
             dbl = 0;
             lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
-            saver = index;
             lst_last(*root)->typeofcontent = token_double_q;
-            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd+ index));
-            printf("test:%s\n", cmd);
-            index = -1;
+            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+            break ;
         }
         else if (cmd[index] == '\"' && !dbl && !sgl)
             dbl = 1;
         else if (cmd[index] == '\'' && !sgl && !dbl)
             sgl = 1;
-        else if (!dbl && !sgl && (!delimeter(cmd[index]) || cmd[index] == ' '))
-        {
-            if (index != 0)
-            {
-                lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
-                cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
-            }
-            break;
-        }
     }
-    // printf("value of sgl:%d ^^^^  value of dbl:%d\n",sgl ,dbl);
     if (sgl || dbl)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
@@ -147,6 +134,7 @@ void *tokenize_lex(char *cmd)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
             if (cmd[index] != '\0')
             {
+                if ()
                 if (!delimeter(cmd[index + 1]))
                 {
                     if (cmd[index] != cmd[index + 1])
@@ -175,7 +163,6 @@ void *tokenize_lex(char *cmd)
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
                 return (printf("ghalat\n"), NULL);
-            printf("%s\n", cmd);
             index = -1;
         }
     }
