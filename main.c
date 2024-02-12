@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 15:31:28 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:38:18 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,26 @@ void *set_correct_type(t_list *root, int numb)
     return (root);
 }
 
-void printlist(t_list *root)
+void printlist(t_list *root, int a)
 {
+    t_list *holder;
+    int i = 0;
+    if (a)
+    {
+        while (root)
+        {
+            i = 0;
+            printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
+            holder = root;
+            while (root->down != NULL)
+            {
+                root = root->down;
+                printf("^^^^^down level %d ->{%s} --> type :{%d}^^^^\n",i++ , "test", root->typeofcontent);
+            }
+            holder = holder->next;    
+            root = holder;
+        }
+    }
     while (root)
     {
         printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
@@ -134,7 +152,6 @@ void *tokenize_lex(char *cmd)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
             if (cmd[index] != '\0')
             {
-                if ()
                 if (!delimeter(cmd[index + 1]))
                 {
                     if (cmd[index] != cmd[index + 1])
@@ -166,28 +183,48 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root);
+    printlist(root,0);
     return(root);
     }
-    
-// void *remove_space_join(t_list *root)
-// {
-//     t_list *newlist;
-//     t_list *holder;
-//     newlist = duplicate_node(root);
-//     holder = root;
-//     root = root->next;
-//     while (root)
-//     {
-//         if (root->typeofcontent & token_quote)
-//             lst_last(newlist)->content = ft_strjoin(newlist->content ,ft_strtrim(root->content, "\""));
-//         else if (root->typeofcontent & (token_word | token_pipe))
-//             lst_addback(&newlist, duplicate_node(root));
-//         holder = root;
-//         root = root->next;
-//     }
-//     return (newlist);
-// }
+
+t_list *repair_list(t_list *root)
+{
+    t_list *new_list;
+    t_list *tmp;
+
+    new_list = NULL;
+    while (root)
+    {
+        if (root->typeofcontent & token_meta)
+        {
+            lst_addback(&new_list, duplicate_node(root));
+            root = root->next;
+            while (root && (!(root->typeofcontent & token_meta)))
+            {
+                if (root->typeofcontent & token_space)
+                    root = root->next;
+                else if (root->typeofcontent & token_word && lst_last(new_list)->typeofcontent & token_word)
+                {
+                    lst_add_down(&new_list, duplicate_node(root));
+                    printf("%s\n", lst_last(new_list)->down->content);
+                }
+                else
+                    lst_addback(&new_list, duplicate_node(root));
+                root = root->next;
+            }
+        }
+        else if (root->typeofcontent & token_word)
+        {
+            lst_addback(&new_list, duplicate_node(root));
+            root = root->next;
+        }
+        else
+            root = root->next;
+    }
+    puts("----------------------------------------");
+    printlist(new_list, 1);
+    return (new_list);
+}
 
 void *parsing(char *input)
 {
@@ -202,7 +239,7 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
-    // saved_list = remove_space_join(saved_list);
+    saved_list = repair_list(saved_list); 
     // printlist(saved_list);
     return (cmd);
 }

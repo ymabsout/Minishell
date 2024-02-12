@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 15:36:43 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:36:46 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_list *lst_new(char *content)
 		return (NULL);
 	node->content = ft_strdup((char *)content);
 	// free(content);
+	node->down = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -41,6 +42,19 @@ void	lst_addback(t_list **lst, t_list *new)
 	while (head->next != NULL)
 		head = head->next;
 	head->next = new;
+}
+void	lst_add_down(t_list **lst, t_list *new)
+{
+	t_list	*head;
+
+	if (!lst || !new)
+		return ;
+	head = *lst;
+	while (head->next)
+		head = head->next;
+	while (head->down)
+		head = head->down;
+	head->down = new;
 }
 
 t_list *duplicate_node(t_list *root)
@@ -70,5 +84,12 @@ t_list *lst_last(t_list *root)
 {
 	while(root->next)
 		root = root->next;
+	return (root);
+}
+
+t_list *lst_last_down(t_list *root)
+{
+	while (root->down)
+		root = root->down;
 	return (root);
 }
