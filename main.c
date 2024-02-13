@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 21:09:56 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 22:06:44 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,11 +204,8 @@ t_list *repair_list(t_list *root)
         }
         else if (root->typeofcontent & token_quote)
         {
-            if (!(root->previous->typeofcontent & token_space))
-            {
+            if (root->previous && !(root->previous->typeofcontent & token_space))
                 lst_add_down(&new_list ,duplicate_node(root));
-                puts("test");
-            }
             else
                 lst_addback(&new_list, duplicate_node(root));
         }
