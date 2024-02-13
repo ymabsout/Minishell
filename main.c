@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 18:36:41 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:09:56 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,18 +199,21 @@ t_list *repair_list(t_list *root)
         if (root->typeofcontent & token_meta)
         {
             lst_addback(&new_list, duplicate_node(root));
-            if (root->next->next && root->next->next->typeofcontent & token_meta)
-                return(printf("syntax error near %s\n", root->next->content), NULL);
+            if ((!root->next || (root->next->next && root->next->next->typeofcontent & token_meta)))
+                return(printf("syntax error near %s\n", root->content), NULL);
+        }
+        else if (root->typeofcontent & token_quote)
+        {
+            if (!(root->previous->typeofcontent & token_space))
+            {
+                lst_add_down(&new_list ,duplicate_node(root));
+                puts("test");
+            }
+            else
+                lst_addback(&new_list, duplicate_node(root));
         }
         else if (root->typeofcontent & token_word)
-        {
             lst_addback(&new_list, duplicate_node(root));
-            if (root->next && root->next->typeofcontent & token_quote)
-            {
-                lst_add_down(&new_list, duplicate_node(root->next));
-                root = root->next;
-            }
-        }
         else if (root->typeofcontent & token_space)
             ;
         else
