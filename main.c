@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 17:48:16 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:36:41 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ void *tokenize_lex(char *cmd)
             {
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
                 cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
-                printf("TSTING INDEX:%s\n", cmd);
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
@@ -186,7 +185,6 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root,0);
     return(root);
     }
 
@@ -201,8 +199,7 @@ t_list *repair_list(t_list *root)
         if (root->typeofcontent & token_meta)
         {
             lst_addback(&new_list, duplicate_node(root));
-            root = root->next;
-            if (root->next->typeofcontent & token_meta)
+            if (root->next->next && root->next->next->typeofcontent & token_meta)
                 return(printf("syntax error near %s\n", root->next->content), NULL);
         }
         else if (root->typeofcontent & token_word)

@@ -1,7 +1,8 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror  -c 
 SRCS = main.c ./utils/helper_functions/ft_split.c ./utils/helper_functions/utils.c \
-	./utils/tree/tree.c ./utils/list/list.c ./utils/helper_functions/utils2.c
+	./utils/tree/tree.c ./utils/list/list.c ./utils/helper_functions/utils2.c \
+	./utils/helper_functions/ft_memset.c
 OBJS = $(SRCS:.c=.o)
 NAME = ms
 HEADER = m1.h

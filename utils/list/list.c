@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 13:56:15 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:36:22 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ t_list *lst_new(char *content)
 	node = malloc(sizeof (t_list));
 	if (!node)
 		return (NULL);
+	ft_memset(node, 0, sizeof(t_list));
 	node->content = ft_strdup((char *)content);
-	// free(content);
-	node->down = NULL;
-	node->next = NULL;
+	free(content);
 	return (node);
 }
 
@@ -42,6 +41,8 @@ void	lst_addback(t_list **lst, t_list *new)
 	while (head->next != NULL)
 		head = head->next;
 	head->next = new;
+	new->previous = head;
+	new->next = NULL;
 }
 void	lst_add_down(t_list **lst, t_list *new)
 {
@@ -55,6 +56,7 @@ void	lst_add_down(t_list **lst, t_list *new)
 	while (head->down)
 		head = head->down;
 	head->down = new;
+	new->up = head;
 }
 
 t_list *duplicate_node(t_list *root)
@@ -67,7 +69,7 @@ t_list *duplicate_node(t_list *root)
 	new->content = ft_strdup(root->content);
 	new->typeofcontent = root->typeofcontent;
 	new->down = root->down;
-	new->next = NULL;
+	new->next = root->next;
 	return (new);
 }
 

@@ -14,6 +14,8 @@ typedef struct s_list
     int typeofcontent;
     char **joined_content;
     struct s_list *next;
+    struct s_list *previous;
+    struct s_list *up;
     struct s_list *down;
 }   t_list;
 
@@ -36,15 +38,13 @@ enum token_type
     token_red_input = 1 << 5,
     token_pipe = 1 << 6,
     token_word = 1 << 7,
-    // token_fd_out = 1 << 8,
-    // token_fd_in = 1 << 9,
-    token_double_q = 1 << 10,
-    token_single_q = 1 << 11,
-    token_space = 1 << 12,
-    token_meta = (token_pipe | token_red_out_trunc | token_red_input),
+    token_double_q = 1 << 8,
+    token_single_q = 1 << 9,
+    token_space = 1 << 10,
+    token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input),
+    token_meta = (token_pipe | token_red),
     token_quote = (token_double_q | token_single_q),
-    token_and_or = (token_ampersand | token_or),
-    token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input)
+    token_and_or = (token_ampersand | token_or)
 };
 
 typedef struct s_conv
@@ -85,6 +85,7 @@ t_list  *duplicate_node(t_list *root);
 void    deletenode(t_list *holder, t_list *node_delete);
 t_list *lst_last(t_list *root);
 void	lst_add_down(t_list **lst, t_list *new);
+void	*ft_memset(void *s, int c, size_t n);
 
 
 #endif 

@@ -6,11 +6,11 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:03:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 15:36:21 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 19:06:56 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../m1.h"
+#include "m1.h"
 
 void buildtree(t_cms *fs)
 {
