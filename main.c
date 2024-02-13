@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 18:38:18 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:48:16 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,27 @@ void *set_correct_type(t_list *root, int numb)
     return (root);
 }
 
+void printdownlist(t_list *root)
+{
+    while (root)
+    {
+        printf("^^^^^down level ->{%s} --> type :{%d}^^^^\n", root->content, root->typeofcontent);
+        root = root->down;
+    }
+}
+
 void printlist(t_list *root, int a)
 {
     t_list *holder;
-    int i = 0;
-    if (a)
+    if (a == 1)
     {
         while (root)
         {
-            i = 0;
             printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
             holder = root;
-            while (root->down != NULL)
-            {
-                root = root->down;
-                printf("^^^^^down level %d ->{%s} --> type :{%d}^^^^\n",i++ , "test", root->typeofcontent);
-            }
-            holder = holder->next;    
-            root = holder;
+            if (root->down)
+                printdownlist(root->down);
+            root = root->next;
         }
     }
     while (root)
@@ -97,9 +100,9 @@ void *get_quotes(t_list **root, char *cmd, int index)
     index = 0;
     while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
-        if (cmd[index] == '\'' && !dbl && sgl)
-        {
-            sgl = 0;
+            if (cmd[index] == '\'' && !dbl && sgl)
+            {
+                sgl = 0;
             lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
             lst_last(*root)->typeofcontent = token_single_q;
             cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
@@ -199,27 +202,23 @@ t_list *repair_list(t_list *root)
         {
             lst_addback(&new_list, duplicate_node(root));
             root = root->next;
-            while (root && (!(root->typeofcontent & token_meta)))
-            {
-                if (root->typeofcontent & token_space)
-                    root = root->next;
-                else if (root->typeofcontent & token_word && lst_last(new_list)->typeofcontent & token_word)
-                {
-                    lst_add_down(&new_list, duplicate_node(root));
-                    printf("%s\n", lst_last(new_list)->down->content);
-                }
-                else
-                    lst_addback(&new_list, duplicate_node(root));
-                root = root->next;
-            }
+            if (root->next->typeofcontent & token_meta)
+                return(printf("syntax error near %s\n", root->next->content), NULL);
         }
         else if (root->typeofcontent & token_word)
         {
             lst_addback(&new_list, duplicate_node(root));
-            root = root->next;
+            if (root->next && root->next->typeofcontent & token_quote)
+            {
+                lst_add_down(&new_list, duplicate_node(root->next));
+                root = root->next;
+            }
         }
+        else if (root->typeofcontent & token_space)
+            ;
         else
-            root = root->next;
+            lst_addback(&new_list, duplicate_node(root));
+        root = root->next;
     }
     puts("----------------------------------------");
     printlist(new_list, 1);
@@ -240,22 +239,24 @@ void *parsing(char *input)
     if (!saved_list)
         return (NULL);
     saved_list = repair_list(saved_list); 
+    if (!saved_list)
+        return (NULL);
     // printlist(saved_list);
     return (cmd);
 }
 
 int main (int ac, char *av[], char **env)
 {
+    char *input;
     (void)env;
+    (void)av;
     if (ac != 1)
         return (printf("error arguments\n"), 0);
-    (void)av;
-    char *input = readline("Minishell:");
-    while (input)
+    while (1)
     {
+        input = readline(">_:");
         if (!parsing(input))
             printf("Parsing Error\n");
         add_history(input);
-        input = readline("Minishell:");
     }
 }

@@ -57,7 +57,7 @@ typedef struct s_conv
 	int j;
 	int k;
     t_btree *root;
-}   t_cms;
+}   t_cms; //content management system
 
 
 t_btree *btree_create_node(void *item);
