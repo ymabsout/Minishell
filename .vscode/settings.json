@@ -3,6 +3,10 @@
         "m1.h": "c",
         "stdlib.h": "c",
         "readline.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "chrono": "c",
+        "termios.h": "c",
+        "_types.h": "c",
+        "cdefs.h": "c"
     }
 }

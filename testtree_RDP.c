@@ -1,54 +1,101 @@
-#include <stdio.h>
-#include <stdlib.h>
-t_btree *create_node(void *content);
+#include "m1.h"
 
-enum(
-    TOKEN_PIPE;
-    TOKEN_PIPELINE,
-    TOKEN_RED
-);
-typedef struct s_tree {
-    void *content;
-    struct s_tree *left;
-    struct s_tree *right;
-    int type;
-} t_btree;
+t_btree *parse_sum(t_list **root) {
+    t_btree *tmp = parse_divide(root);
+    t_btree *fact;
+    t_list *holder;
+    int tokn_type;
 
-t_btree *create_node(void *content) {
-    t_btree *node = malloc(sizeof(t_btree));
-    if (!node)
-        return NULL;
-    memset(node, 0, sizeof(t_btree));
-    node->content = content;
+    holder = *root;
+    while (holder->typeofcontent & token_and_or) 
+    {
+        tokn_type = holder->typeofcontent;
+        (*root) = (*root)->next;
+        t_btree *tmp1 = parse_divide(root);
+        if (c == '+')
+        {
+            fact = create_node("+");
+            fact->type = TOKEN_ADD;// set the correct token for the node
+        }
+        else 
+        {
+            fact = create_node("-");
+            fact->type = TOKEN_MINUS;// set the correct token for the node
+        }
+        fact->left = tmp;
+        fact->right = tmp1;
+        tmp = fact;
+    }
+    return (tmp);
+}
+
+t_btree *parse_divide(char **s) {
+    t_btree *node = parse_fac(s);
+    t_btree *fact;
+    char c;
+    while (**s == ' ')
+        (*s)++;
+    while (**s == '/' || **s == '*') {
+        c = **s;
+        (*s)++;
+        t_btree *tmp1 = parse_fac(s);
+        t_btree *tmp2 = node;
+        if (c == '/')
+        {
+            fact = create_node("/");
+            fact->type = TOKEN_DIVIDE; // set the correct token for the node
+        }
+        else 
+        {
+            fact = create_node("*");
+            fact->type = TOKEN_MULT;
+        }
+        fact->left = tmp2;
+        fact->right = tmp1;
+        node = fact;
+    }
     return (node);
 }
 
-t_btree *get_root(char **s)
-{
-    t_btree *tmp = get_red(s);
-    t_btree * tmp1;
-
+t_btree *parse_fac(char **s) {
+    char *a= malloc(sizeof(char )+ 1);
+    char c;
+    t_btree *node;
+    while (**s == ' ')
+        (*s)++;
+    if (**s >= '0' && **s <= '9') {
+        a[0]= **s;
+        a[1]= '\0';
+        node = create_node(a);
+        node->type = TOKEN_NUMBER;
+        (*s)++;
+        return (node); // Pass the dynamically allocated integer to the node, with the specified token ":number"
+    }
+    if (**s == '(') {
+        (*s)++;
+        t_btree *tmp = parse_sum(s);
+        (*s)++;
+        return (tmp);
+    } else {
+        fprintf(stderr, "Expected number or '(' got %c\n", **s);
+        exit(EXIT_FAILURE);
+    }
 }
 
-t_btree *get_red(char **s)
-{
-    t_btree *tmp = get_pipe_line(s);
-    t_btree * tmp1;
+void print_tree(t_btree *root) {
+    if (!root)
+        return ;
+    printf("%s\n", (char *)root->content);
+    print_tree(root->left);
+    printf("^^^%s^^^\n", (char *)root->content);
+    print_tree(root->right);
 }
 
-t_btree *get_pipe_line(char **s)
-{
-    char *tmp;
-    int i =-1;
-    while(*s[++i] != ' ')
-        ;
-    tmp = ft_substr
-}
+int main() {
+    char *s = "2*(7+3)+8-7-2*4"; 
+    char *s1 = "2*(5/5)"; 
+    t_btree *root = parse_sum(&s);
 
-int main ()
-{
-    t_btree * root;
-    char *s = "ls | grep";
-    root = get_root(&s);
-
+    print_tree(root);
+    return 0;
 }

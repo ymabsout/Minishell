@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 22:06:44 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:31:14 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 int delimeter(int c)
 {
-    if (c == '|' || c == '>' || c == '<' || c == '\0')
-        return (0);
-    else
-        return (1);
+    return (c == '&' ||c == '|' || c == '>' \
+        || c == '<' || c == '\0' || c == '(' \
+        || c == ')');
 }
 
 void *set_correct_type(t_list *root, int numb)
 {
-    if (ft_strchr(root->content, '<'))
+    if (!ft_strncmp(root->content, "&&", 2))
+        root->typeofcontent = token_ampersand;
+    if (!ft_strncmp(root->content, "(", 1))
+        root->typeofcontent = token_par_in;
+    else if (!ft_strncmp(root->content, ")", 1))
+        root->typeofcontent = token_par_out;
+    else if (ft_strchr(root->content, '<'))
     {
         if (numb == 2)
             root->typeofcontent = token_red_here_doc;
@@ -41,7 +46,12 @@ void *set_correct_type(t_list *root, int numb)
     else if (ft_strchr(root->content, '\''))
         root->typeofcontent = token_single_q;
     else if (ft_strchr(root->content, '|'))
-        root->typeofcontent = token_pipe;
+    {
+        if (numb == 2)
+            root->typeofcontent = token_or;
+        else
+            root->typeofcontent = token_pipe;
+    }
     else if (ft_strchr(root->content, ' '))
         root->typeofcontent = token_space;
     else
@@ -146,24 +156,35 @@ void *tokenize_lex(char *cmd)
             lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
             while (cmd[++index] && cmd[index] == ' ')
                 ;
-            cmd = ft_strdup(cmd + index);
+            cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
             index = -1;
         }
-        else if (!delimeter(cmd[index]))
+        else if (delimeter(cmd[index]))
         {
             if (index  != 0)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
             if (cmd[index] != '\0')
             {
-                if (!delimeter(cmd[index + 1]))
+                if (delimeter(cmd[index + 1]))
                 {
-                    if (cmd[index] != cmd[index + 1])
-                        return(printf("Syntax Error near %c\n", cmd[index]), NULL);
-                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 2)), 2));
-                    track = 1;
+                    if (cmd[index] == '&' && cmd[index] == cmd[index + 1])
+                    {
+                        lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
+                        track = 1;
+                    }
+                    else if (cmd[index] == '|' && cmd[index + 1] != cmd[index] || cmd[index] != cmd[index + 1])
+                    {
+                        lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+                        track = 0;
+                    }
+                    else
+                    {
+                        lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 2)), 2));
+                        track = 1;
+                    }
                 }
-                else
-                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+            else
+                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
             }
             if (index != ft_strlen(cmd))
             {
@@ -181,10 +202,11 @@ void *tokenize_lex(char *cmd)
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
-                return (printf("ghalat\n"), NULL);
+                return (NULL);
             index = -1;
         }
     }
+    printlist(root, 0);
     return(root);
     }
 
@@ -199,7 +221,7 @@ t_list *repair_list(t_list *root)
         if (root->typeofcontent & token_meta)
         {
             lst_addback(&new_list, duplicate_node(root));
-            if ((!root->next || (root->next->next && root->next->next->typeofcontent & token_meta)))
+            if (lst_last(new_list)->previous && ((lst_last(new_list)->previous->typeofcontent & token_meta) && (lst_last(new_list)->previous->typeofcontent & token_pipe)))
                 return(printf("syntax error near %s\n", root->content), NULL);
         }
         else if (root->typeofcontent & token_quote)
@@ -210,7 +232,12 @@ t_list *repair_list(t_list *root)
                 lst_addback(&new_list, duplicate_node(root));
         }
         else if (root->typeofcontent & token_word)
-            lst_addback(&new_list, duplicate_node(root));
+        {
+            if (root->previous && (!(root->previous->typeofcontent & (token_space | token_meta))))
+                lst_add_down(&new_list, duplicate_node(root));
+            else
+                lst_addback(&new_list, duplicate_node(root));
+        }
         else if (root->typeofcontent & token_space)
             ;
         else
@@ -235,9 +262,9 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
-    saved_list = repair_list(saved_list); 
-    if (!saved_list)
-        return (NULL);
+    // saved_list = repair_list(saved_list); 
+    // if (!saved_list)
+    //     return (NULL);
     // printlist(saved_list);
     return (cmd);
 }
