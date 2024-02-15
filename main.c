@@ -226,7 +226,8 @@ t_list *repair_list(t_list *root)
     {
         if (root->typeofcontent & token_meta)
         {
-            if (lst_last(new_list)->typeofcontent & token_meta)
+            if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
+                || new_list && lst_last(new_list)->typeofcontent & token_pipe && root->typeofcontent & token_pipe)
                 return(printf("Syntax error near %s", root->content), NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (!track)
