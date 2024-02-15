@@ -46,7 +46,8 @@ enum token_type
     token_quote = (token_double_q | token_single_q),
     token_and_or = (token_ampersand | token_or),
     token_af_pipe = (token_pipe | token_and_or),
-    token_meta = (token_pipe | token_red | token_and_or)
+    token_meta = (token_pipe | token_red | token_and_or),
+    token_pth = (token_par_in | token_par_out)
 };
 
 typedef struct s_conv
