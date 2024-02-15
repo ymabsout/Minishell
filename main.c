@@ -165,17 +165,17 @@ void *tokenize_lex(char *cmd)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
             if (cmd[index] != '\0' )
             {
-                if (delimeter(cmd[index + 1]))
+                if (cmd[index] == '&')
                 {
-                    if (cmd[index] == '&')
-                    {
-                        if (cmd[index] == cmd[index + 1])
-                            lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
-                        else
-                            return (printf("syntax error near %c\n", cmd[index]), NULL);
-                        track = 1;
-                    }
-                    else if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
+                    if (cmd[index] == cmd[index + 1])
+                        lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
+                    else
+                        return (printf("syntax error near %c\n", cmd[index]), NULL);
+                    track = 1;
+                }
+                else if (delimeter(cmd[index + 1]))
+                {
+                    if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
                     {
                         lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
                         track = 0;
@@ -227,8 +227,9 @@ t_list *repair_list(t_list *root)
         if (root->typeofcontent & token_meta)
         {
             if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
-                || new_list && lst_last(new_list)->typeofcontent & token_pipe && root->typeofcontent & token_pipe)
-                return(printf("Syntax error near %s", root->content), NULL);
+                || new_list && lst_last(new_list)->typeofcontent & token_pipe \
+                && root->typeofcontent & token_pipe || !root->next)
+                return(printf("Syntax error near %s\n", root->content), NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (!track)
                 track = 1;
@@ -245,34 +246,6 @@ t_list *repair_list(t_list *root)
             track = 1;
         root = root->next;
     }
-    // while (root)
-    // {
-    //     if (root->typeofcontent & token_meta)
-    //     {
-    //         lst_addback(&new_list, duplicate_node(root));
-    //         if (lst_last(new_list)->previous && ((lst_last(new_list)->previous->typeofcontent & token_meta) && (lst_last(new_list)->previous->typeofcontent & token_pipe)))
-    //             return(printf("syntax error near %s\n", root->content), NULL);
-    //     }
-    //     else if (root->typeofcontent & token_quote)
-    //     {
-    //         if (root->previous && !(root->previous->typeofcontent & token_space))
-    //             lst_add_down(&new_list ,duplicate_node(root));
-    //         else
-    //             lst_addback(&new_list, duplicate_node(root));
-    //     }
-    //     else if (root->typeofcontent & token_word)
-    //     {
-    //         if (root->previous && (!(root->previous->typeofcontent & (token_space | token_meta))))
-    //             lst_add_down(&new_list, duplicate_node(root));
-    //         else
-    //             lst_addback(&new_list, duplicate_node(root));
-    //     }
-    //     else if (root->typeofcontent & token_space)
-    //         ;
-    //     else
-    //         lst_addback(&new_list, duplicate_node(root));
-    //     root = root->next;
-    // }
     puts("----------------------------------------");
     printlist(new_list, 1);
     return (new_list);
