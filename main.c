@@ -91,29 +91,29 @@ void printlist(t_list *root, int a)
 
 int db_sl_quote(int c)
 {
-    if (c == '\'' || c == '\"')
-        return (0);
-    return (1);
+    return (c == '\'' || c == '\"' || c == '(' \
+        || c == ')');
 }
 void *get_quotes(t_list **root, char *cmd, int index)
 {
     int dbl;
     int sgl;
+    int pth;
     int saver;
-    
+
     index = 0;
+    pth = 0;
     sgl = 0;
     dbl = 0;
     (cmd[index] == '\'') && (sgl = 1);
     (cmd[index] == '\"') && (dbl = 1);
-    saver = 0;
     index = 0;
     while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
-            if (cmd[index] == '\'' && !dbl && sgl)
-            {
-                sgl = 0;
-            lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
+        if (cmd[index] == '\'' && !dbl && sgl)
+        {
+            sgl = 0;
+            lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
             lst_last(*root)->typeofcontent = token_single_q;
             cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
             break ;
@@ -121,17 +121,28 @@ void *get_quotes(t_list **root, char *cmd, int index)
         else if (cmd[index] == '\"' && !sgl && dbl)
         {
             dbl = 0;
-            lst_addback(root, lst_new(ft_substr(cmd, saver, index + 1)));
+            lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
             lst_last(*root)->typeofcontent = token_double_q;
             cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
             break ;
+        }
+        else if (cmd[index] == '(')
+        {
+            saver = index;
+            pth = 1;
+            while (cmd[index] != ')')
+                    index++;
+            if (cmd[index] == '\0')
+                break ;
+            pth = 0;
+            index = saver;
         }
         else if (cmd[index] == '\"' && !dbl && !sgl)
             dbl = 1;
         else if (cmd[index] == '\'' && !sgl && !dbl)
             sgl = 1;
     }
-    if (sgl || dbl)
+    if (sgl || dbl || pth)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
 }
@@ -196,7 +207,7 @@ void *tokenize_lex(char *cmd)
                 index = -1;
             }
         }
-        else if (!db_sl_quote(cmd[index]))
+        else if (db_sl_quote(cmd[index]))
         {
             if (index != 0)
             {
@@ -209,7 +220,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    // printlist(root, 0);
+    printlist(root, 0);
     return(root);
     }
 
