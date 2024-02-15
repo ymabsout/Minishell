@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/14 18:31:14 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:25:32 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void *set_correct_type(t_list *root, int numb)
 {
     if (!ft_strncmp(root->content, "&&", 2))
         root->typeofcontent = token_ampersand;
-    if (!ft_strncmp(root->content, "(", 1))
+    else if (!ft_strncmp(root->content, "(", 1))
         root->typeofcontent = token_par_in;
     else if (!ft_strncmp(root->content, ")", 1))
         root->typeofcontent = token_par_out;
@@ -163,16 +163,19 @@ void *tokenize_lex(char *cmd)
         {
             if (index  != 0)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
-            if (cmd[index] != '\0')
+            if (cmd[index] != '\0' )
             {
                 if (delimeter(cmd[index + 1]))
                 {
-                    if (cmd[index] == '&' && cmd[index] == cmd[index + 1])
+                    if (cmd[index] == '&')
                     {
-                        lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
+                        if (cmd[index] == cmd[index + 1])
+                            lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
+                        else
+                            return (printf("syntax error near %c\n", cmd[index]), NULL);
                         track = 1;
                     }
-                    else if (cmd[index] == '|' && cmd[index + 1] != cmd[index] || cmd[index] != cmd[index + 1])
+                    else if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
                     {
                         lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
                         track = 0;
@@ -183,8 +186,8 @@ void *tokenize_lex(char *cmd)
                         track = 1;
                     }
                 }
-            else
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+                else
+                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
             }
             if (index != ft_strlen(cmd))
             {
@@ -206,44 +209,69 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
     }
 
+// fix < ls | grep "segv"
 t_list *repair_list(t_list *root)
 {
     t_list *new_list;
     t_list *tmp;
+    int track;
 
+    track = 1;
     new_list = NULL;
     while (root)
     {
         if (root->typeofcontent & token_meta)
         {
+            if (lst_last(new_list)->typeofcontent & token_meta)
+                return(printf("Syntax error near %s", root->content), NULL);
             lst_addback(&new_list, duplicate_node(root));
-            if (lst_last(new_list)->previous && ((lst_last(new_list)->previous->typeofcontent & token_meta) && (lst_last(new_list)->previous->typeofcontent & token_pipe)))
-                return(printf("syntax error near %s\n", root->content), NULL);
+            if (!track)
+                track = 1;
         }
-        else if (root->typeofcontent & token_quote)
+        else if (root->typeofcontent & (token_word | token_quote))
         {
-            if (root->previous && !(root->previous->typeofcontent & token_space))
-                lst_add_down(&new_list ,duplicate_node(root));
-            else
+            if (track || lst_last(new_list)->typeofcontent & token_meta)
                 lst_addback(&new_list, duplicate_node(root));
-        }
-        else if (root->typeofcontent & token_word)
-        {
-            if (root->previous && (!(root->previous->typeofcontent & (token_space | token_meta))))
+            else
                 lst_add_down(&new_list, duplicate_node(root));
-            else
-                lst_addback(&new_list, duplicate_node(root));
+            track = 0;
         }
         else if (root->typeofcontent & token_space)
-            ;
-        else
-            lst_addback(&new_list, duplicate_node(root));
+            track = 1;
         root = root->next;
     }
+    // while (root)
+    // {
+    //     if (root->typeofcontent & token_meta)
+    //     {
+    //         lst_addback(&new_list, duplicate_node(root));
+    //         if (lst_last(new_list)->previous && ((lst_last(new_list)->previous->typeofcontent & token_meta) && (lst_last(new_list)->previous->typeofcontent & token_pipe)))
+    //             return(printf("syntax error near %s\n", root->content), NULL);
+    //     }
+    //     else if (root->typeofcontent & token_quote)
+    //     {
+    //         if (root->previous && !(root->previous->typeofcontent & token_space))
+    //             lst_add_down(&new_list ,duplicate_node(root));
+    //         else
+    //             lst_addback(&new_list, duplicate_node(root));
+    //     }
+    //     else if (root->typeofcontent & token_word)
+    //     {
+    //         if (root->previous && (!(root->previous->typeofcontent & (token_space | token_meta))))
+    //             lst_add_down(&new_list, duplicate_node(root));
+    //         else
+    //             lst_addback(&new_list, duplicate_node(root));
+    //     }
+    //     else if (root->typeofcontent & token_space)
+    //         ;
+    //     else
+    //         lst_addback(&new_list, duplicate_node(root));
+    //     root = root->next;
+    // }
     puts("----------------------------------------");
     printlist(new_list, 1);
     return (new_list);
@@ -262,9 +290,9 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
-    // saved_list = repair_list(saved_list); 
-    // if (!saved_list)
-    //     return (NULL);
+    saved_list = repair_list(saved_list); 
+    if (!saved_list)
+        return (NULL);
     // printlist(saved_list);
     return (cmd);
 }

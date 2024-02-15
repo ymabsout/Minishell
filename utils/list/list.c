@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/13 18:36:22 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:25:00 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ void	lst_add_down(t_list **lst, t_list *new)
 	if (!lst || !new)
 		return ;
 	head = *lst;
+	if (!*lst)
+	{
+		head->down = new;
+		new->up = *lst;
+		return ;
+	}
 	while (head->next)
 		head = head->next;
 	while (head->down)
@@ -85,6 +91,8 @@ void deletenode(t_list *holder, t_list *node_delete)
 
 t_list *lst_last(t_list *root)
 {
+	if (!root)
+		return (root);
 	while(root->next)
 		root = root->next;
 	return (root);

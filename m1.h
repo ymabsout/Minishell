@@ -43,10 +43,10 @@ enum token_type
     token_par_in = 1 << 11,
     token_par_out = 1 << 12,
     token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input),
-    token_meta = (token_pipe | token_red),
     token_quote = (token_double_q | token_single_q),
     token_and_or = (token_ampersand | token_or),
-    token_af_pipe = (token_pipe | token_and_or)
+    token_af_pipe = (token_pipe | token_and_or),
+    token_meta = (token_pipe | token_red | token_and_or)
 };
 
 typedef struct s_conv
