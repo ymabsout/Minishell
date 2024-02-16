@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/16 23:29:19 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:36:17 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ void print_tree(t_btree *root) {
     print_tree(root->right);
 }
 
+void	tree_add_down(t_btree **lst, t_btree *new)
+{
+	t_btree	*head;
+
+	head = *lst;
+	if (!*lst)
+	{
+		head->down = new;
+		new->up = *lst;
+		return ;
+	}
+	while (head->down)
+		head = head->down;
+	head->down = new;
+}
 
 t_btree *duplicate_for_tree(t_list *root)
 {
@@ -48,7 +63,6 @@ t_btree *duplicate_for_tree(t_list *root)
     node->type = root->typeofcontent;
     node->left = NULL;
     node->right = NULL;
-    node->list_node = root;
     return (node);
 }
 
@@ -136,6 +150,10 @@ t_btree *parse_cmd(t_list **root)
     if ((*root)->typeofcontent & (token_word | token_quote))
     {
         tmp = duplicate_for_tree(*root);
+        while ((*root)->down)
+        {
+            
+        }
         (*root)= (*root)->next;
         return (tmp); // return the command node;
     }
