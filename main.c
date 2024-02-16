@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/15 17:18:28 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:46:35 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ void *parsing(char *input)
 {
     char *cmd;
     t_list *saved_list;
+    t_btree *rootoftree;
 
     cmd = ft_strtrim(ft_strdup(input), " ");
     if (!cmd)
@@ -282,6 +283,8 @@ void *parsing(char *input)
     if (!saved_list)
         return (NULL);
     // printlist(saved_list);
+    rootoftree = parse_cmd(&saved_list);
+    print_tree(rootoftree);
     return (cmd);
 }
 

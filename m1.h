@@ -17,6 +17,7 @@ typedef struct s_tree {
     struct s_tree *left;
     struct s_tree *right;
     int type;
+    char *item;
 } t_btree;
 
 # include <stdlib.h>
@@ -86,6 +87,9 @@ void    deletenode(t_list *holder, t_list *node_delete);
 t_list *lst_last(t_list *root);
 void	lst_add_down(t_list **lst, t_list *new);
 void	*ft_memset(void *s, int c, size_t n);
+void    print_tree(t_btree *root);
+t_btree *parse_cmd(t_list **root);
+t_btree *duplicate_for_tree(t_list *root);
 
 
 #endif 
