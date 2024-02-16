@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/16 19:33:34 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:24:37 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void print_tree(t_btree *root) {
     if (!root)
         return ;
     printf("NODE: %s\n", (char *)root->item);
+    // if (root->down)
+    //     printdowntree(root->down);
     print_tree(root->left);
     printf("^^^%s^^^\n", (char *)root->item);
     print_tree(root->right);
@@ -46,6 +48,7 @@ t_btree *duplicate_for_tree(t_list *root)
     node->type = root->typeofcontent;
     node->left = NULL;
     node->right = NULL;
+    node->list_node = root;
     return (node);
 }
 

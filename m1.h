@@ -17,6 +17,9 @@ typedef struct s_tree {
     struct s_tree *left;
     struct s_tree *right;
     int type;
+    char **string;
+    struct s_list *list_node;
+    struct s_list *down;
     char *item;
 } t_btree;
 

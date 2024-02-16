@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/16 19:30:59 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:17:48 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
     }
 
@@ -243,7 +243,7 @@ t_list *repair_list(t_list *root)
                 || new_list && lst_last(new_list)->typeofcontent & token_pipe \
                 && root->typeofcontent & token_pipe || !root->next \
                 || (!new_list && root->typeofcontent & (token_pipe | token_and_or)))
-                return(printf("Syntax error near %s\n", root->content), NULL);
+                return (printf("Syntax error near %s\n", root->content), NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (!track)
                 track = 1;
@@ -264,6 +264,24 @@ t_list *repair_list(t_list *root)
     printlist(new_list, 1);
     return (new_list);
 }
+char *check_parenth(char *cmd)
+{
+    int track;
+    int index;
+    
+    index = -1;
+    track = 0;
+    while (cmd[++index])
+    {
+        if (cmd[index] == '(')
+            track++;
+        else if (cmd[index] == ')')
+            track--;
+    }
+    if (track != 0)
+        return (NULL);
+    return (cmd);
+}
 
 void *parsing(char *input)
 {
@@ -275,7 +293,10 @@ void *parsing(char *input)
     if (!cmd)
         return (NULL);
     if (!cmd[0])
-        return(cmd);
+        return (cmd);
+    cmd = check_parenth(cmd);
+    if (!cmd)
+        return (NULL);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);

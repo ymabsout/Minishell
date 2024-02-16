@@ -114,6 +114,7 @@ void print_tree(t_btree *root) {
     if (!root)
         return ;
     printf("%s\n", (char *)root->content);
+    if (root)
     print_tree(root->left);
     printf("^^^%s^^^\n", (char *)root->content);
     print_tree(root->right);
