@@ -43,6 +43,7 @@ enum token_type
     token_space = 1 << 10,
     token_par_in = 1 << 11,
     token_par_out = 1 << 12,
+    token_heredoc_append = (token_red_out_append | token_red_here_doc),
     token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input),
     token_quote = (token_double_q | token_single_q),
     token_and_or = (token_ampersand | token_or),
@@ -90,6 +91,9 @@ void	*ft_memset(void *s, int c, size_t n);
 void    print_tree(t_btree *root);
 t_btree *parse_cmd(t_list **root);
 t_btree *duplicate_for_tree(t_list *root);
+t_btree *parse_pipe(t_list **root);
+t_btree *parse_heredoc_append(t_list **root);
+t_btree *parse_ampersand_or(t_list **root);
 
 
 #endif 
