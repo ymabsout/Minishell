@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/16 23:36:17 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:13:01 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,63 @@
 //     return (node_tree);
 // }
 
+void print_next_tree(t_btree *root){
+    while (root)
+    {
+        printf("Next is ->:%s\n", root->item);
+        root = root->next;
+    }
+}
+
+void print_down_tree(t_btree *root){
+    while (root)
+    {
+        printf("down is ->:%s\n", root->item);
+        root = root->down;
+    }
+}
+
 void print_tree(t_btree *root) {
     if (!root)
         return ;
     printf("NODE: %s\n", (char *)root->item);
-    // if (root->down)
-    //     printdowntree(root->down);
+    if (root->down)
+        print_down_tree(root->down);
+    if (root->next)
+        print_next_tree(root->next);
     print_tree(root->left);
     printf("^^^%s^^^\n", (char *)root->item);
     print_tree(root->right);
 }
 
-void	tree_add_down(t_btree **lst, t_btree *new)
-{
-	t_btree	*head;
+// void	tree_add_down(t_btree **lst, t_btree *new)
+// {
+// 	t_btree	*head;
 
-	head = *lst;
-	if (!*lst)
-	{
-		head->down = new;
-		new->up = *lst;
-		return ;
-	}
-	while (head->down)
-		head = head->down;
-	head->down = new;
+// 	head = *lst;
+// 	if (!*lst)
+// 	{
+// 		head->down = new;
+// 		new->up = *lst;
+// 		return ;
+// 	}
+// 	while (head->down)
+// 		head = head->down;
+// 	head->down = new;
+// }
+
+void lstaddback_tree(t_btree **root, t_btree *leaf)
+{
+    while ((*root) && (*root)->next)
+        (*root) = (*root)->next;
+    (*root)->next = leaf;
+}
+
+void lstadd_down_tree(t_btree **root, t_btree *leaf)
+{
+    while ((*root) && (*root)->down)
+        (*root) = (*root)->down;
+    (*root)->down = leaf;
 }
 
 t_btree *duplicate_for_tree(t_list *root)
@@ -59,10 +91,9 @@ t_btree *duplicate_for_tree(t_list *root)
     node = malloc(sizeof(t_btree));
     if (!node)
         return (NULL);
+    ft_memset(node , 0, sizeof(t_btree));
     node->item = ft_strdup(root->content);
     node->type = root->typeofcontent;
-    node->left = NULL;
-    node->right = NULL;
     return (node);
 }
 
@@ -142,6 +173,14 @@ t_btree *parse_heredoc_append(t_list **root)
     return (tmp);
 }
 
+void add_down_tree(t_list *root, t_btree **leaf)
+{
+    while (root)
+    {
+        lstadd_down_tree(leaf, duplicate_for_tree(root));
+        root = root->down;
+    }
+}
 
 t_btree *parse_cmd(t_list **root)
 {
@@ -150,11 +189,16 @@ t_btree *parse_cmd(t_list **root)
     if ((*root)->typeofcontent & (token_word | token_quote))
     {
         tmp = duplicate_for_tree(*root);
-        while ((*root)->down)
-        {
-            
-        }
+        if ((*root)->down)
+            add_down_tree((*root)->down, &tmp);
         (*root)= (*root)->next;
+        while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
+        {
+            lstaddback_tree(&tmp, duplicate_for_tree(*root));
+            if ((*root)->down)
+                add_down_tree((*root)->down, &tmp);
+            (*root) = (*root)->next;
+        }
         return (tmp); // return the command node;
     }
     if ((*root)->typeofcontent & token_par_in)

@@ -110,15 +110,15 @@ t_btree *parse_fac(char **s) {
     }
 }
 
-void print_tree(t_btree *root) {
-    if (!root)
-        return ;
-    printf("%s\n", (char *)root->content);
-    if (root)
-    print_tree(root->left);
-    printf("^^^%s^^^\n", (char *)root->content);
-    print_tree(root->right);
-}
+// void print_tree(t_btree *root) {
+//     if (!root)
+//         return ;
+//     printf("%s\n", (char *)root->content);
+//     if (root)
+//     print_tree(root->left);
+//     printf("^^^%s^^^\n", (char *)root->content);
+//     print_tree(root->right);
+// }
 
 int main() {
     char *s = "2*(7+3)+8-7-2*4"; 
