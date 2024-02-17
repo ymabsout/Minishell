@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 16:57:21 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:17:41 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int delimeter(int c)
 {
     return (c == '&' ||c == '|' || c == '>' \
-        || c == '<' || c == '\0' || c == '(' \
-        || c == ')');
+        || c == '<' || c == '\0' || c == ')' \
+        || c == '(');
 }
 
 void *set_correct_type(t_list *root, int numb)
@@ -91,18 +91,15 @@ void printlist(t_list *root, int a)
 
 int db_sl_quote(int c)
 {
-    return (c == '\'' || c == '\"' || c == '(' \
-        || c == ')');
+    return (c == '\'' || c == '\"');
 }
 void *get_quotes(t_list **root, char *cmd, int index)
 {
     int dbl;
     int sgl;
-    int pth;
     int saver;
 
     index = 0;
-    pth = 0;
     sgl = 0;
     dbl = 0;
     (cmd[index] == '\'') && (sgl = 1);
@@ -131,7 +128,7 @@ void *get_quotes(t_list **root, char *cmd, int index)
         else if (cmd[index] == '\'' && !sgl && !dbl)
             sgl = 1;
     }
-    if (sgl || dbl || pth)
+    if (sgl || dbl)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
 }
@@ -163,7 +160,7 @@ void *tokenize_lex(char *cmd)
         {
             if (index  != 0)
                 lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
-            if (cmd[index] != '\0' )
+            if (cmd[index] != '\0')
             {
                 if (cmd[index] == '&')
                 {
@@ -173,7 +170,7 @@ void *tokenize_lex(char *cmd)
                         return (printf("syntax error near %c\n", cmd[index]), NULL);
                     track = 1;
                 }
-                else if (delimeter(cmd[index + 1]))
+                else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != ')')
                 {
                     if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
                     {
@@ -209,7 +206,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    // printlist(root, 0);
+    printlist(root, 0);
     return(root);
     }
 
@@ -219,13 +216,23 @@ t_list *repair_list(t_list *root)
     t_list *new_list;
     t_list *tmp;
     int track;
-
+    int pth_track;
+    
+    pth_track = 0;
     track = 1;
     new_list = NULL;
     while (root)
     {
         if (root->typeofcontent & token_pth)
-                lst_addback(&new_list, duplicate_node(root));
+        {
+            if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_pth)
+                return (printf("syntax error near \'%s'\n", root->content),NULL);
+            lst_addback(&new_list, duplicate_node(root));
+            if (root->typeofcontent & token_par_in)
+                pth_track++;
+            else if (root->typeofcontent & token_par_out)
+                pth_track--;
+        }
         else if (root->typeofcontent & token_meta)
         {
             if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
@@ -249,27 +256,11 @@ t_list *repair_list(t_list *root)
             track = 1;
         root = root->next;
     }
+    if (pth_track != 0)
+        return (NULL);
     puts("----------------------------------------");
     printlist(new_list, 1);
     return (new_list);
-}
-char *check_parenth(char *cmd)
-{
-    int track;
-    int index;
-    
-    index = -1;
-    track = 0;
-    while (cmd[++index])
-    {
-        if (cmd[index] == '(')
-            track++;
-        else if (cmd[index] == ')')
-            track--;
-    }
-    if (track != 0)
-        return (NULL);
-    return (cmd);
 }
 
 void *parsing(char *input)
@@ -283,17 +274,16 @@ void *parsing(char *input)
         return (NULL);
     if (!cmd[0])
         return (cmd);
-    // cmd = check_parenth(cmd);
-    // if (!cmd)
-    //     return (NULL);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
     saved_list = repair_list(saved_list); 
     if (!saved_list)
         return (NULL);
-    // printlist(saved_list);
+    // printlist(saved_list, 1);
     rootoftree = parse_ampersand_or(&saved_list);
+    if (!rootoftree)
+        return (NULL);
     print_tree(rootoftree);
     return (cmd);
 }

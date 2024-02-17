@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 16:57:39 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 23:09:15 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ t_btree *parse_heredoc_append(t_list **root)
     t_btree *tmp2;
     
     tmp = NULL;
-    if (!((*root)->typeofcontent & token_red_here_doc))
+    if ((*root) && !((*root)->typeofcontent & token_red_here_doc))
         tmp = parse_cmd(root);
     while (*root && (*root)->typeofcontent & token_red)
     {
@@ -160,13 +160,14 @@ t_btree *parse_heredoc_append(t_list **root)
 t_btree *parse_cmd(t_list **root)
 {
     t_btree *tmp;
-
+    
+    tmp = NULL;
     if ((*root)->typeofcontent & (token_word | token_quote))
     {
         tmp = duplicate_for_tree(*root);
         if ((*root)->down)
             add_down_tree((*root)->down, &tmp);
-        (*root)= (*root)->next;
+        (*root) = (*root)->next;
         while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
         {
             tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
@@ -180,7 +181,7 @@ t_btree *parse_cmd(t_list **root)
     {
         (*root) = (*root)->next;
         tmp = parse_ampersand_or(root);
-        if (!*root || !((*root)->typeofcontent & token_par_out))
+        if (!*root || !((*root)->typeofcontent & token_par_out) || !tmp)
         {
             printf("Syntax error\n");
             exit (EXIT_FAILURE);
@@ -188,6 +189,11 @@ t_btree *parse_cmd(t_list **root)
         (*root) = (*root)->next;
         return (tmp);
     }
+    // if ((*root)->typeofcontent & token_par_out)
+    // {
+    //     printf("Syntax error near %s\n", (*root)->content);
+    //         exit (EXIT_FAILURE);
+    // }
     return (NULL);
     // else
     // {
