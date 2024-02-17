@@ -47,7 +47,7 @@ enum token_type
     token_par_in = 1 << 11,
     token_par_out = 1 << 12,
     token_heredoc_append = (token_red_out_append | token_red_here_doc),
-    token_red = (token_red_out_trunc | token_red_out_append | token_red_here_doc | token_red_input),
+    token_red = (token_red_out_trunc | token_heredoc_append | token_red_input),
     token_quote = (token_double_q | token_single_q),
     token_and_or = (token_ampersand | token_or),
     token_af_pipe = (token_pipe | token_and_or),
