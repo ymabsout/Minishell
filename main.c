@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 15:24:01 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:58:02 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ t_list *repair_list(t_list *root)
         root = root->next;
     }
     puts("----------------------------------------");
-    // printlist(new_list, 1);
+    printlist(new_list, 1);
     return (new_list);
 }
 char *check_parenth(char *cmd)

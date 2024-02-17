@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 15:50:26 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:04:01 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ void print_down_tree(t_btree *root){
     }
 }
 
-void lstaddback_tree(t_btree **root, t_btree *leaf)
+t_btree *lstaddback_tree(t_btree *root, t_btree *leaf)
 {
-    while ((*root) && (*root)->next)
-        (*root) = (*root)->next;
-    (*root)->next = leaf;
+    t_btree *holder;
+
+    holder = root;
+    while (root && root->next)
+        root = root->next;
+    root->next = leaf;
+    root = holder;
+    return (root);
 }
 
 void lstadd_down_tree(t_btree **root, t_btree *leaf)
@@ -159,12 +164,13 @@ t_btree *parse_cmd(t_list **root)
     if ((*root)->typeofcontent & (token_word | token_quote))
     {
         tmp = duplicate_for_tree(*root);
+        printf("tmp should be grep in any moment %s\n", tmp->item);
         if ((*root)->down)
             add_down_tree((*root)->down, &tmp);
         (*root)= (*root)->next;
         while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
         {
-            lstaddback_tree(&tmp, duplicate_for_tree(*root));
+            tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
             if ((*root)->down)
                 add_down_tree((*root)->down, &tmp);
             (*root) = (*root)->next;
