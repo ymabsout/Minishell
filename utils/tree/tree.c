@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 16:04:01 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:39 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ t_btree *parse_cmd(t_list **root)
     if ((*root)->typeofcontent & (token_word | token_quote))
     {
         tmp = duplicate_for_tree(*root);
-        printf("tmp should be grep in any moment %s\n", tmp->item);
         if ((*root)->down)
             add_down_tree((*root)->down, &tmp);
         (*root)= (*root)->next;

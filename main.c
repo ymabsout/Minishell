@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 15:58:02 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:21 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,17 +125,6 @@ void *get_quotes(t_list **root, char *cmd, int index)
             lst_last(*root)->typeofcontent = token_double_q;
             cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
             break ;
-        }
-        else if (cmd[index] == '(')
-        {
-            saver = index;
-            pth = 1;
-            while (cmd[index] != ')')
-                    index++;
-            if (cmd[index] == '\0')
-                break ;
-            pth = 0;
-            index = saver;
         }
         else if (cmd[index] == '\"' && !dbl && !sgl)
             dbl = 1;
@@ -294,9 +283,9 @@ void *parsing(char *input)
         return (NULL);
     if (!cmd[0])
         return (cmd);
-    cmd = check_parenth(cmd);
-    if (!cmd)
-        return (NULL);
+    // cmd = check_parenth(cmd);
+    // if (!cmd)
+    //     return (NULL);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
