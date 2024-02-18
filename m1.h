@@ -1,10 +1,13 @@
 #ifndef M1_H
 # define M1_H
 
-typedef struct s_nde
-{
-    int typeofcontent;
-}   t_leaf;
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <termios.h>
 
 typedef struct s_list
 {
@@ -17,21 +20,6 @@ typedef struct s_list
     struct s_list *down;
 }   t_list;
 
-typedef struct s_wd
-{
-    struct s_wd *next;
-    struct s_wd *down;
-    char **stringofcontent;
-    int typeofcontent;
-    char *item;
-}   t_terminal;
-
-typedef struct s_redi
-{
-    struct s_redi *left;
-    struct s_redi *right;
-}   t_meta;
-
 typedef struct s_tree {
     struct s_tree *left;
     struct s_tree *right;
@@ -41,14 +29,6 @@ typedef struct s_tree {
     struct s_tree *down;
     char *item;
 } t_btree;
-
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <fcntl.h>
-# include <sys/stat.h>
-# include <termios.h>
 
 enum token_type
 {
@@ -74,20 +54,6 @@ enum token_type
     token_pth = (token_par_in | token_par_out)
 };
 
-typedef struct s_conv
-{
-    int i;
-	int red;
-	char **meta;
-	char **com;
-    char *s;
-	int j;
-	int k;
-    t_btree *root;
-}   t_cms; //content management system
-
-
-t_btree *btree_create_node(void *item);
 char	**ft_split(char const *s, char c);
 void	fill(char *arr, char **s, char c);
 char	**freearr(int index, char **arr);
