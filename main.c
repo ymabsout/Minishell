@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/18 13:26:58 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:01:30 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,8 @@ t_list *repair_list(t_list *root)
     {
         if (root->typeofcontent & token_pth)
         {
-            if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_pth)
+            if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_pth \
+                || (lst_last(new_list) && root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & token_meta)))
                 return (printf("syntax error near \'%s'\n", root->content),NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (root->typeofcontent & token_par_in)
@@ -285,12 +286,13 @@ void *parsing(char *input)
     if (!rootoftree)
         return (NULL);
     print_tree(rootoftree);
-    return (cmd);
+    return (rootoftree);
 }
 
 int main (int ac, char *av[], char **env)
 {
     char *input;
+    t_btree *exec_tree;
     (void)env;
     (void)av;
     if (ac != 1)
@@ -298,7 +300,8 @@ int main (int ac, char *av[], char **env)
     while (1)
     {
         input = readline(">_:");
-        if (!parsing(input))
+        exec_tree = (t_btree *)parsing(input);
+        if (!exec_tree)
             printf("Parsing Error\n");
         add_history(input);
     }

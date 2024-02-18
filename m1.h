@@ -1,6 +1,10 @@
 #ifndef M1_H
 # define M1_H
 
+typedef struct s_nde
+{
+    int typeofcontent;
+}   t_leaf;
 
 typedef struct s_list
 {
@@ -13,10 +17,25 @@ typedef struct s_list
     struct s_list *down;
 }   t_list;
 
+typedef struct s_wd
+{
+    struct s_wd *next;
+    struct s_wd *down;
+    char **stringofcontent;
+    int typeofcontent;
+    char *item;
+}   t_terminal;
+
+typedef struct s_redi
+{
+    struct s_redi *left;
+    struct s_redi *right;
+}   t_meta;
+
 typedef struct s_tree {
     struct s_tree *left;
     struct s_tree *right;
-    int type;
+    int typeofcontent;
     char **string;
     struct s_tree *next;
     struct s_tree *down;

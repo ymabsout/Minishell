@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 23:09:15 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:54:03 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_btree *duplicate_for_tree(t_list *root)
         return (NULL);
     ft_memset(node , 0, sizeof(t_btree));
     node->item = ft_strdup(root->content);
-    node->type = root->typeofcontent;
+    node->typeofcontent = root->typeofcontent;
     return (node);
 }
 
@@ -117,7 +117,7 @@ t_btree *parse_pipe(t_list **root)
         (*root) = (*root)->next;
         tmp1 = parse_heredoc_append(root);
         tmp2 = tmp;
-        if (!(tmp1->type & (token_word | token_quote | token_red | token_pth)))
+        if (!(tmp1->typeofcontent & (token_word | token_quote | token_red | token_pth)))
         {
             printf("Syntax error\n");
             return (NULL);
@@ -145,7 +145,7 @@ t_btree *parse_heredoc_append(t_list **root)
         (*root) = (*root)->next;
         tmp1 = parse_cmd(root);
         tmp2 = tmp;
-        if (!(tmp1->type & (token_word | token_quote)))
+        if (!(tmp1->typeofcontent & (token_word | token_quote)))
         {
             printf("Syntax Error\n");
             return (NULL);
