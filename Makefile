@@ -1,32 +1,25 @@
-CC=cc
-CFLAGS=
-HEADER=mini_shell.h
-RM=rm -f
-NAME=minishell
 
-LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft_strlcpy.c\
-	lib/ft_strlen.c lib/ft_substr.c lib/ft_strdup.c lib/ft_itoa.c
-ERROR=error/err_handler.c error/syntax_error.c
-CODE=code/expand_env_vars.c
-UTILS=utils/find_num_char.c
+CC = cc
+# CFLAGS = -Wall -Wextra -Werror  -c 
+SRCS = main.c ./utils/helper_functions/ft_split.c ./utils/helper_functions/utils.c \
+	./utils/list/list.c ./utils/helper_functions/utils2.c \
+	./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
+OBJS = $(SRCS:.c=.o)
+NAME = ms
+HEADER = m1.h
 
-SRC=main.c $(LIB) $(ERROR) $(CODE) $(UTILS)
-OBJ=$(SRC:.c=.o)
+all : $(NAME)
 
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	$(CC) $^ -lreadline -o $@
+$(NAME): $(OBJS)
+	$(CC) -lreadline -fsanitize=address -g $^ -o $(NAME) 
 
 %.o:%.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -g -c $< -o $@
 
-clean:
-	$(RM) $(OBJ)
+clean :
+	rm -rf $(OBJS)
 
-fclean: clean
-	$(RM) $(NAME)
+fclean : clean
+	rm -rf $(NAME)
 
-re: fclean all
-
-.PHONY: all clean fclean re
+re : fclean all 
