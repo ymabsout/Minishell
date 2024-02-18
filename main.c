@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/18 17:01:30 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:36:18 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,7 @@ t_list *repair_list(t_list *root)
     {
         if (root->typeofcontent & token_pth)
         {
-            if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_pth \
-                || (lst_last(new_list) && root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & token_meta)))
+            if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_pth || (root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & token_pipe))))
                 return (printf("syntax error near \'%s'\n", root->content),NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (root->typeofcontent & token_par_in)
