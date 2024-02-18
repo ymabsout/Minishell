@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/17 23:17:41 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:26:58 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void *tokenize_lex(char *cmd)
                         return (printf("syntax error near %c\n", cmd[index]), NULL);
                     track = 1;
                 }
-                else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != ')')
+                else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != '(')
                 {
                     if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
                     {
@@ -206,7 +206,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
     }
 
@@ -259,7 +259,7 @@ t_list *repair_list(t_list *root)
     if (pth_track != 0)
         return (NULL);
     puts("----------------------------------------");
-    printlist(new_list, 1);
+    // printlist(new_list, 1);
     return (new_list);
 }
 
