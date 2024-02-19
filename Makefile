@@ -1,3 +1,4 @@
+
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror  -c 
 SRCS = main.c ./utils/helper_functions/ft_split.c ./utils/helper_functions/utils.c \
