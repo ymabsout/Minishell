@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/18 18:37:23 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/19 01:36:44 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,9 +208,10 @@ void *tokenize_lex(char *cmd)
     }
     // printlist(root, 0);
     return(root);
-    }
+}
 
-// fix < ls | grep "segv"
+//ls && (ls) ls handle cmd after subshell
+// ls && >>f
 t_list *repair_list(t_list *root)
 {
     t_list *new_list;
@@ -300,6 +301,8 @@ int main (int ac, char *av[], char **env)
     while (1)
     {
         input = readline(">_:");
+        if (!input)
+            return (printf("exit\n"));
         exec_tree = (t_btree *)parsing(input);
         if (!exec_tree)
             printf("Parsing Error\n");
