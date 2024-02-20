@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/19 01:36:44 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:43:36 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ void *tokenize_lex(char *cmd)
 
 //ls && (ls) ls handle cmd after subshell
 // ls && >>f
+//>_:hello"test"yy'tt' world
+
 t_list *repair_list(t_list *root)
 {
     t_list *new_list;
@@ -237,7 +239,9 @@ t_list *repair_list(t_list *root)
         }
         else if (root->typeofcontent & token_meta)
         {
-            if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
+            if (root->typeofcontent & token_red && lst_last(new_list)->typeofcontent & token_and_or)
+                ;
+            else if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
                 || new_list && lst_last(new_list)->typeofcontent & token_pipe \
                 && root->typeofcontent & token_pipe || !root->next \
                 || (!new_list && root->typeofcontent & (token_pipe | token_and_or)))
@@ -248,6 +252,8 @@ t_list *repair_list(t_list *root)
         }
         else if (root->typeofcontent & (token_word | token_quote))
         {
+            if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_par_out)
+                return (printf("Syntax error near \'%s'\n", root->content), NULL);
             if (track || lst_last(new_list)->typeofcontent & token_meta)
                 lst_addback(&new_list, duplicate_node(root));
             else

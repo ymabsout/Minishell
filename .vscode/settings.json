@@ -10,6 +10,7 @@
         "cdefs.h": "c",
         "ios": "c",
         "string": "c",
-        "iosfwd": "c"
+        "iosfwd": "c",
+        "T.C": "cpp"
     }
 }

@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/18 18:36:20 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:10:37 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ t_btree *parse_pipe(t_list **root)
         (*root) = (*root)->next;
         tmp1 = parse_heredoc_append(root);
         tmp2 = tmp;
-        if (!(tmp1->typeofcontent & (token_word | token_quote | token_red | token_pth)))
-        {
-            printf("Syntax error\n");
-            return (NULL);
-        }
+        // if (!(tmp1->typeofcontent & (token_word | token_quote | token_red | token_pth)))
+        // {
+        //     printf("Syntax error\n");
+        //     return (NULL);
+        // }
         token->left = tmp2;
         token->right = tmp1;
         tmp = token;
@@ -187,6 +187,7 @@ t_btree *parse_cmd(t_list **root)
             exit (EXIT_FAILURE);
         }
         (*root) = (*root)->next;
+        tmp->flag_subshell = 1;
         return (tmp);
     }
     // if ((*root)->typeofcontent & token_par_out)
