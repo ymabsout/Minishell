@@ -25,6 +25,7 @@ typedef struct s_tree {
     struct s_tree *right;
     int typeofcontent;
     char **string;
+    int flag_subshell;
     struct s_tree *next;
     struct s_tree *down;
     char *item;
