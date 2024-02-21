@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/20 21:08:38 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:03:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ t_list *repair_list(t_list *root)
         }
         else if (root->typeofcontent & token_meta)
         {
-            if (root->typeofcontent & token_red && lst_last(new_list)->typeofcontent & token_and_or)
+            if (new_list && root->typeofcontent & token_red && lst_last(new_list)->typeofcontent & token_and_or)
                 ;
             else if ((new_list && lst_last(new_list)->typeofcontent & (token_red | token_and_or)) \
                 || new_list && lst_last(new_list)->typeofcontent & token_pipe \

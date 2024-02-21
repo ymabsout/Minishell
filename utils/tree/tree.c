@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/20 21:28:00 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:24:34 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ t_btree *lstaddback_tree(t_btree *root, t_btree *leaf)
 
 void lstadd_down_tree(t_btree **root, t_btree *leaf)
 {
-    while ((*root) && (*root)->down)
-        (*root) = (*root)->down;
-    (*root)->down = leaf;
+    t_btree *holder;
+    
+    holder = (*root);
+    while (holder && holder->down)
+        holder = holder->down;
+    holder->down = leaf;
+    holder = (*root);
 }
 
 void print_tree(t_btree *root) {
@@ -62,11 +66,14 @@ void print_tree(t_btree *root) {
 
 void add_down_tree(t_list *root, t_btree **leaf)
 {
+    t_btree * hold;
+    hold = (*leaf);
     while (root)
     {
         lstadd_down_tree(leaf, duplicate_for_tree(root));
         root = root->down;
     }
+    *leaf = hold;
 }
 
 t_btree *duplicate_for_tree(t_list *root)
@@ -206,3 +213,6 @@ t_btree *parse_cmd(t_list **root)
     //     exit(EXIT_FAILURE);
     // }
 }
+
+
+// command to check ((ls) | (ls -la))
