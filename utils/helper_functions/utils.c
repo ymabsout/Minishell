@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:30 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:49:25 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,61 +50,50 @@ int	last_checker(char *s1, char *s2)
 	return (len);
 }
 
-char	*ft_strdup(char *s)
-{
-	char	*ptr;
-	size_t	length_s;
-	size_t	i;
+// char	*ft_strdup(char *s)
+// {
+// 	char	*ptr;
+// 	size_t	length_s;
+// 	size_t	i;
 
-	i = 0;
-	length_s = ft_strlen(s);
-	ptr = (char *)malloc((length_s * sizeof(char)) + 1);
-	if (ptr == NULL)
-		return (NULL);
-	while (i <= length_s && s[i] != '\0')
-	{
-		ptr[i] = s[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
-int	ft_strlen(const char *s)
-{
-	int	length;
+// 	i = 0;
+// 	length_s = ft_strlen(s);
+// 	ptr = (char *)malloc((length_s * sizeof(char)) + 1);
+// 	if (ptr == NULL)
+// 		return (NULL);
+// 	while (i <= length_s && s[i] != '\0')
+// 	{
+// 		ptr[i] = s[i];
+// 		i++;
+// 	}
+// 	ptr[i] = '\0';
+// 	return (ptr);
+// }
 
-	length = 0;
-	while (s[length])
-	{
-		length++;
-	}
-	return (length);
-}
+// char	*ft_substr(char *s, unsigned int start, size_t len)
+// {
+// 	char	*ptr;
+// 	size_t	i;
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	char	*ptr;
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	ptr = malloc(sizeof(char) * len + 1);
-	if (ptr == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		ptr[i] = s[start];
-		i++;
-		start++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	if (start > ft_strlen(s))
+// 		return (ft_strdup(""));
+// 	if (len > ft_strlen(s) - start)
+// 		len = ft_strlen(s) - start;
+// 	ptr = malloc(sizeof(char) * len + 1);
+// 	if (ptr == NULL)
+// 		return (NULL);
+// 	while (i < len)
+// 	{
+// 		ptr[i] = s[start];
+// 		i++;
+// 		start++;
+// 	}
+// 	ptr[i] = '\0';
+// 	return (ptr);
+// }
 
 char	*ft_strchr(char *s, int c)
 {
@@ -187,26 +176,26 @@ char	*ft_strrchr(char *s, int c)
 	return (NULL);
 }
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
-{
-	size_t	i;
+// int	ft_strncmp(char *s1, char *s2, size_t n)
+// {
+// 	size_t	i;
 
-	i = 0;
-	if (!s1 || !s2)
-		return (-1);
-	while (i < n)
-	{
-		if ((unsigned char)s1[i] == (unsigned char)s2[i] && i < ft_strlen(s1))
-			i++;
-		else
-		{
-			if ((unsigned char)s1[i] > (unsigned char)s2[i])
-				return (1);
-			else if ((unsigned char)s1[i] < (unsigned char)s2[i])
-				return (-1);
-			else
-				return (0);
-		}
-	}
-	return (0);
-}
+// 	i = 0;
+// 	if (!s1 || !s2)
+// 		return (-1);
+// 	while (i < n)
+// 	{
+// 		if ((unsigned char)s1[i] == (unsigned char)s2[i] && i < ft_strlen(s1))
+// 			i++;
+// 		else
+// 		{
+// 			if ((unsigned char)s1[i] > (unsigned char)s2[i])
+// 				return (1);
+// 			else if ((unsigned char)s1[i] < (unsigned char)s2[i])
+// 				return (-1);
+// 			else
+// 				return (0);
+// 		}
+// 	}
+// 	return (0);
+// }

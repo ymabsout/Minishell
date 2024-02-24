@@ -12,11 +12,10 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 	lib/ft_lstmap.c lib/ft_lstnew.c lib/ft_lstsize.c lib/ft_split.c lib/ft_strncmp.c lib/ft_isalpha.c\
 	lib/ft_atoi.c
 
-SRCS = main.c ./utils/helper_functions/ft_split.c ./utils/helper_functions/utils.c \
-	./utils/list/list.c ./utils/helper_functions/utils2.c \
-	./utils/helper_functions/ft_memset.c ./utils/tree/tree.c $(LIB) $(ERROR) $(CODE)\
-	$(BUILT_INS)
+UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c \
+	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
 
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h

@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:37:55 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/24 18:08:05 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,7 @@ void *parsing(char *input)
 
 int main (int ac, char *av[], char **env)
 {
+    static unsigned short status_code;
     char *input;
     t_btree *exec_tree;
     (void)env;
@@ -311,7 +312,7 @@ int main (int ac, char *av[], char **env)
             return (printf("exit\n"));
         exec_tree = (t_btree *)parsing(input);
         if (!exec_tree)
-            printf("Parsing Error\n");
+            (printf("Parsing Error\n"), status_code = 258);
         add_history(input);
     }
 }
