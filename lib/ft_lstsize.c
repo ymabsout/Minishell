@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2023/11/07 17:29:05 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/24 17:27:13 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	ft_lstsize(t_listt *lst)
 {
-	size_t			i;
-	unsigned char	*ptr;
+	int		i;
 
-	ptr = (unsigned char *)s;
 	i = 0;
-	while (i < n)
+	while (lst)
 	{
-		ptr[i] = (unsigned char)c;
 		i++;
+		lst = lst->next;
 	}
-	return (ptr);
+	return (i);
 }
