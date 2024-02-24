@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 15:36:36 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/24 17:38:30 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../m1.h"
+#include "../../mini_shell.h"
 
 int	checker(char *s1, char *s2, int index)
 {

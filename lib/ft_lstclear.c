@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2023/11/08 22:13:45 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/24 17:28:04 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	ft_lstclear(t_listt **lst, void (*del)(void *))
 {
-	size_t			i;
-	unsigned char	*ptr;
+	t_listt	*list;
+	t_listt	*tmp;
 
-	ptr = (unsigned char *)s;
-	i = 0;
-	while (i < n)
+	if (!del || !lst || *lst == NULL)
+		return ;
+	list = *lst;
+	while (list)
 	{
-		ptr[i] = (unsigned char)c;
-		i++;
+		tmp = list->next;
+		del(list->content);
+		free(list);
+		list = tmp;
 	}
-	return (ptr);
+	*lst = NULL;
 }

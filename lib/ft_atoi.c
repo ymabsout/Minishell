@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2023/10/31 17:08:21 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/08 19:25:46 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	ft_atoi(const char *str)
 {
-	size_t			i;
-	unsigned char	*ptr;
+	int		i;
+	int		total;
+	int		sign;
 
-	ptr = (unsigned char *)s;
 	i = 0;
-	while (i < n)
+	total = 0;
+	sign = 1;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		ptr[i] = (unsigned char)c;
+		if (str[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	return (ptr);
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		total = total * 10 + (str[i] - '0');
+		i++;
+	}
+	return (total * sign);
 }

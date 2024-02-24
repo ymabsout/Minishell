@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   create_envs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2024/02/10 18:44:28 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/24 17:29:59 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+t_listt *create_envs(char **env)
 {
-	size_t			i;
-	unsigned char	*ptr;
+    t_listt *head_env;
+    t_listt *node;
+    int i;
+    char *arr;
 
-	ptr = (unsigned char *)s;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = (unsigned char)c;
-		i++;
-	}
-	return (ptr);
+    i = -1;
+    head_env = 0;
+    while (env[++i])
+    {
+        arr = ft_strdup(env[i]);
+        if (!arr)
+            exit(-1);
+        node = ft_lstnew(arr);
+        if (!node)
+            exit(-1);
+        ft_lstadd_back(&head_env, node);
+    }
+    return (head_env);
 }

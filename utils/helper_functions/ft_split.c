@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 19:42:23 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/12 15:36:11 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/24 17:38:26 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../m1.h"
+#include "../../mini_shell.h"
 
 char	**freearr(int index, char **arr)
 {
