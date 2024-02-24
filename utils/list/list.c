@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/15 14:25:00 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/24 04:51:38 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list *lst_new(char *content)
 	if (!node)
 		return (NULL);
 	ft_memset(node, 0, sizeof(t_list));
-	node->content = ft_strdup((char *)content);
+	node->content = (char *)ft_strdup((char *)content);
 	free(content);
 	return (node);
 }
@@ -72,7 +72,7 @@ t_list *duplicate_node(t_list *root)
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->content = ft_strdup(root->content);
+	new->content =  ft_strdup((char *)root->content);
 	new->typeofcontent = root->typeofcontent;
 	new->down = root->down;
 	new->next = root->next;

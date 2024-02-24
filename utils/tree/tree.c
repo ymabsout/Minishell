@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/21 19:24:34 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/02/24 04:51:09 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_btree *duplicate_for_tree(t_list *root)
     if (!node)
         return (NULL);
     ft_memset(node , 0, sizeof(t_btree));
-    node->item = ft_strdup(root->content);
+    node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
     return (node);
 }

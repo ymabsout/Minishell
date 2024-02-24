@@ -11,9 +11,8 @@
 
 typedef struct s_list
 {
-    char *content;
+    void *content;
     int typeofcontent;
-    char **joined_content;
     struct s_list *next;
     struct s_list *previous;
     struct s_list *up;
