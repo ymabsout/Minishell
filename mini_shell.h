@@ -13,6 +13,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <termios.h>
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {
@@ -34,6 +35,19 @@ typedef struct s_tree {
     struct s_tree *next;
     struct s_tree *down;
     char *item;
+
+    //PIPE
+    int pipe_read_end;
+    int pipe_write_end;
+
+    //
+    int ln;
+    int rn;
+
+    //
+    int stdin;
+    int stdout;
+    int stderr;
 } t_btree;
 
 typedef struct s_listt
@@ -87,7 +101,7 @@ t_btree *parse_pipe(t_list **root);
 t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
-
+char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
@@ -130,5 +144,21 @@ int exit_built_in(char **cmd, int status_code);
 int pwd_built_in(char **cmd);
 int echo_built_in(char **cmd);
 int cd_built_in(char **cmd, t_listt **head_env);
+
+// CODE
+void executing(t_btree *exec_tree, t_listt *env);
+
+// EXECUTION
+void execute_or_op(t_btree *exec_tree, t_listt *env);
+void execute_and_op(t_btree *exec_tree, t_listt *env);
+void execute_pipe(t_btree *exec_tree, t_listt *env);
+void execute_left_cmd(t_btree *exec_tree, t_listt *env);
+void execute_right_cmd(t_btree *exec_tree, t_listt *env);
+void execute_solo_cmd(t_btree *exec_tree, t_listt *env);
+void execute_cmd(t_btree *exec_tree, t_listt *env);
+void execute_red_input(t_btree *exec_tree, t_listt *env);
+void execute_red_output(t_btree *exec_tree, t_listt *env, int flag);
+char *get_path_cmd(char *cmd, t_listt *env);
+char **ft_join_all_nexts(t_btree *exec_tree);
 
 #endif 
