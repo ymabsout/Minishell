@@ -56,7 +56,12 @@ typedef struct s_listt
     void *content;
 } t_listt;
 
-
+// struct
+typedef struct s_quote
+{
+    int dbl;
+    int sgl;
+}   t_data_q;
 
 enum token_type
 {
@@ -160,5 +165,9 @@ void execute_red_input(t_btree *exec_tree, t_listt *env);
 void execute_red_output(t_btree *exec_tree, t_listt *env, int flag);
 char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree);
+
+
+// LEAKS
+void lst_clear(t_list **root);
 
 #endif 

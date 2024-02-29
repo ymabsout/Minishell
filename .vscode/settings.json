@@ -11,6 +11,8 @@
         "ios": "c",
         "string": "c",
         "iosfwd": "c",
-        "T.C": "cpp"
+        "T.C": "cpp",
+        "mini_shell.h": "c",
+        "get_next_line.h": "c"
     }
 }

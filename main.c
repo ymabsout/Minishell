@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/27 20:11:13 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:25:16 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,25 @@ int delimeter(int c)
         || c == '(');
 }
 
+void *set_correct_follow(t_list *root, int numb)
+{
+    if (ft_strchr(root->content, '\"'))
+        root->typeofcontent = token_double_q;
+    else if (ft_strchr(root->content, '\''))
+        root->typeofcontent = token_single_q;
+    else if (ft_strchr(root->content, '|'))
+    {
+        if (numb == 2)
+            root->typeofcontent = token_or;
+        else
+            root->typeofcontent = token_pipe;
+    }
+    else if (ft_strchr(root->content, ' '))
+        root->typeofcontent = token_space;
+    else
+        root->typeofcontent = token_word;
+    return (root);
+}
 void *set_correct_type(t_list *root, int numb)
 {
     if (!ft_strncmp(root->content, "&&", 2))
@@ -41,21 +60,8 @@ void *set_correct_type(t_list *root, int numb)
         else
             root->typeofcontent = token_red_out_trunc;
     }
-    else if (ft_strchr(root->content, '\"'))
-        root->typeofcontent = token_double_q;
-    else if (ft_strchr(root->content, '\''))
-        root->typeofcontent = token_single_q;
-    else if (ft_strchr(root->content, '|'))
-    {
-        if (numb == 2)
-            root->typeofcontent = token_or;
-        else
-            root->typeofcontent = token_pipe;
-    }
-    else if (ft_strchr(root->content, ' '))
-        root->typeofcontent = token_space;
-    else
-        root->typeofcontent = token_word;
+    else 
+        root = set_correct_follow(root, numb);
     return (root);
 }
 
@@ -93,42 +99,47 @@ int db_sl_quote(int c)
 {
     return (c == '\'' || c == '\"');
 }
+
+void *get_cmd_back(char *cmd, int index, t_list **root, int type)
+{
+    lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
+    lst_last(*root)->typeofcontent = type;
+    cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+    return (cmd);
+}
+
+void update_trackers(char *cmd, int index, t_data_q * track)
+{
+    if (cmd[index] == '\"' && !track->dbl && !track->sgl)
+        track->dbl = 1;
+    else if (cmd[index] == '\'' && !track->sgl && !track->dbl)
+        track->sgl = 1;
+}
 void *get_quotes(t_list **root, char *cmd, int index)
 {
-    int dbl;
-    int sgl;
-    int saver;
+    t_data_q    track;
 
-    index = 0;
-    sgl = 0;
-    dbl = 0;
-    (cmd[index] == '\'') && (sgl = 1);
-    (cmd[index] == '\"') && (dbl = 1);
+    ft_memset(&track, 0, sizeof(t_data_q));
+    (cmd[index] == '\'') && (track.sgl = 1);
+    (cmd[index] == '\"') && (track.dbl = 1);
     index = 0;
     while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
-        if (cmd[index] == '\'' && !dbl && sgl)
+        if (cmd[index] == '\'' && !track.dbl && track.sgl)
         {
-            sgl = 0;
-            lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
-            lst_last(*root)->typeofcontent = token_single_q;
-            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+            track.sgl = 0;
+            cmd = get_cmd_back(cmd, index, root, token_single_q);
             break ;
         }
-        else if (cmd[index] == '\"' && !sgl && dbl)
+        else if (cmd[index] == '\"' && !track.sgl && track.dbl)
         {
-            dbl = 0;
-            lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
-            lst_last(*root)->typeofcontent = token_double_q;
-            cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+            track.dbl = 0;
+            cmd = get_cmd_back(cmd, index, root, token_double_q);
             break ;
         }
-        else if (cmd[index] == '\"' && !dbl && !sgl)
-            dbl = 1;
-        else if (cmd[index] == '\'' && !sgl && !dbl)
-            sgl = 1;
+        update_trackers(cmd, index, &track);
     }
-    if (sgl || dbl)
+    if (track.sgl || track.dbl)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
 }
@@ -206,7 +217,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    // printlist(root, 0);
+    printlist(root, 0);
     return(root);
 }
 
@@ -266,7 +277,7 @@ t_list *repair_list(t_list *root)
     }
     if (pth_track != 0)
         return (NULL);
-    puts("----------------------------------------");
+    lst_clear(&root);
     // printlist(new_list, 1);
     return (new_list);
 }
@@ -292,7 +303,7 @@ void *parsing(char *input)
     rootoftree = parse_ampersand_or(&saved_list);
     if (!rootoftree)
         return (NULL);
-    print_tree(rootoftree);
+    // print_tree(rootoftree);
     return (rootoftree);
 }
  // syntax error should be exit_status 258
@@ -320,3 +331,4 @@ int main (int ac, char *av[], char **env)
         while (wait(0) != -1);
     }
 }
+    

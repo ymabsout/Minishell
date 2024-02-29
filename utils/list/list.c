@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:14 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/29 22:11:58 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,20 @@ void deletenode(t_list *holder, t_list *node_delete)
 		next_curr = node_delete->next;
 	(free(node_delete), node_delete = NULL);
 	holder->next = next_curr;
+}
+
+void lst_clear(t_list **root)
+{
+	t_list *holder;
+
+	holder = *root;
+	while (*root != NULL)
+	{
+		holder = (*root)->next;
+		free((*root)->content);
+		free((*root));
+		(*root)= holder;
+	}
 }
 
 t_list *lst_last(t_list *root)
