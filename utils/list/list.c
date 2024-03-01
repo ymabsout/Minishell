@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 19:42:08 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 20:28:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void lst_clear(t_list **root)
 	while (*root)
 	{
 		holder = (*root)->next;
-		free((*root)->content);
-		free((*root));
+		// free((*root)->content);
+		// free((*root));
 		(*root) = holder;
 	}
 	(*root) = NULL;

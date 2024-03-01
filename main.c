@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 19:40:41 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 20:34:05 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,9 +187,7 @@ void *tokenize_lex(char *cmd)
             if (index  != 0)
             {
                 tmp = ft_substr(cmd, 0, index);
-                free(cmd);
                 lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                cmd = ft_strdup(tmp);
                 free(tmp);
             }
             if (cmd[index] != '\0')
@@ -267,7 +265,7 @@ t_list *repair_list(t_list *root)
     t_list *holder;
     int track;
     int pth_track;
-
+    
     pth_track = 0;
     track = 1;
     holder = root;
@@ -314,7 +312,7 @@ t_list *repair_list(t_list *root)
     }
     if (pth_track != 0)
         return (lst_clear(&new_list), NULL);
-    printlist(new_list, 1);
+    // printlist(new_list, 1);
     return (new_list);
 }
 
@@ -332,10 +330,11 @@ void *parsing(char *input)
     if (!saved_list)
         return (free(cmd), NULL);
     free(cmd);
-    // cleared_list = repair_list(saved_list); 
-    // if (!cleared_list)
-    //     return (NULL);
-    lst_clear (&saved_list);
+    cleared_list = repair_list(saved_list); 
+    if (!cleared_list)
+        return (lst_clear(&saved_list), NULL);
+    lst_clear(&saved_list);
+    // lst_clear (&cleared_list);
     // rootoftree = parse_ampersand_or(&cleared_list);
     // if (!rootoftree)
     //     return (NULL);
@@ -366,7 +365,7 @@ int main (int ac, char *av[], char **env)
         if (keep[0] && keep)
         {
             exec_tree = (t_btree *)parsing(keep);
-            if (!exec_tree && input[0])
+            if (!exec_tree && input[0] != '\0')
                 (printf("Parsing Error\n"), status_code = 258);
             // executing(exec_tree, root_env);
             // while (wait(0) != -1);
