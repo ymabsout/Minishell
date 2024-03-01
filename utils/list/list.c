@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/29 22:11:58 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 00:40:00 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,11 @@ t_list *duplicate_node(t_list *root)
 	if (!new)
 		return (NULL);
 	new->content =  ft_strdup((char *)root->content);
+	free(root->content);
 	new->typeofcontent = root->typeofcontent;
 	new->down = root->down;
 	new->next = root->next;
+	free(root);
 	return (new);
 }
 
@@ -93,13 +95,12 @@ void lst_clear(t_list **root)
 {
 	t_list *holder;
 
-	holder = *root;
-	while (*root != NULL)
+	while (*root)
 	{
 		holder = (*root)->next;
 		free((*root)->content);
 		free((*root));
-		(*root)= holder;
+		(*root) = holder;
 	}
 }
 

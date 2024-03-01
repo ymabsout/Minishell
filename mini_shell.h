@@ -166,7 +166,6 @@ void execute_red_output(t_btree *exec_tree, t_listt *env, int flag);
 char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree);
 
-
 // LEAKS
 void lst_clear(t_list **root);
 

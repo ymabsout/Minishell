@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/29 22:25:16 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 00:52:45 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,16 @@ int db_sl_quote(int c)
 
 void *get_cmd_back(char *cmd, int index, t_list **root, int type)
 {
-    lst_addback(root, lst_new(ft_substr(cmd, 0, index + 1)));
+    char *tmp;
+    
+    tmp = ft_substr(cmd, 0, index + 1);
+    lst_addback(root, lst_new(ft_strdup(tmp)));
     lst_last(*root)->typeofcontent = type;
-    cmd = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+    free(tmp);
+    tmp = ft_substr(cmd, index + 1, ft_strlen(cmd + index));
+    free(cmd);
+    cmd = ft_strdup(tmp);
+    free(tmp);
     return (cmd);
 }
 
@@ -148,6 +155,7 @@ void *tokenize_lex(char *cmd)
 {
     t_list *root;
     int index;
+    char *tmp;
     int track;
     int savepos;
 
@@ -160,17 +168,28 @@ void *tokenize_lex(char *cmd)
         if (cmd[index] == ' ' || cmd[index] == '\t')
         {
             if (index != 0)
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0 , index--)), 1));
+            {
+                tmp = ft_substr(cmd, 0, index--);
+                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
+                free(tmp);
+            }
             lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
             while (cmd[++index] && cmd[index] == ' ')
                 ;
-            cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
+            tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
+            free(cmd);
+            cmd = ft_strdup(tmp);
+            free(tmp);
             index = -1;
         }
         else if (delimeter(cmd[index]))
         {
             if (index  != 0)
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
+            {
+                tmp = ft_substr(cmd, 0, index);
+                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
+                free(tmp);
+            }
             if (cmd[index] != '\0')
             {
                 if (cmd[index] == '&')
@@ -185,31 +204,46 @@ void *tokenize_lex(char *cmd)
                 {
                     if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
                     {
-                        lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+                        tmp = ft_substr(cmd, index, 1);
+                        lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
                         track = 0;
                     }
                     else
                     {
-                        lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 2)), 2));
+                        tmp = ft_substr(cmd, index, 2);
+                        lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 2));
                         track = 1;
                     }
+                        free(tmp);
                 }
                 else
-                    lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, index, 1)), 1));
+                {
+                    tmp = ft_substr(cmd, index, 1);
+                    lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
+                    free(tmp);
+                }
             }
             if (index != ft_strlen(cmd))
             {
-                cmd = ft_strdup(cmd + index + 1 + track);
+                tmp = ft_strdup(cmd + index + 1 + track);
+                free(cmd);
+                cmd = ft_strdup(tmp);
                 track = 0;
                 index = -1;
+                free(tmp);
             }
         }
         else if (db_sl_quote(cmd[index]))
         {
             if (index != 0)
             {
-                lst_addback(&root, set_correct_type(lst_new(ft_substr(cmd, 0, index)), 1));
-                cmd = ft_substr(cmd ,index, ft_strlen(cmd + index));
+                tmp = ft_substr(cmd, 0, index);
+                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
+                free(tmp);
+                tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
+                free(cmd);
+                cmd = ft_strdup(tmp);
+                free(tmp);
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
@@ -217,7 +251,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
 }
 
@@ -228,7 +262,6 @@ void *tokenize_lex(char *cmd)
 t_list *repair_list(t_list *root)
 {
     t_list *new_list;
-    t_list *tmp;
     int track;
     int pth_track;
     
@@ -278,7 +311,7 @@ t_list *repair_list(t_list *root)
     if (pth_track != 0)
         return (NULL);
     lst_clear(&root);
-    // printlist(new_list, 1);
+    printlist(new_list, 1);
     return (new_list);
 }
 
@@ -286,25 +319,25 @@ void *parsing(char *input)
 {
     char *cmd;
     t_list *saved_list;
+    t_list *cleared_list;
     t_btree *rootoftree;
 
-    cmd = ft_strtrim(ft_strdup(input), " ");
-    if (!cmd)
+    if (!input[0])
         return (NULL);
-    if (!cmd[0])
-        return (cmd);
+    cmd = ft_strdup(input);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (NULL);
-    saved_list = repair_list(saved_list); 
-    if (!saved_list)
-        return (NULL);
+    free(cmd);
+    cleared_list = repair_list(saved_list); 
+    if (!cleared_list)
+        return (lst_clear(saved_list), NULL);
     // printlist(saved_list, 1);
-    rootoftree = parse_ampersand_or(&saved_list);
-    if (!rootoftree)
-        return (NULL);
+    // rootoftree = parse_ampersand_or(&saved_list);
+    // if (!rootoftree)
+    //     return (NULL);
     // print_tree(rootoftree);
-    return (rootoftree);
+    // return (rootoftree);
 }
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
@@ -323,12 +356,14 @@ int main (int ac, char *av[], char **env)
         input = readline(">_:");
         if (!input)
             return (printf("exit\n"));
+        input = ft_strtrim(input, " ");
         exec_tree = (t_btree *)parsing(input);
-        if (!exec_tree)
+        if (!exec_tree && input[0])
             (printf("Parsing Error\n"), status_code = 258); 
         add_history(input);
-        executing(exec_tree, root_env);
-        while (wait(0) != -1);
+        free(input);
+        // executing(exec_tree, root_env);
+        // while (wait(0) != -1);
     }
 }
     
