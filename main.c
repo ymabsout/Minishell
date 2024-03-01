@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 01:38:45 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:40:41 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,9 @@ void *tokenize_lex(char *cmd)
             if (index  != 0)
             {
                 tmp = ft_substr(cmd, 0, index);
+                free(cmd);
                 lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
+                cmd = ft_strdup(tmp);
                 free(tmp);
             }
             if (cmd[index] != '\0')
@@ -214,7 +216,7 @@ void *tokenize_lex(char *cmd)
                         lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 2));
                         track = 1;
                     }
-                        free(tmp);
+                    free(tmp);
                 }
                 else
                 {
@@ -251,7 +253,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
 }
 
@@ -265,7 +267,7 @@ t_list *repair_list(t_list *root)
     t_list *holder;
     int track;
     int pth_track;
-    
+
     pth_track = 0;
     track = 1;
     holder = root;
@@ -276,7 +278,7 @@ t_list *repair_list(t_list *root)
         {
             if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_pth \
                 || (root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & (token_pipe | token_and_or)))))
-                return (printf("syntax error near \'%s'\n", root->content),NULL);
+                return (printf("syntax error near \'%s'\n", root->content), lst_clear(&new_list), NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (root->typeofcontent & token_par_in)
                 pth_track++;
@@ -291,7 +293,7 @@ t_list *repair_list(t_list *root)
                 || new_list && lst_last(new_list)->typeofcontent & token_pipe \
                 && root->typeofcontent & token_pipe || !root->next \
                 || (!new_list && root->typeofcontent & (token_pipe | token_and_or)))
-                return (printf("Syntax error near %s\n", root->content), NULL);
+                return (printf("Syntax error near %s\n", root->content), lst_clear(&new_list),  NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (!track)
                 track = 1;
@@ -299,7 +301,7 @@ t_list *repair_list(t_list *root)
         else if (root->typeofcontent & (token_word | token_quote))
         {
             if (lst_last(new_list) && lst_last(new_list)->typeofcontent & token_par_out)
-                return (printf("Syntax error near \'%s'\n", root->content), NULL);
+                return (printf("Syntax error near \'%s'\n", root->content), lst_clear(&new_list), NULL);
             if (track || lst_last(new_list)->typeofcontent & token_meta)
                 lst_addback(&new_list, duplicate_node(root));
             else
@@ -311,8 +313,7 @@ t_list *repair_list(t_list *root)
         root = root->next;
     }
     if (pth_track != 0)
-        return (NULL);
-    lst_clear(&holder);
+        return (lst_clear(&new_list), NULL);
     printlist(new_list, 1);
     return (new_list);
 }
@@ -331,18 +332,16 @@ void *parsing(char *input)
     if (!saved_list)
         return (free(cmd), NULL);
     free(cmd);
-    lst_clear(&saved_list);
-    return (1);
     // cleared_list = repair_list(saved_list); 
     // if (!cleared_list)
-    //     return (lst_clear(saved_list), NULL);
-    // lst_clear(&cleared_list);
-    // printlist(saved_list, 1);
-    // rootoftree = parse_ampersand_or(&saved_list);
+    //     return (NULL);
+    lst_clear (&saved_list);
+    // rootoftree = parse_ampersand_or(&cleared_list);
     // if (!rootoftree)
     //     return (NULL);
     // print_tree(rootoftree);
-    // return (rootoftree);
+    rootoftree = NULL;
+    return (rootoftree);
 }
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
@@ -357,24 +356,24 @@ int main (int ac, char *av[], char **env)
     if (ac != 1)
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
+    input = NULL;   
     while (1)
     {
-        input = NULL;
         input = readline(">_:");
         if (!input)
             return (printf("exit\n"));
         keep = ft_strtrim(input, " ");
-        if (keep[0] != '\0' && keep)
+        if (keep[0] && keep)
         {
             exec_tree = (t_btree *)parsing(keep);
-            if (!exec_tree && input[0] != '\0')
-                (printf("Parsing Error\n"), status_code = 258); 
+            if (!exec_tree && input[0])
+                (printf("Parsing Error\n"), status_code = 258);
+            // executing(exec_tree, root_env);
+            // while (wait(0) != -1);
         }
         add_history(input);
         free(keep);
         free(input);
-        // executing(exec_tree, root_env);
-        // while (wait(0) != -1);
     }
 }
     

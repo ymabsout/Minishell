@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:09 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:56:47 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ t_btree *duplicate_for_tree(t_list *root)
     ft_memset(node , 0, sizeof(t_btree));
     node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
+    free(root->content);
+    free(root);
     return (node);
 }
 
@@ -201,17 +203,7 @@ t_btree *parse_cmd(t_list **root)
         tmp->flag_subshell = 1;
         return (tmp);
     }
-    // if ((*root)->typeofcontent & token_par_out)
-    // {
-    //     printf("Syntax error near %s\n", (*root)->content);
-    //         exit (EXIT_FAILURE);
-    // }
     return (NULL);
-    // else
-    // {
-    //     printf("expected word , got %s\n", (*root)->content);
-    //     exit(EXIT_FAILURE);
-    // }
 }
 
 

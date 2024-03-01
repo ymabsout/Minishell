@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS =
+# CFLAGS = -fsanitize=address -g
 
 GET_NEXT_LINE=get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 
