@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 00:52:45 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/01 01:38:45 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    // printlist(root, 0);
+    printlist(root, 0);
     return(root);
 }
 
@@ -262,11 +262,13 @@ void *tokenize_lex(char *cmd)
 t_list *repair_list(t_list *root)
 {
     t_list *new_list;
+    t_list *holder;
     int track;
     int pth_track;
     
     pth_track = 0;
     track = 1;
+    holder = root;
     new_list = NULL;
     while (root)
     {
@@ -310,7 +312,7 @@ t_list *repair_list(t_list *root)
     }
     if (pth_track != 0)
         return (NULL);
-    lst_clear(&root);
+    lst_clear(&holder);
     printlist(new_list, 1);
     return (new_list);
 }
@@ -327,11 +329,14 @@ void *parsing(char *input)
     cmd = ft_strdup(input);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
-        return (NULL);
+        return (free(cmd), NULL);
     free(cmd);
-    cleared_list = repair_list(saved_list); 
-    if (!cleared_list)
-        return (lst_clear(saved_list), NULL);
+    lst_clear(&saved_list);
+    return (1);
+    // cleared_list = repair_list(saved_list); 
+    // if (!cleared_list)
+    //     return (lst_clear(saved_list), NULL);
+    // lst_clear(&cleared_list);
     // printlist(saved_list, 1);
     // rootoftree = parse_ampersand_or(&saved_list);
     // if (!rootoftree)
@@ -344,6 +349,7 @@ int main (int ac, char *av[], char **env)
 {
     static unsigned short status_code;
     char *input;
+    char *keep;
     t_btree *exec_tree;
     t_listt *root_env;
     (void)av;
@@ -353,14 +359,19 @@ int main (int ac, char *av[], char **env)
     root_env = create_envs(env);
     while (1)
     {
+        input = NULL;
         input = readline(">_:");
         if (!input)
             return (printf("exit\n"));
-        input = ft_strtrim(input, " ");
-        exec_tree = (t_btree *)parsing(input);
-        if (!exec_tree && input[0])
-            (printf("Parsing Error\n"), status_code = 258); 
+        keep = ft_strtrim(input, " ");
+        if (keep[0] != '\0' && keep)
+        {
+            exec_tree = (t_btree *)parsing(keep);
+            if (!exec_tree && input[0] != '\0')
+                (printf("Parsing Error\n"), status_code = 258); 
+        }
         add_history(input);
+        free(keep);
         free(input);
         // executing(exec_tree, root_env);
         // while (wait(0) != -1);
