@@ -13,7 +13,7 @@ static int open_input_file(t_btree *exec_tree)
     return (fd);
 }
 
-static void special_case(t_btree *exec_tree, t_listt *env)
+static void special_case(t_btree *exec_tree, t_listt *env, s_lol *s)
 {
     int fd;
     char *file;
@@ -29,10 +29,13 @@ static void special_case(t_btree *exec_tree, t_listt *env)
     file = exec_tree->right->string[0];
     exec_tree->right->string = exec_tree->right->string + 1;
     free(file);
-    exec_tree->right->stdin = fd;
+    if (exec_tree->stdin != 0)
+        exec_tree->right->stdin = exec_tree->stdin;
+    else
+        exec_tree->right->stdin = fd;
     exec_tree->right->stdout = exec_tree->stdout;
     exec_tree->right->ln = 1;
-    executing(exec_tree->right, env);
+    executing(exec_tree->right, env, s);
     close(fd);
 }
 
@@ -65,13 +68,13 @@ static void create_string(t_btree *exec_tree, char **string)
     (arr[i] = NULL, free(exec_tree->string), exec_tree->string = arr);
 }
 
-void execute_red_input(t_btree *exec_tree, t_listt *env)
+void execute_red_input(t_btree *exec_tree, t_listt *env, s_lol *s)
 {
     int fd;
     char *file;
 
     if (exec_tree->left == NULL)
-        return (special_case(exec_tree, env));
+        return (special_case(exec_tree, env, s));
     fd = open_input_file(exec_tree->right);
     if (fd < 0)
         return ;
@@ -84,9 +87,12 @@ void execute_red_input(t_btree *exec_tree, t_listt *env)
     free(file);
     exec_tree->left->string = ft_join_all_nexts(exec_tree->left);
     create_string(exec_tree->left, exec_tree->right->string + 1);
-    exec_tree->left->stdin = fd;
+    if (exec_tree->stdin != 0)
+        exec_tree->left->stdin = exec_tree->stdin;
+    else
+        exec_tree->left->stdin = fd;
     exec_tree->left->stdout = exec_tree->stdout;
     exec_tree->left->ln = 1;
-    executing(exec_tree->left, env);
+    executing(exec_tree->left, env, s);
     close(fd);
 }

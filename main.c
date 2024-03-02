@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/27 20:11:13 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/02 01:20:10 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ t_list *repair_list(t_list *root)
     {
         if (root->typeofcontent & token_pth)
         {
-            if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_pth \
+            if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_par_out && (root->typeofcontent & token_par_in)\
                 || (root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & (token_pipe | token_and_or)))))
                 return (printf("syntax error near \'%s'\n", root->content),NULL);
             lst_addback(&new_list, duplicate_node(root));
@@ -295,16 +295,18 @@ void *parsing(char *input)
     print_tree(rootoftree);
     return (rootoftree);
 }
+
+
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
 {
-    static unsigned short status_code;
     char *input;
     t_btree *exec_tree;
     t_listt *root_env;
+    s_lol s;
     (void)av;
     
-    if (ac != 1)
+    if (ac != 1) 
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
     while (1)
@@ -314,9 +316,12 @@ int main (int ac, char *av[], char **env)
             return (printf("exit\n"));
         exec_tree = (t_btree *)parsing(input);
         if (!exec_tree)
-            (printf("Parsing Error\n"), status_code = 258); 
+            (printf("Parsing Error\n"), s.status_code = 258); 
         add_history(input);
-        executing(exec_tree, root_env);
-        while (wait(0) != -1);
+        if (exec_tree)
+            executing(exec_tree, root_env, &s);
+        if (waitpid(s.pids, &s.status_code, 0) != -1)
+            s.status_code = WEXITSTATUS(s.status_code);
+        printf("StatusCode: [%d]\n", s.status_code);
     }
 }
