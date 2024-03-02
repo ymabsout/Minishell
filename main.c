@@ -254,7 +254,7 @@ void *tokenize_lex(char *cmd)
         }
     }
     free(cmd);
-    printlist(root, 0);
+    // printlist(root, 0);
     return(root);
 }
 
@@ -315,7 +315,7 @@ t_list *repair_list(t_list *root)
     }
     if (pth_track != 0)
         return (lst_clear(&new_list), NULL);
-    // printlist(new_list, 1);
+    printlist(new_list, 1);
     return (new_list);
 }
 
@@ -332,13 +332,15 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (free(cmd), NULL);
+    cleared_list = repair_list(saved_list);
+    if (!cleared_list)
+        return (NULL);
     lst_clear(&saved_list);
-    // lst_clear (&cleared_list);
+    lst_clear (&cleared_list);
     // rootoftree = parse_ampersand_or(&cleared_list);
     // if (!rootoftree)
     //     return (NULL);
     // print_tree(rootoftree);
-    rootoftree = NULL;
     return (1);
 }
  // syntax error should be exit_status 258
