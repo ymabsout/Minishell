@@ -115,38 +115,39 @@ void *get_cmd_back(char *cmd, int index, t_list **root, int type)
     return (cmd);
 }
 
-void update_trackers(char *cmd, int index, t_data_q * track)
+void *update_trackers(char *cmd, int index, t_data_q * track)
 {
     if (cmd[index] == '\"' && !track->dbl && !track->sgl)
         track->dbl = 1;
     else if (cmd[index] == '\'' && !track->sgl && !track->dbl)
         track->sgl = 1;
+    return (track);
 }
 void *get_quotes(t_list **root, char *cmd, int index)
 {
-    t_data_q    track;
+    t_data_q    *track;
 
-    ft_memset(&track, 0, sizeof(t_data_q));
-    (cmd[index] == '\'') && (track.sgl = 1);
-    (cmd[index] == '\"') && (track.dbl = 1);
     index = 0;
+    ft_memset(track, 0, sizeof(t_data_q));
+    (cmd[index] == '\'') && (track->sgl = 1);
+    (cmd[index] == '\"') && (track->dbl = 1);
     while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
-        if (cmd[index] == '\'' && !track.dbl && track.sgl)
+        if (cmd[index] == '\'' && !track->dbl && track->sgl)
         {
-            track.sgl = 0;
+            track->sgl = 0;
             cmd = get_cmd_back(cmd, index, root, token_single_q);
             break ;
         }
-        else if (cmd[index] == '\"' && !track.sgl && track.dbl)
+        else if (cmd[index] == '\"' && !track->sgl && track->dbl)
         {
-            track.dbl = 0;
+            track->dbl = 0;
             cmd = get_cmd_back(cmd, index, root, token_double_q);
             break ;
         }
-        update_trackers(cmd, index, &track);
+        update_trackers(cmd, index, track);
     }
-    if (track.sgl || track.dbl)
+    if (track->sgl || track->dbl)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
 }
@@ -198,7 +199,7 @@ void *tokenize_lex(char *cmd)
                     if (cmd[index] == cmd[index + 1])
                         lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
                     else
-                        return (printf("syntax error near %c\n", cmd[index]), NULL);
+                        return (printf("syntax error near %c\n", cmd[index]), lst_clear(&root), free(cmd), NULL);
                     track = 1;
                 }
                 else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != '(')
@@ -240,15 +241,15 @@ void *tokenize_lex(char *cmd)
             {
                 tmp = ft_substr(cmd, 0, index);
                 lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                // free(tmp);
+                free(tmp);
                 tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
-                // free(cmd);
+                free(cmd);
                 cmd = ft_strdup(tmp);
-                // free(tmp);
+                free(tmp);
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
-                return (NULL);
+                return (lst_clear(&root), NULL);
             index = -1;
         }
     }
