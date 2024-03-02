@@ -184,7 +184,7 @@ void *tokenize_lex(char *cmd)
         }
         else if (delimeter(cmd[index]))
         {
-            if (index  != 0)
+            if (index != 0)
             {
                 tmp = ft_substr(cmd, 0, index);
                 lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
@@ -330,9 +330,6 @@ void *parsing(char *input)
     if (!saved_list)
         return (free(cmd), NULL);
     free(cmd);
-    cleared_list = repair_list(saved_list); 
-    if (!cleared_list)
-        return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
     // lst_clear (&cleared_list);
     // rootoftree = parse_ampersand_or(&cleared_list);
@@ -340,7 +337,7 @@ void *parsing(char *input)
     //     return (NULL);
     // print_tree(rootoftree);
     rootoftree = NULL;
-    return (rootoftree);
+    return (1);
 }
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
