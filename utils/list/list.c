@@ -96,7 +96,7 @@ void lst_clear(t_list **root)
 	{
 		holder = (*root)->next;
 		free((*root)->content);
-		// free((*root));
+		free((*root));
 		(*root) = holder;
 	}
 	(*root) = NULL;

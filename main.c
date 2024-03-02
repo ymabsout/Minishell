@@ -176,7 +176,8 @@ void *tokenize_lex(char *cmd)
             lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
             while (cmd[++index] && cmd[index] == ' ')
                 ;
-            tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
+            // tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
+            tmp = ft_strdup (cmd + index);
             free(cmd);
             cmd = ft_strdup(tmp);
             free(tmp);
@@ -239,11 +240,11 @@ void *tokenize_lex(char *cmd)
             {
                 tmp = ft_substr(cmd, 0, index);
                 lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                free(tmp);
+                // free(tmp);
                 tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
-                free(cmd);
+                // free(cmd);
                 cmd = ft_strdup(tmp);
-                free(tmp);
+                // free(tmp);
             }
             cmd = get_quotes(&root, cmd, index);
             if (!cmd)
@@ -251,7 +252,8 @@ void *tokenize_lex(char *cmd)
             index = -1;
         }
     }
-    // printlist(root, 0);
+    free(cmd);
+    printlist(root, 0);
     return(root);
 }
 
@@ -329,7 +331,6 @@ void *parsing(char *input)
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
         return (free(cmd), NULL);
-    free(cmd);
     lst_clear(&saved_list);
     // lst_clear (&cleared_list);
     // rootoftree = parse_ampersand_or(&cleared_list);
