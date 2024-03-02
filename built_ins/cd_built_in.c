@@ -6,15 +6,15 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:27:03 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/24 17:29:09 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:56:35 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void insert_new_env(t_list **head_env, char *key, char *val)
+void insert_new_env(t_listt **head_env, char *key, char *val)
 {
-    t_list *node;
+    t_listt *node;
     char *content;
 
     content = ft_strjoin(key, val);
@@ -26,9 +26,9 @@ void insert_new_env(t_list **head_env, char *key, char *val)
     ft_lstadd_back(head_env, node);
 }
 
-void mutate_env_dirs(char *new_pwd, char *old_pwd, t_list **head_env)
+void mutate_env_dirs(char *new_pwd, char *old_pwd, t_listt **head_env)
 {
-    t_list *curr;
+    t_listt *curr;
     int is_old_pwd;
 
     curr = *head_env;

@@ -84,7 +84,7 @@ t_btree *duplicate_for_tree(t_list *root)
     if (!node)
         return (NULL);
     ft_memset(node , 0, sizeof(t_btree));
-    node->item = ft_strdup(root->content);
+    node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
     return (node);
 }

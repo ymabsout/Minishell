@@ -4,6 +4,8 @@
 # define MINI_SHELL_H
 
 # include <stdlib.h>
+# include <string.h>
+# include <sys/errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <readline/readline.h>
@@ -11,6 +13,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <termios.h>
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {
@@ -32,6 +35,19 @@ typedef struct s_tree {
     struct s_tree *next;
     struct s_tree *down;
     char *item;
+
+    //PIPE
+    int pipe_read_end;
+    int pipe_write_end;
+
+    //
+    int ln;
+    int rn;
+
+    //
+    int stdin;
+    int stdout;
+    int stderr;
 } t_btree;
 
 typedef struct s_listt
@@ -66,21 +82,11 @@ enum token_type
     token_pth = (token_par_in | token_par_out)
 };
 
-char	**ft_split(char const *s, char c);
-void	fill(char *arr, char **s, char c);
-char	**freearr(int index, char **arr);
-int     count_words(char *s, char c);
-int     len_world(char *s, char c);
-char	*ft_strdup(char *s);
-int     ft_strlen(const char *s);
-char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strchr(char *s, int c);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strrchr(char *s, int c);
-int     ft_strncmp(char *s1, char *s2, size_t n);
 void	lst_addback(t_list **lst, t_list *new);
 t_list  *lst_new(char *content);
-char	*ft_strjoin(char *s1, char *s2);
 void    *parsing(char *input);
 void    *tokenize_lex(char *cmd);
 t_list  *duplicate_node(t_list *root);
@@ -95,8 +101,12 @@ t_btree *parse_pipe(t_list **root);
 t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
-
-
+char	*get_next_line(int fd);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlen(const char *s);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -134,5 +144,21 @@ int exit_built_in(char **cmd, int status_code);
 int pwd_built_in(char **cmd);
 int echo_built_in(char **cmd);
 int cd_built_in(char **cmd, t_listt **head_env);
+
+// CODE
+void executing(t_btree *exec_tree, t_listt *env);
+
+// EXECUTION
+void execute_or_op(t_btree *exec_tree, t_listt *env);
+void execute_and_op(t_btree *exec_tree, t_listt *env);
+void execute_pipe(t_btree *exec_tree, t_listt *env);
+void execute_left_cmd(t_btree *exec_tree, t_listt *env);
+void execute_right_cmd(t_btree *exec_tree, t_listt *env);
+void execute_solo_cmd(t_btree *exec_tree, t_listt *env);
+void execute_cmd(t_btree *exec_tree, t_listt *env);
+void execute_red_input(t_btree *exec_tree, t_listt *env);
+void execute_red_output(t_btree *exec_tree, t_listt *env, int flag);
+char *get_path_cmd(char *cmd, t_listt *env);
+char **ft_join_all_nexts(t_btree *exec_tree);
 
 #endif 
