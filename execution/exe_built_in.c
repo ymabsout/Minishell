@@ -30,7 +30,7 @@ static void exe_in_child(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
         return ;
     }
     if (!(exec_tree->string))
-        exec_tree->string =  ft_join_all_nexts(exec_tree);
+        exec_tree->string =  ft_join_all_nexts(exec_tree, s->status_code);
     in = dup(0);
     out = dup(1);
     dup2(exec_tree->stdin, 0);
@@ -59,7 +59,7 @@ static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
     if (exec_tree->pipe_read_end && exec_tree->pipe_write_end)
         return (exe_in_child(exec_tree, env, s, flag));
     if (!(exec_tree->string))
-        exec_tree->string =  ft_join_all_nexts(exec_tree);
+        exec_tree->string =  ft_join_all_nexts(exec_tree, s->status_code);
     in = dup(0);
     out = dup(1);
     dup2(exec_tree->stdin, 0);

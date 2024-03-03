@@ -1,10 +1,10 @@
 #include "../mini_shell.h"
 
-static int open_output_file(t_btree *exec_tree, int flag)
+static int open_output_file(t_btree *exec_tree, int flag, int status_code)
 {
     int fd;
 
-    exec_tree->string = ft_join_all_nexts(exec_tree);
+    exec_tree->string = ft_join_all_nexts(exec_tree, status_code);
     if (flag == 1)
     {
         if ((fd = open(exec_tree->string[0],\
@@ -25,7 +25,7 @@ static void special_case(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag)
     int fd;
     char *file;
 
-    fd = open_output_file(exec_tree->right, flag);
+    fd = open_output_file(exec_tree->right, flag, s->status_code);
     if (fd < 0)
         return ;
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
@@ -38,9 +38,9 @@ static void special_case(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag)
     free(file);
     exec_tree->right->stdin = exec_tree->stdin;
     if (exec_tree->stdout != 1)
-        exec_tree->left->stdout = exec_tree->stdout;
+        exec_tree->right->stdout = exec_tree->stdout;
     else
-        exec_tree->left->stdout = fd;
+        exec_tree->right->stdout = fd;
     exec_tree->right->rn = 1;
     executing(exec_tree->right, env, s);
     close(fd);
@@ -82,24 +82,27 @@ void execute_red_output(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
 
     if (exec_tree->left == NULL)
         return (special_case(exec_tree, env, s,flag));
-    fd = open_output_file(exec_tree->right, flag);
+    fd = open_output_file(exec_tree->right, flag, s->status_code);
     if (fd < 0)
         return ;
-    if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
+    if (exec_tree->left)
     {
-        exec_tree->left->pipe_write_end = exec_tree->pipe_write_end;
-        exec_tree->left->pipe_read_end = exec_tree->pipe_read_end;
+        if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
+        {
+            exec_tree->left->pipe_write_end = exec_tree->pipe_write_end;
+            exec_tree->left->pipe_read_end = exec_tree->pipe_read_end;
+        }
+        file = exec_tree->right->string[0];
+        free(file);
+        exec_tree->left->string = ft_join_all_nexts(exec_tree->left, s->status_code);
+        create_string(exec_tree->left, exec_tree->right->string + 1);
+        exec_tree->left->stdin = exec_tree->stdin;
+        if (exec_tree->stdout != 1)
+            exec_tree->left->stdout = exec_tree->stdout;
+        else
+            exec_tree->left->stdout = fd;
+        exec_tree->left->rn = 1;
+        executing(exec_tree->left, env, s);
     }
-    file = exec_tree->right->string[0];
-    free(file);
-    exec_tree->left->string = ft_join_all_nexts(exec_tree->left);
-    create_string(exec_tree->left, exec_tree->right->string + 1);
-    exec_tree->left->stdin = exec_tree->stdin;
-    if (exec_tree->stdout != 1)
-        exec_tree->left->stdout = exec_tree->stdout;
-    else
-        exec_tree->left->stdout = fd;
-    exec_tree->left->rn = 1;
-    executing(exec_tree->left, env, s);
     close(fd);
 }

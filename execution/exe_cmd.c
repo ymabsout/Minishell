@@ -29,8 +29,6 @@ void execute_left_cmd(t_btree *exec_tree, t_listt *env)
     char *cmd_path;
     char **envs;
 
-    if (!(exec_tree->string))
-        exec_tree->string =  ft_join_all_nexts(exec_tree);
     if (!find_num_char(exec_tree->string[0], '/'))
         cmd_path = get_path_cmd(exec_tree->string[0], env);
     else
@@ -38,7 +36,6 @@ void execute_left_cmd(t_btree *exec_tree, t_listt *env)
     if (!cmd_path)
         handle_cmd_not_found(exec_tree->string[0]);
     envs = env_double_pointer(env);
-
     dup2(exec_tree->stdin, 0);
     dup2(exec_tree->stdout, 1);
 
@@ -57,9 +54,6 @@ void execute_right_cmd(t_btree *exec_tree, t_listt *env)
     char *cmd_path;
     char **envs;
 
-    if (!(exec_tree->string))
-        exec_tree->string =  ft_join_all_nexts(exec_tree);
-
     if (!find_num_char(exec_tree->string[0], '/'))
         cmd_path = get_path_cmd(exec_tree->string[0], env);
     else
@@ -67,6 +61,8 @@ void execute_right_cmd(t_btree *exec_tree, t_listt *env)
     if (!cmd_path)
         handle_cmd_not_found(exec_tree->string[0]);
     envs = env_double_pointer(env);
+            puts("lol");
+
     dup2(exec_tree->stdin, 0);
     dup2(exec_tree->stdout, 1);
 
@@ -85,8 +81,6 @@ void execute_solo_cmd(t_btree *exec_tree, t_listt *env)
     char *cmd_path;
     char **envs;
 
-    exec_tree->string =  ft_join_all_nexts(exec_tree);
-
     if (!find_num_char(exec_tree->string[0], '/'))
         cmd_path = get_path_cmd(exec_tree->string[0], env);
     else
@@ -103,16 +97,16 @@ void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
     pid_t pid;
 
     if (execute_built_in(exec_tree, env, s))
-    {
-        
         return ;
-    }
+
     failing_err((pid = fork()));
     if (pid)
     {
         s->pids = pid;
         return ;
     }
+    if (!(exec_tree->string))
+        exec_tree->string =  ft_join_all_nexts(exec_tree, s->status_code);
     if (exec_tree->ln)
     {
         // if (exec_tree->pipe_write_end)

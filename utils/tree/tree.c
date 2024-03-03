@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 23:10:55 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/02 23:48:44 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void print_next_tree(t_btree *root){
     while (root)
     {
         printf("Next is ->:%s\n", root->item);
+        if (root->down)
+            print_down_tree(root);
         root = root->next;
     }
 }
@@ -68,6 +70,7 @@ void add_down_tree(t_list *root, t_btree **leaf)
 {
     t_btree * hold;
     hold = (*leaf);
+    printf("%s\n", hold->item);
     while (root)
     {
         lstadd_down_tree(leaf, duplicate_for_tree(root));
@@ -171,7 +174,8 @@ t_btree *parse_heredoc_append(t_list **root)
 t_btree *parse_cmd(t_list **root)
 {
     t_btree *tmp;
-    
+    t_btree *tmp2;
+
     tmp = NULL;
     if ((*root) && (*root)->typeofcontent & (token_word | token_quote))
     {
@@ -183,7 +187,10 @@ t_btree *parse_cmd(t_list **root)
         {
             tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
             if ((*root)->down)
-                add_down_tree((*root)->down, &tmp);
+            {
+                tmp2 = lst_last_tree(tmp);
+                add_down_tree((*root)->down, &tmp2);
+            }
             (*root) = (*root)->next;
         }
         return (tmp); // return the command node;
@@ -214,5 +221,11 @@ t_btree *parse_cmd(t_list **root)
     // }
 }
 
+t_btree *lst_last_tree(t_btree *root)
+{
+    while (root && root->next)
+        root = root->next;
+    return (root);
+}
 
 // command to check ((ls) | (ls -la))

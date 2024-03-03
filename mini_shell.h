@@ -15,6 +15,8 @@
 #include <termios.h>
 #include "get_next_line/get_next_line.h"
 
+#define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
+
 typedef struct s_list
 {
     char *content;
@@ -87,7 +89,6 @@ enum token_type
 };
 
 char *ft_strchr(char *s, int c);
-char *ft_strtrim(char *s1, char *set);
 char *ft_strrchr(char *s, int c);
 void lst_addback(t_list **lst, t_list *new);
 t_list *lst_new(char *content);
@@ -128,6 +129,7 @@ int ft_lstsize(t_listt *lst);
 char **ft_split(char const *s, char c);
 int ft_isalpha(int c);
 int ft_atoi(const char *str);
+char	*ft_strtrim(char const *s1, char const *set);
 
 void syntax_error(void);
 void err_handler(int num);
@@ -171,6 +173,10 @@ void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
-char **ft_join_all_nexts(t_btree *exec_tree);
+char **ft_join_all_nexts(t_btree *exec_tree, int status_code);
+void print_down_tree(t_btree *root);
+
+
+t_btree *lst_last_tree(t_btree *root);
 
 #endif

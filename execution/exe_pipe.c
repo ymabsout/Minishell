@@ -16,12 +16,14 @@ void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
     exec_tree->left->ln = 1;
     executing(exec_tree->left, env, s);
 
+
     exec_tree->right->pipe_read_end = fd[0];
     exec_tree->right->pipe_write_end = fd[1];
     exec_tree->right->stdin = fd[0];
     exec_tree->right->stdout = exec_tree->stdout;
     exec_tree->right->rn = 1;
     executing(exec_tree->right, env, s);
+
     close(fd[0]);
     close(fd[1]);
 }
