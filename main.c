@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 20:34:05 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:14:51 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,112 +152,6 @@ void *get_quotes(t_list **root, char *cmd, int index)
     return (cmd);
 }
 
-void *tokenize_lex(char *cmd)
-{
-    t_list *root;
-    int index;
-    char *tmp;
-    int track;
-    int savepos;
-
-    track = 0;
-    savepos = 0;
-    root = NULL;
-    index = -1;
-    while (++index <= ft_strlen(cmd))
-    {
-        if (cmd[index] == ' ' || cmd[index] == '\t')
-        {
-            if (index != 0)
-            {
-                tmp = ft_substr(cmd, 0, index--);
-                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                free(tmp);
-            }
-            lst_addback(&root, set_correct_type(lst_new(ft_strdup(" ")), 1));
-            while (cmd[++index] && cmd[index] == ' ')
-                ;
-            // tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
-            tmp = ft_strdup (cmd + index);
-            free(cmd);
-            cmd = ft_strdup(tmp);
-            free(tmp);
-            index = -1;
-        }
-        else if (delimeter(cmd[index]))
-        {
-            if (index != 0)
-            {
-                tmp = ft_substr(cmd, 0, index);
-                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                free(tmp);
-            }
-            if (cmd[index] != '\0')
-            {
-                if (cmd[index] == '&')
-                {
-                    if (cmd[index] == cmd[index + 1])
-                        lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
-                    else
-                        return (printf("syntax error near %c\n", cmd[index]), lst_clear(&root), NULL);
-                    track = 1;
-                }
-                else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != '(')
-                {
-                    if ((cmd[index] == '|' && cmd[index + 1] != cmd[index]) || cmd[index] != cmd[index + 1])
-                    {
-                        tmp = ft_substr(cmd, index, 1);
-                        lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                        track = 0;
-                    }
-                    else
-                    {
-                        tmp = ft_substr(cmd, index, 2);
-                        lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 2));
-                        track = 1;
-                    }
-                    free(tmp);
-                }
-                else
-                {
-                    tmp = ft_substr(cmd, index, 1);
-                    lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                    free(tmp);
-                }
-            }
-            if (index != ft_strlen(cmd))
-            {
-                tmp = ft_strdup(cmd + index + 1 + track);
-                free(cmd);
-                cmd = ft_strdup(tmp);
-                track = 0;
-                index = -1;
-                free(tmp);
-            }
-        }
-        else if (db_sl_quote(cmd[index]))
-        {
-            if (index != 0)
-            {
-                tmp = ft_substr(cmd, 0, index);
-                lst_addback(&root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
-                free(tmp);
-                tmp = ft_substr(cmd ,index, ft_strlen(cmd + index));
-                free(cmd);
-                cmd = ft_strdup(tmp);
-                free(tmp);
-            }
-            cmd = get_quotes(&root, cmd, index);
-            if (!cmd)
-                return (lst_clear(&root), NULL);
-            index = -1;
-        }
-    }
-    free(cmd);
-    // printlist(root, 0);
-    return(root);
-}
-
 //ls && (ls) ls handle cmd after subshell
 // ls && >>f
 //>_:hello"test"yy'tt' world
@@ -336,7 +230,7 @@ void *parsing(char *input)
     if (!cleared_list)
         return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
-    printlist(cleared_list, 1);
+    // printlist(cleared_list, 1);
     saved_list = cleared_list;
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)

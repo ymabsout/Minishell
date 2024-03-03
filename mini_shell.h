@@ -169,10 +169,27 @@ char **ft_join_all_nexts(t_btree *exec_tree);
 // LEAKS
 void lst_clear(t_list **root);
 
-// TREE_PRINT
+// TREE_PRINT || LIST_PRINT
 void print_next_tree(t_btree *root);
 void print_down_tree(t_btree *root);
 void print_tree(t_btree *root);
+
+void printdownlist(t_list *root);
+void printlist(t_list *root, int a);
+
+
+//PARSING
+void *tokenize_lex(char *cmd);
+int delimeter(int c);
+void *set_correct_follow(t_list *root, int numb);
+void *set_correct_type(t_list *root, int numb);
+int db_sl_quote(int c);
+void *get_cmd_back(char *cmd, int index, t_list **root, int type);
+void *update_trackers(char *cmd, int index, t_data_q * track);
+void *get_quotes(t_list **root, char *cmd, int index);
+t_list *repair_list(t_list *root);
+void *parsing(char *input);
+void	lst_addback(t_list **lst, t_list *new);
 
 
 #endif 

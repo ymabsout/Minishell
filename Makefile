@@ -14,6 +14,8 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 	lib/ft_lstmap.c lib/ft_lstnew.c lib/ft_lstsize.c lib/ft_split.c lib/ft_strncmp.c lib/ft_isalpha.c\
 	lib/ft_atoi.c
 
+PARSING=parsing/first_list.c
+
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c \
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
 
@@ -21,7 +23,7 @@ EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c executi
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c execution/exe_red_out.c\
 	execution/exe_and_op.c execution/exe_or_op.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE)
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(PARSING)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h
