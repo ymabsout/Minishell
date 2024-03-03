@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 16:56:47 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:46:03 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ t_btree *lstaddback_tree(t_btree *root, t_btree *leaf)
 {
     t_btree *holder;
 
+    if (!root)
+    {
+        root = leaf;
+        return (root);
+    }
     holder = root;
     while (root && root->next)
         root = root->next;
@@ -157,8 +162,6 @@ t_btree *parse_heredoc_append(t_list **root)
     {
         token = duplicate_for_tree(*root);
         (*root) = (*root)->next;
-        if(!(*root))
-            return (NULL);
         tmp1 = parse_cmd(root);
         tmp2 = tmp;
         if (!tmp1 || (tmp && !(tmp1->typeofcontent & (token_word | token_quote))))
@@ -178,21 +181,14 @@ t_btree *parse_cmd(t_list **root)
     t_btree *tmp;
     
     tmp = NULL;
-    if ((*root) && (*root)->typeofcontent & (token_word | token_quote))
+    while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
     {
-        tmp = duplicate_for_tree(*root);
+        tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
         if ((*root)->down)
             add_down_tree((*root)->down, &tmp);
         (*root) = (*root)->next;
-        while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
-        {
-            tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
-            if ((*root)->down)
-                add_down_tree((*root)->down, &tmp);
-            (*root) = (*root)->next;
-        }
     }
-    else if ((*root) && (*root)->typeofcontent & token_par_in)
+    if ((*root) && (*root)->typeofcontent & token_par_in)
     {
         (*root) = (*root)->next;
         tmp = parse_ampersand_or(root);
