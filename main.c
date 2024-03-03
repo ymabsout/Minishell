@@ -337,11 +337,12 @@ void *parsing(char *input)
         return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
     printlist(cleared_list, 1);
-    lst_clear (&cleared_list);
-    // rootoftree = parse_ampersand_or(&cleared_list);
-    // if (!rootoftree)
-    //     return (lst_clear(&cleared_list), NULL);
-    // print_tree(rootoftree);
+    saved_list = cleared_list;
+    rootoftree = parse_ampersand_or(&cleared_list);
+    if (!rootoftree)
+        return (lst_clear(&cleared_list), NULL);
+    print_tree(rootoftree);
+    lst_clear (&saved_list);
     return (1);
 }
  // syntax error should be exit_status 258

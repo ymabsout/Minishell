@@ -169,4 +169,10 @@ char **ft_join_all_nexts(t_btree *exec_tree);
 // LEAKS
 void lst_clear(t_list **root);
 
+// TREE_PRINT
+void print_next_tree(t_btree *root);
+void print_down_tree(t_btree *root);
+void print_tree(t_btree *root);
+
+
 #endif 

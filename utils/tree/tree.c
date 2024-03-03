@@ -15,6 +15,8 @@
 void print_next_tree(t_btree *root){
     while (root)
     {
+        if (root->down)
+            print_down_tree(root->down);
         printf("Next is ->:%s\n", root->item);
         root = root->next;
     }
@@ -64,6 +66,7 @@ void print_tree(t_btree *root) {
     print_tree(root->right);
 }
 
+
 void add_down_tree(t_list *root, t_btree **leaf)
 {
     t_btree * hold;
@@ -86,8 +89,8 @@ t_btree *duplicate_for_tree(t_list *root)
     ft_memset(node , 0, sizeof(t_btree));
     node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
-    free(root->content);
-    free(root);
+    // free(root->content);
+    // free(root);
     return (node);
 }
 
@@ -188,9 +191,8 @@ t_btree *parse_cmd(t_list **root)
                 add_down_tree((*root)->down, &tmp);
             (*root) = (*root)->next;
         }
-        return (tmp); // return the command node;
     }
-    if ((*root) && (*root)->typeofcontent & token_par_in)
+    else if ((*root) && (*root)->typeofcontent & token_par_in)
     {
         (*root) = (*root)->next;
         tmp = parse_ampersand_or(root);
@@ -201,9 +203,8 @@ t_btree *parse_cmd(t_list **root)
         }
         (*root) = (*root)->next;
         tmp->flag_subshell = 1;
-        return (tmp);
     }
-    return (NULL);
+    return (tmp); // return the command node; or NULL if nothing matches!
 }
 
 
