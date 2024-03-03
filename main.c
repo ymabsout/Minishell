@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 22:32:27 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:56:14 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,19 @@ void *parsing(char *input)
     return (rootoftree);
 }
 
+
+
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
 {
-    static unsigned short status_code;
     char *input;
     char *keep;
     t_btree *exec_tree;
     t_listt *root_env;
+    s_lol s;
     (void)av;
     
-    if (ac != 1)
+    if (ac != 1) 
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
     input = NULL;   
@@ -67,12 +69,15 @@ int main (int ac, char *av[], char **env)
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
-                (printf("Parsing Error\n"), status_code = 258);
+                (printf("Parsing Error\n"), s.status_code = 258);
             // executing(exec_tree, root_env);
             // while (wait(0) != -1);
         }
         add_history(input);
-        free(keep);
-        free(input);
+        if (exec_tree)
+            executing(exec_tree, root_env, &s);
+        if (waitpid(s.pids, &s.status_code, 0) != -1)
+            s.status_code = WEXITSTATUS(s.status_code);
+        printf("StatusCode: [%d]\n", s.status_code);
     }
 }

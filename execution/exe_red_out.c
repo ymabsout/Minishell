@@ -20,7 +20,7 @@ static int open_output_file(t_btree *exec_tree, int flag)
     return (fd);
 }
 
-static void special_case(t_btree *exec_tree, t_listt *env, int flag)
+static void special_case(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag)
 {
     int fd;
     char *file;
@@ -37,9 +37,12 @@ static void special_case(t_btree *exec_tree, t_listt *env, int flag)
     exec_tree->right->string = exec_tree->right->string + 1;
     free(file);
     exec_tree->right->stdin = exec_tree->stdin;
-    exec_tree->right->stdout = fd;
+    if (exec_tree->stdout != 1)
+        exec_tree->left->stdout = exec_tree->stdout;
+    else
+        exec_tree->left->stdout = fd;
     exec_tree->right->rn = 1;
-    executing(exec_tree->right, env);
+    executing(exec_tree->right, env, s);
     close(fd);
 }
 
@@ -72,13 +75,13 @@ static void create_string(t_btree *exec_tree, char **string)
     (arr[i] = NULL, free(exec_tree->string), exec_tree->string = arr);
 }
 
-void execute_red_output(t_btree *exec_tree, t_listt *env, int flag)
+void execute_red_output(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
 {
     int fd;
     char *file;
 
     if (exec_tree->left == NULL)
-        return (special_case(exec_tree, env, flag));
+        return (special_case(exec_tree, env, s,flag));
     fd = open_output_file(exec_tree->right, flag);
     if (fd < 0)
         return ;
@@ -92,8 +95,11 @@ void execute_red_output(t_btree *exec_tree, t_listt *env, int flag)
     exec_tree->left->string = ft_join_all_nexts(exec_tree->left);
     create_string(exec_tree->left, exec_tree->right->string + 1);
     exec_tree->left->stdin = exec_tree->stdin;
-    exec_tree->left->stdout = fd;
+    if (exec_tree->stdout != 1)
+        exec_tree->left->stdout = exec_tree->stdout;
+    else
+        exec_tree->left->stdout = fd;
     exec_tree->left->rn = 1;
-    executing(exec_tree->left, env);
+    executing(exec_tree->left, env, s);
     close(fd);
 }
