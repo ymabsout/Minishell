@@ -94,13 +94,13 @@ void clear_down(t_list **root)
 	t_list *hold;
 
 	printf("%s\n", (*root)->content);
-	hold = (*root)->down;
+	// hold = (*root)->down;
 	while ((*root))
 	{
+		hold = (*root)->down;
 		free((*root)->content);
 		free((*root));
 		(*root) = hold;
-		hold = (*root)->down;
 	}
 	(*root) = NULL;
 }
