@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:14 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:28:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	lst_add_down(t_list **lst, t_list *new)
 		head = head->down;
 	head->down = new;
 	new->up = head;
+	new->down = NULL;
 }
 
 t_list *duplicate_node(t_list *root)
@@ -75,7 +76,6 @@ t_list *duplicate_node(t_list *root)
 	new->content =  ft_strdup((char *)root->content);
 	new->typeofcontent = root->typeofcontent;
 	new->down = root->down;
-	new->next = root->next;
 	return (new);
 }
 
@@ -87,6 +87,40 @@ void deletenode(t_list *holder, t_list *node_delete)
 		next_curr = node_delete->next;
 	(free(node_delete), node_delete = NULL);
 	holder->next = next_curr;
+}
+
+void clear_down(t_list **root)
+{
+	t_list *hold;
+
+	while ((*root))
+	{
+		hold = (*root)->down;
+		free((*root)->content);
+		free((*root));
+		(*root) = hold;
+	}
+	(*root) = NULL;
+}
+
+void lst_clear(t_list **root)
+{
+	t_list *holder;
+	t_list *tmp;
+
+	while (*root)
+	{
+		holder = (*root)->next;
+		free((*root)->content);
+		if ((*root)->down)
+		{
+			tmp = (*root)->down;
+			clear_down(&(*root)->down);
+		}
+		free((*root));
+		(*root) = holder;
+	}
+	(*root) = NULL;
 }
 
 t_list *lst_last(t_list *root)

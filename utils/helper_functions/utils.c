@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:49:25 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/01 16:21:36 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ char	*ft_strtrim(char *s1, char *set)
 	while (first_index <= last_index)
 		ptr[i++] = s1[first_index++];
 	ptr[i] = '\0';
-		free(s1);
+		// free(s1);
 	return (ptr);
 }
 
