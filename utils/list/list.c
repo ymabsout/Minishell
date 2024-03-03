@@ -63,6 +63,7 @@ void	lst_add_down(t_list **lst, t_list *new)
 		head = head->down;
 	head->down = new;
 	new->up = head;
+	new->down = NULL;
 }
 
 t_list *duplicate_node(t_list *root)
@@ -88,14 +89,36 @@ void deletenode(t_list *holder, t_list *node_delete)
 	holder->next = next_curr;
 }
 
+void clear_down(t_list **root)
+{
+	t_list *hold;
+
+	printf("%s\n", (*root)->content);
+	hold = (*root)->down;
+	while ((*root))
+	{
+		free((*root)->content);
+		free((*root));
+		(*root) = hold;
+		hold = (*root)->down;
+	}
+	(*root) = NULL;
+}
+
 void lst_clear(t_list **root)
 {
 	t_list *holder;
+	t_list *tmp;
 
 	while (*root)
 	{
 		holder = (*root)->next;
 		free((*root)->content);
+		if ((*root)->down)
+		{
+			tmp = (*root)->down;
+			clear_down(&(*root)->down);
+		}
 		free((*root));
 		(*root) = holder;
 	}

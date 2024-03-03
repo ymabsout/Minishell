@@ -125,29 +125,29 @@ void *update_trackers(char *cmd, int index, t_data_q * track)
 }
 void *get_quotes(t_list **root, char *cmd, int index)
 {
-    t_data_q    *track;
+    t_data_q    track;
 
     index = 0;
-    ft_memset(track, 0, sizeof(t_data_q));
-    (cmd[index] == '\'') && (track->sgl = 1);
-    (cmd[index] == '\"') && (track->dbl = 1);
+    ft_memset(&track, 0, sizeof(t_data_q));
+    (cmd[index] == '\'') && (track.sgl = 1);
+    (cmd[index] == '\"') && (track.dbl = 1);
     while (cmd[++index] && (ft_strchr(cmd, '\'') || ft_strchr(cmd, '\"')))
     {
-        if (cmd[index] == '\'' && !track->dbl && track->sgl)
+        if (cmd[index] == '\'' && !track.dbl && track.sgl)
         {
-            track->sgl = 0;
+            track.sgl = 0;
             cmd = get_cmd_back(cmd, index, root, token_single_q);
             break ;
         }
-        else if (cmd[index] == '\"' && !track->sgl && track->dbl)
+        else if (cmd[index] == '\"' && !track.sgl && track.dbl)
         {
-            track->dbl = 0;
+            track.dbl = 0;
             cmd = get_cmd_back(cmd, index, root, token_double_q);
             break ;
         }
-        update_trackers(cmd, index, track);
+        update_trackers(cmd, index, &track);
     }
-    if (track->sgl || track->dbl)
+    if (track.sgl || track.dbl)
         return(printf("Syntax Error\n"), NULL);
     return (cmd);
 }
@@ -199,7 +199,7 @@ void *tokenize_lex(char *cmd)
                     if (cmd[index] == cmd[index + 1])
                         lst_addback(&root, set_correct_type(lst_new(ft_strdup("&&")), 2));
                     else
-                        return (printf("syntax error near %c\n", cmd[index]), lst_clear(&root), free(cmd), NULL);
+                        return (printf("syntax error near %c\n", cmd[index]), lst_clear(&root), NULL);
                     track = 1;
                 }
                 else if (delimeter(cmd[index + 1]) && cmd[index + 1] != ')' && cmd[index + 1] != '(')
@@ -277,9 +277,9 @@ t_list *repair_list(t_list *root)
     {
         if (root->typeofcontent & token_pth)
         {
-            if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_pth \
+            if (lst_last(new_list) && (lst_last(new_list)->typeofcontent & token_par_out && (root->typeofcontent & token_par_in)\
                 || (root->typeofcontent & token_par_in && !(lst_last(new_list)->typeofcontent & (token_pipe | token_and_or)))))
-                return (printf("syntax error near \'%s'\n", root->content), lst_clear(&new_list), NULL);
+                return (printf("syntax error neagr \'%s'\n", root->content),  lst_clear(&new_list), NULL);
             lst_addback(&new_list, duplicate_node(root));
             if (root->typeofcontent & token_par_in)
                 pth_track++;
@@ -315,7 +315,7 @@ t_list *repair_list(t_list *root)
     }
     if (pth_track != 0)
         return (lst_clear(&new_list), NULL);
-    printlist(new_list, 1);
+    // printlist(new_list, 1);
     return (new_list);
 }
 
@@ -334,12 +334,13 @@ void *parsing(char *input)
         return (free(cmd), NULL);
     cleared_list = repair_list(saved_list);
     if (!cleared_list)
-        return (NULL);
+        return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
+    printlist(cleared_list, 1);
     lst_clear (&cleared_list);
     // rootoftree = parse_ampersand_or(&cleared_list);
     // if (!rootoftree)
-    //     return (NULL);
+    //     return (lst_clear(&cleared_list), NULL);
     // print_tree(rootoftree);
     return (1);
 }

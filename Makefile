@@ -1,5 +1,5 @@
 CC = cc
-# CFLAGS = -fsanitize=address -g
+CFLAGS = -fsanitize=address -g
 
 GET_NEXT_LINE=get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 
@@ -29,7 +29,7 @@ HEADER = mini_shell.h
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline $^ -o $(NAME) 
+	$(CC) -lreadline -fsanitize=address -g $^ -o $(NAME) 
 
 get_next_line/%.o:get_next_line/%.c get_next_line/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
