@@ -177,6 +177,7 @@ void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code);
+char *ft_joinAllDowns(t_btree *exec_tree, int status_code);
 void print_down_tree(t_btree *root);
 
 // Wild card

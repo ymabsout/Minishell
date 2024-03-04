@@ -83,7 +83,7 @@ static void expand_double_quote(t_btree *exec_tree, int status_code)
 
 }
 
-static char *ft_joinAllDowns(t_btree *exec_tree, int status_code)
+char *ft_joinAllDowns(t_btree *exec_tree, int status_code)
 {
     char *str;
     char *old_str;

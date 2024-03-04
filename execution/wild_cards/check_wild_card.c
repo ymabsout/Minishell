@@ -1,4 +1,4 @@
-#include "../mini_shell.h"
+#include "../../mini_shell.h"
 
 static void	add_back(t_btree **lst, t_btree *new)
 {

@@ -4,7 +4,7 @@ CFLAGS = -fsanitize=address -g
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c
 
-CODE=code/expand_env_vars.c code/create_envs.c code/check_wild_card.c
+CODE=code/expand_env_vars.c code/create_envs.c
 
 BUILT_INS=built_ins/export_built_in.c built_ins/env_built_in.c built_ins/unset_built_in.c\
 	built_ins/exit_built_in.c built_ins/pwd_built_in.c built_ins/echo_built_in.c built_ins/cd_built_in.c
@@ -23,10 +23,10 @@ EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c executi
 	execution/exe_and_op.c execution/exe_or_op.c execution/exe_sub_shell.c execution/exe_built_in.c\
 	execution/exe_heredoc.c
 
-WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c
+WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c\
 	execution/wild_cards/match.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE)
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h
