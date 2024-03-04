@@ -1,12 +1,11 @@
 CC = cc
-# CFLAGS = -fsanitize=address -g
-
-GET_NEXT_LINE=get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+CFLAGS = -fsanitize=address -g 
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c
 
-CODE=code/expand_env_vars.c code/create_envs.c
+CODE=code/expand_env_vars.c code/create_envs.c code/check_wild_card.c
+
 BUILT_INS=built_ins/export_built_in.c built_ins/env_built_in.c built_ins/unset_built_in.c\
 	built_ins/exit_built_in.c built_ins/pwd_built_in.c built_ins/echo_built_in.c built_ins/cd_built_in.c
 
@@ -14,7 +13,7 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 	lib/ft_strlen.c lib/ft_substr.c lib/ft_strdup.c lib/ft_itoa.c lib/ft_lstadd_back.c\
 	lib/ft_lstadd_front.c lib/ft_lstclear.c lib/ft_lstdelone.c lib/ft_lstiter.c lib/ft_lstlast.c\
 	lib/ft_lstmap.c lib/ft_lstnew.c lib/ft_lstsize.c lib/ft_split.c lib/ft_strncmp.c lib/ft_isalpha.c\
-	lib/ft_atoi.c
+	lib/ft_atoi.c lib/ft_strtrim.c lib/ft_strnstr.c
 
 PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c parsing/quote_handler.c\
 	parsing/type_giver.c
@@ -28,21 +27,25 @@ EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c executi
 	execution/exe_heredoc.c
 PRINT=list_print.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(PARSING) $(PRINT)
+WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c
+	execution/wild_cards/match.c
+ 
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(PARSING) $(PRINT)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h
 
+READLINE_L = $(shell brew --prefix readline)/lib 
+READLINE_I = $(shell brew --prefix readline)/include
+
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline  $^ -o $(NAME) 
-
-get_next_line/%.o:get_next_line/%.c get_next_line/get_next_line.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(CC) -lreadline $(CFLAGS) -L ${READLINE_L} $^ -o $(NAME) 
 
 %.o:%.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I ${READLINE_I} -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -51,3 +54,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re : fclean all 
+
+.PHONY: clean

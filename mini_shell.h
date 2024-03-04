@@ -13,7 +13,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <termios.h>
-#include "get_next_line/get_next_line.h"
+#include <dirent.h>
+#include <signal.h>
+
+#define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 typedef struct s_list
 {
@@ -92,7 +95,6 @@ enum token_type
 };
 
 char *ft_strchr(char *s, int c);
-char *ft_strtrim(char *s1, char *set);
 char *ft_strrchr(char *s, int c);
 void lst_addback(t_list **lst, t_list *new);
 t_list *lst_new(char *content);
@@ -110,6 +112,7 @@ t_btree *parse_pipe(t_list **root);
 t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char *get_next_line(int fd);
 char *ft_strjoin(char const *s1, char const *s2);
 char *ft_substr(char const *s, unsigned int start, size_t len);
@@ -133,6 +136,7 @@ int ft_lstsize(t_listt *lst);
 char **ft_split(char const *s, char c);
 int ft_isalpha(int c);
 int ft_atoi(const char *str);
+char	*ft_strtrim(char const *s1, char const *set);
 
 void syntax_error(void);
 void err_handler(int num);
@@ -161,6 +165,7 @@ void failing_err(int failed);
 // CODE
 void executing(t_btree *exec_tree, t_listt *env, s_lol *s);
 void handle_cmd_not_found(char *cmd);
+t_btree *check_wild_card(char *str);
 
 // EXECUTION
 void execute_or_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
@@ -176,7 +181,16 @@ void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
-char **ft_join_all_nexts(t_btree *exec_tree);
+char **ft_join_all_nexts(t_btree *exec_tree, int status_code);
+void print_down_tree(t_btree *root);
+
+// Wild card
+void handle_wild(t_btree *exec_tree, int status_code);
+t_btree *check_wild_card(char *str);
+char *match(char *file_name, char *pattern);
+
+
+t_btree *lst_last_tree(t_btree *root);
 
 // LEAKS
 void lst_clear(t_list **root);

@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 22:56:14 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/04 22:23:12 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ void *parsing(char *input)
     return (rootoftree);
 }
 
+void handle_ctrl_d()
+{
+    printf("\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+void handle_signal()
+{
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, handle_ctrl_d);
+}
+
+// void return_def()
+// {
+//     signal(SIGQUIT, SIGQUIT);
+// }
 
 
  // syntax error should be exit_status 258
@@ -61,9 +79,10 @@ int main (int ac, char *av[], char **env)
     input = NULL;   
     while (1)
     {
+        // handle_signal();
         input = readline(">_:");
         if (!input)
-            return (printf("exit\n"));
+            return (printf("exit\n"), s.status_code);
         keep = ft_strtrim(input, " ");
         if (keep[0] && keep)
         {
@@ -75,9 +94,15 @@ int main (int ac, char *av[], char **env)
         }
         add_history(input);
         if (exec_tree)
+        {
             executing(exec_tree, root_env, &s);
+        }
+        // Handle cat | cat | ls last child waiting on him!
         if (waitpid(s.pids, &s.status_code, 0) != -1)
             s.status_code = WEXITSTATUS(s.status_code);
+        while (waitpid(-1, 0, 0) != -1)
+            ;
         printf("StatusCode: [%d]\n", s.status_code);
     }
 }
+/// $(pwd)

@@ -16,6 +16,6 @@ void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s)
     close(exec_tree->pipe_write_end);
     if (waitpid(s->pids, &s->status_code, 0) != -1)
         s->status_code = WEXITSTATUS(s->status_code);
-    
+    while (waitpid(-1, 0, 0) != -1);
     exit(s->status_code);
 }

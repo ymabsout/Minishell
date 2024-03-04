@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "ios": "c",
+        "locale": "c",
+        "chrono": "c"
+    }
+}

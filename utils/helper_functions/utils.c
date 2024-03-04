@@ -6,49 +6,12 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 16:21:36 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/03 00:34:47 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../mini_shell.h"
 
-int	checker(char *s1, char *s2, int index)
-{
-	int	i;
-
-	i = 0;
-	while (s2[i] != '\0')
-	{
-		if (s2[i] == s1[index])
-		{
-			i = 0;
-			index++;
-		}
-		else
-			i++;
-	}
-	return (index);
-}
-
-int	last_checker(char *s1, char *s2)
-{
-	int	len;
-	int	i;
-
-	len = ft_strlen((const char *)s1) - 1;
-	i = 0;
-	while (s2[i] != '\0')
-	{
-		if (s2[i] == s1[len])
-		{
-			i = 0;
-			len--;
-		}
-		else
-			i++;
-	}
-	return (len);
-}
 
 // char	*ft_strdup(char *s)
 // {
@@ -130,34 +93,6 @@ int	ft_memcmp(void *s1, void *s2, size_t n)
 		i++;
 	}
 	return (0);
-}
-
-char	*ft_strtrim(char *s1, char *set)
-{
-	char	*ptr;
-	int		last_index;
-	int		i;
-	int		first_index;
-
-	if (!s1 || !set)
-		return (NULL);
-	if (!set[0])
-		return (ft_strdup(s1));
-	if (!s1[0])
-		return (ft_strdup(""));
-	last_index = last_checker((char *)s1, (char *)set);
-	first_index = checker((char *)s1, (char *)set, 0);
-	i = 0;
-	if (first_index > last_index)
-		return (ft_strdup(""));
-	ptr = (char *)malloc(last_index - first_index + 2);
-	if (ptr == NULL)
-		return (NULL);
-	while (first_index <= last_index)
-		ptr[i++] = s1[first_index++];
-	ptr[i] = '\0';
-		// free(s1);
-	return (ptr);
 }
 
 char	*ft_strrchr(char *s, int c)

@@ -1,11 +1,11 @@
 
 #include "../mini_shell.h"
 
-static int open_input_file(t_btree *exec_tree)
+static int open_input_file(t_btree *exec_tree, int status_code)
 {
     int fd;
 
-    exec_tree->string = ft_join_all_nexts(exec_tree);
+    exec_tree->string = ft_join_all_nexts(exec_tree, status_code);
     if (access(exec_tree->string[0], F_OK | R_OK) == -1)
         return (-1);
     if ((fd = open(exec_tree->string[0], O_RDONLY)) == -1)
@@ -18,7 +18,7 @@ static void special_case(t_btree *exec_tree, t_listt *env, s_lol *s)
     int fd;
     char *file;
 
-    fd = open_input_file(exec_tree->right);
+    fd = open_input_file(exec_tree->right, s->status_code);
     if (fd < 0)
         return ;
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
@@ -51,7 +51,7 @@ static void create_string(t_btree *exec_tree, char **string)
         l_s++;
     while (string[r_s])
         r_s++;
-    arr = malloc((sizeof(char *) * (l_s + r_s)) + 1);
+    arr = malloc((sizeof(char *) * (l_s + r_s + 1)));
     if (!arr)
     {
         exec_tree->string = NULL;
@@ -75,9 +75,12 @@ void execute_red_input(t_btree *exec_tree, t_listt *env, s_lol *s)
 
     if (exec_tree->left == NULL)
         return (special_case(exec_tree, env, s));
-    fd = open_input_file(exec_tree->right);
+    fd = open_input_file(exec_tree->right, s->status_code);
     if (fd < 0)
+    {
+        s->status_code = 1;
         return ;
+    }
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
     {
         exec_tree->left->pipe_write_end = exec_tree->pipe_write_end;
@@ -85,7 +88,7 @@ void execute_red_input(t_btree *exec_tree, t_listt *env, s_lol *s)
     }
     file = exec_tree->right->string[0];
     free(file);
-    exec_tree->left->string = ft_join_all_nexts(exec_tree->left);
+    exec_tree->left->string = ft_join_all_nexts(exec_tree->left, s->status_code);
     create_string(exec_tree->left, exec_tree->right->string + 1);
     if (exec_tree->stdin != 0)
         exec_tree->left->stdin = exec_tree->stdin;

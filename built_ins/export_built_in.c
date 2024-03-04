@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:30:50 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/24 17:29:41 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:44:38 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ static void export_no_args(t_listt *head_env)
         arr = ft_split((char *)(head_env->content), '=');
         if (!arr)
             exit(-1);
-        printf("declare -x %s=\"%s\"\n", arr[0], arr[1]);
+        if (!arr[1])
+        {
+            if (find_num_char(head_env->content, '='))
+                printf("declare -x %s=\"\"\n", arr[0]);
+            else
+                printf("declare -x %s\n", arr[0]);
+        }
+        else
+            printf("declare -x %s=\"%s\"\n", arr[0], arr[1]);
         free_double(arr);
         head_env = head_env->next;
     }
 }
-
-// node = a=25
-// env_var a+=0
 
 static void lol(t_listt *node, char *env_var)
 {
@@ -85,6 +90,7 @@ static void export(t_listt **head_env, char *env_var)
     char **env_list;
     char **env_str;
 
+    printf("[%s]\n", env_var);
     curr = *head_env;
     while (curr)
     {
@@ -111,7 +117,7 @@ static int check_invalid_chars(char *cmd, int *is_plus)
     int i;
     char **arr;
 
-    if (!cmd[0])
+    if (!cmd[0] || !ft_strncmp(cmd, "=", 2))
     {
         valid_id_error("export", cmd);
         return (1);

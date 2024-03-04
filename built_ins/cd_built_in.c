@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:27:03 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/24 17:56:35 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:18:33 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void mutate_env_dirs(char *new_pwd, char *old_pwd, t_listt **head_env)
         insert_new_env(head_env, "OLDPWD=", old_pwd);
 }
 
-// int handle_old_pwd(char **cmd, t_list **head_env)
+// int handle_old_pwd(char **cmd, t_listt **head_env)
 // {
-//     t_list *curr;
-//     t_list *old_pwd;
+//     t_listt *curr;
+//     t_listt *old_pwd;
 //     char **arr;
 //     char *w_dir;
 

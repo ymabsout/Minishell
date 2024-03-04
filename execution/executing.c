@@ -29,6 +29,6 @@ void  executing(t_btree *exec_tree, t_listt *env, s_lol *s)
         execute_red_output(exec_tree, env, s, 1);
     else if (exec_tree->typeofcontent & token_red_out_append)
         execute_red_output(exec_tree, env, s, 0);
-    else if (exec_tree->typeofcontent & token_word)
+    else if (exec_tree->typeofcontent & (token_word | token_single_q | token_double_q))
         execute_cmd(exec_tree, env, s);
 }
