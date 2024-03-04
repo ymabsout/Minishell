@@ -46,10 +46,9 @@ void *parsing(char *input)
 void handle_ctrl_c()
 {
 	printf("\n");
-	readline(">_:");
 	rl_on_new_line();
+    rl_replace_line("", 0);
 	rl_redisplay();
-
 }
 
 void signal_handler()

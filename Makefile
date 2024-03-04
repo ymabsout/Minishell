@@ -34,19 +34,19 @@ NAME = minishell
 HEADER = mini_shell.h
 
 
-# READLINE_L = $(shell brew --prefix readline)/lib 
-# READLINE_I = $(shell brew --prefix readline)/include
+READLINE_L = $(shell brew --prefix readline)/lib 
+READLINE_I = $(shell brew --prefix readline)/include
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline $^ -o $(NAME) 
+	$(CC) -lreadline -L ${READLINE_L} $^ -o $(NAME) 
 
 get_next_line/%.o:get_next_line/%.c get_next_line/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o:%.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I ${READLINE_I} -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
