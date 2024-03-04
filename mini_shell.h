@@ -13,7 +13,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <termios.h>
-#include "get_next_line/get_next_line.h"
+#include <dirent.h>
+#include <signal.h>
 
 #define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
@@ -106,6 +107,7 @@ t_btree *parse_pipe(t_list **root);
 t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char *get_next_line(int fd);
 char *ft_strjoin(char const *s1, char const *s2);
 char *ft_substr(char const *s, unsigned int start, size_t len);
@@ -158,6 +160,7 @@ void failing_err(int failed);
 // CODE
 void executing(t_btree *exec_tree, t_listt *env, s_lol *s);
 void handle_cmd_not_found(char *cmd);
+t_btree *check_wild_card(char *str);
 
 // EXECUTION
 void execute_or_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
@@ -175,6 +178,11 @@ int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code);
 void print_down_tree(t_btree *root);
+
+// Wild card
+void handle_wild(t_btree *exec_tree, int status_code);
+t_btree *check_wild_card(char *str);
+char *match(char *file_name, char *pattern);
 
 
 t_btree *lst_last_tree(t_btree *root);

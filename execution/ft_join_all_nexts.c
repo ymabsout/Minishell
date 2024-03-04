@@ -80,6 +80,7 @@ static void expand_double_quote(t_btree *exec_tree, int status_code)
     free(exec_tree->item);
     exec_tree->item = buffer;
     expand_dollar_sign(exec_tree, status_code);
+
 }
 
 static char *ft_joinAllDowns(t_btree *exec_tree, int status_code)
@@ -128,14 +129,14 @@ static void free_nexts(t_btree *exec_tree)
 
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code)
 {
+    t_btree *curr;
     char **cmd;
     int next_size;
-    t_btree *next;
-    t_btree *curr;
     int i;
 
+    handle_wild(exec_tree, status_code);
     next_size = ft_size(exec_tree);
-    cmd = (char **)malloc((sizeof(char *) * next_size) + 1);
+    cmd = (char **)malloc((sizeof(char *) * (next_size + 1)));
     if (!cmd)
         return (NULL);
     curr = exec_tree;
@@ -145,10 +146,31 @@ char **ft_join_all_nexts(t_btree *exec_tree, int status_code)
         cmd[i] = malloc(ft_strlen(curr->item) + 1);
         if (!cmd[i])
             return (free_double(cmd), NULL);
-        cmd[i] = ft_strdup(ft_joinAllDowns(curr, status_code));
+        cmd[i] = ft_strdup(curr->item);
         curr = curr->next;
     }
     free_nexts(exec_tree->next);
     cmd[i] = NULL;
     return (cmd);
 }
+
+
+
+
+//echo *.md
+// echo built*
+// echo oi*
+// echo *.supp
+// echo 'bye *' bo*s bye
+// echo 'bye *' mini* bye
+// echo *ME*
+// echo "*"
+// "*"
+// manual*
+// echo * | awk -v RS=" " '{print}' | sort
+// <*.txt
+// echo 'bye *' t*.c bye
+// echo *EMPTY hello READ* world
+// cat <README*
+// echo "pip*"
+// echo *bonus *.supp bonjour

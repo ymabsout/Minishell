@@ -58,7 +58,7 @@ static void create_string(t_btree *exec_tree, char **string)
         l_s++;
     while (string[r_s])
         r_s++;
-    arr = malloc((sizeof(char *) * (l_s + r_s)) + 1);
+    arr = malloc((sizeof(char *) * (l_s + r_s + 1)));
     if (!arr)
     {
         exec_tree->string = NULL;

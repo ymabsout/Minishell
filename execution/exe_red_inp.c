@@ -51,7 +51,7 @@ static void create_string(t_btree *exec_tree, char **string)
         l_s++;
     while (string[r_s])
         r_s++;
-    arr = malloc((sizeof(char *) * (l_s + r_s)) + 1);
+    arr = malloc((sizeof(char *) * (l_s + r_s + 1)));
     if (!arr)
     {
         exec_tree->string = NULL;
@@ -77,7 +77,10 @@ void execute_red_input(t_btree *exec_tree, t_listt *env, s_lol *s)
         return (special_case(exec_tree, env, s));
     fd = open_input_file(exec_tree->right, s->status_code);
     if (fd < 0)
+    {
+        s->status_code = 1;
         return ;
+    }
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
     {
         exec_tree->left->pipe_write_end = exec_tree->pipe_write_end;
