@@ -33,10 +33,14 @@ OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h
 
+
+# READLINE_L = $(shell brew --prefix readline)/lib 
+# READLINE_I = $(shell brew --prefix readline)/include
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline  $^ -o $(NAME) 
+	$(CC) -lreadline $^ -o $(NAME) 
 
 get_next_line/%.o:get_next_line/%.c get_next_line/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
