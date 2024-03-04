@@ -15,6 +15,9 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 	lib/ft_lstmap.c lib/ft_lstnew.c lib/ft_lstsize.c lib/ft_split.c lib/ft_strncmp.c lib/ft_isalpha.c\
 	lib/ft_atoi.c lib/ft_strtrim.c lib/ft_strnstr.c
 
+PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c parsing/quote_handler.c\
+	parsing/type_giver.c
+
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c \
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
 
@@ -22,11 +25,12 @@ EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c executi
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c execution/exe_red_out.c\
 	execution/exe_and_op.c execution/exe_or_op.c execution/exe_sub_shell.c execution/exe_built_in.c\
 	execution/exe_heredoc.c
+PRINT=list_print.c
 
 WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c
 	execution/wild_cards/match.c
-
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE)
+ 
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(PARSING) $(PRINT)
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
 HEADER = mini_shell.h
@@ -38,7 +42,7 @@ READLINE_I = $(shell brew --prefix readline)/include
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -lreadline $(CFLAGS) -L ${READLINE_L} $^ -o $(NAME) 
+$(CC) -lreadline $(CFLAGS) -L ${READLINE_L} $^ -o $(NAME) 
 
 %.o:%.c $(HEADER)
 	$(CC) $(CFLAGS) -I ${READLINE_I} -c $< -o $@

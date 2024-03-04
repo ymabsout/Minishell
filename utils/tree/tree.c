@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
 /*   Updated: 2024/03/02 23:48:44 by smoumni          ###   ########.fr       */
@@ -15,6 +15,8 @@
 void print_next_tree(t_btree *root){
     while (root)
     {
+        if (root->down)
+            print_down_tree(root->down);
         printf("Next is ->:%s\n", root->item);
         if (root->down)
             print_down_tree(root);
@@ -34,6 +36,11 @@ t_btree *lstaddback_tree(t_btree *root, t_btree *leaf)
 {
     t_btree *holder;
 
+    if (!root)
+    {
+        root = leaf;
+        return (root);
+    }
     holder = root;
     while (root && root->next)
         root = root->next;
@@ -66,6 +73,7 @@ void print_tree(t_btree *root) {
     print_tree(root->right);
 }
 
+
 void add_down_tree(t_list *root, t_btree **leaf)
 {
     t_btree * hold;
@@ -87,8 +95,10 @@ t_btree *duplicate_for_tree(t_list *root)
     if (!node)
         return (NULL);
     ft_memset(node , 0, sizeof(t_btree));
-    node->item = ft_strdup(root->content);
+    node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
+    // free(root->content);
+    // free(root);
     return (node);
 }
 
@@ -155,8 +165,6 @@ t_btree *parse_heredoc_append(t_list **root)
     {
         token = duplicate_for_tree(*root);
         (*root) = (*root)->next;
-        if(!(*root))
-            return (NULL);
         tmp1 = parse_cmd(root);
         tmp2 = tmp;
         if (!tmp1 || (tmp && !(tmp1->typeofcontent & (token_word | token_quote))))
@@ -177,9 +185,9 @@ t_btree *parse_cmd(t_list **root)
     t_btree *tmp2;
 
     tmp = NULL;
-    if ((*root) && (*root)->typeofcontent & (token_word | token_quote))
+    while ((*root) && (*root)->typeofcontent & (token_word | token_quote))
     {
-        tmp = duplicate_for_tree(*root);
+        tmp = lstaddback_tree(tmp, duplicate_for_tree(*root));
         if ((*root)->down)
             add_down_tree((*root)->down, &tmp);
         (*root) = (*root)->next;
@@ -206,19 +214,8 @@ t_btree *parse_cmd(t_list **root)
         }
         (*root) = (*root)->next;
         tmp->flag_subshell = 1;
-        return (tmp);
     }
-    // if ((*root)->typeofcontent & token_par_out)
-    // {
-    //     printf("Syntax error near %s\n", (*root)->content);
-    //         exit (EXIT_FAILURE);
-    // }
-    return (NULL);
-    // else
-    // {
-    //     printf("expected word , got %s\n", (*root)->content);
-    //     exit(EXIT_FAILURE);
-    // }
+    return (tmp); // return the command node; or NULL if nothing matches!
 }
 
 t_btree *lst_last_tree(t_btree *root)
