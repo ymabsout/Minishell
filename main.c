@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/04 22:23:12 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:44:56 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ int main (int ac, char *av[], char **env)
     s_lol s;
     (void)av;
     
+    // char *salah = ft_strdup("salah");
+    // while (1)
+    // {
+    //     printf("%s\n", salah);
+    // }
+
     if (ac != 1) 
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
