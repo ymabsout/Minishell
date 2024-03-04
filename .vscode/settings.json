@@ -2,6 +2,11 @@
     "files.associations": {
         "ios": "c",
         "locale": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "array": "c",
+        "iterator": "c",
+        "string": "c",
+        "string_view": "c",
+        "vector": "c"
     }
 }
