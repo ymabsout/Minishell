@@ -60,7 +60,12 @@ typedef struct s_listt
     void *content;
 } t_listt;
 
-typedef struct t_lol {
+// struct
+typedef struct s_quote
+{
+    int dbl;
+    int sgl;
+}   t_data_q;typedef struct t_lol {
     int status_code;
     pid_t pids;
 } s_lol;
@@ -187,5 +192,40 @@ char *match(char *file_name, char *pattern);
 
 
 t_btree *lst_last_tree(t_btree *root);
+
+// LEAKS
+void lst_clear(t_list **root);
+
+// TREE_PRINT || LIST_PRINT
+void print_next_tree(t_btree *root);
+void print_down_tree(t_btree *root);
+void print_tree(t_btree *root);
+
+void printdownlist(t_list *root);
+void printlist(t_list *root, int a);
+
+
+void	lst_addback(t_list **lst, t_list *new);
+
+//PARSING
+void *tokenize_lex(char *cmd);
+int delimeter(int c);
+void *set_correct_follow(t_list *root, int numb);
+void *set_correct_type(t_list *root, int numb);
+int db_sl_quote(int c);
+void *get_cmd_back(char *cmd, int index, t_list **root, int type);
+void *update_trackers(char *cmd, int index, t_data_q * track);
+void *get_quotes(t_list **root, char *cmd, int index);
+t_list *repair_list(t_list *root);
+void *parsing(char *input);
+void *dbl_sgl_handle(t_list **root, char *cmd, int *index);
+void *handle_delimeter(char *cmd, t_list **root, int *index,  int *track);
+void *delim_follows(char *cmd, t_list **root, int *index, int *track);
+void *statement_delim(char *cmd, int *index, int *track, t_list **root);
+void *white_space_handle(char *cmd, int *index, t_list **root);
+void *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
+void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
+void *cmd_parse(t_list **root, t_list **new_list, int *track);
+
 
 #endif
