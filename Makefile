@@ -30,7 +30,7 @@ PRINT=list_print.c
 WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c\
 	execution/wild_cards/match.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS)
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING)
 
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
@@ -39,11 +39,10 @@ HEADER = mini_shell.h
 READLINE_L = $(shell brew --prefix readline)/lib 
 READLINE_I = $(shell brew --prefix readline)/include
 
-
 all: $(NAME)
 
 $(NAME): $(OBJS)
-$(CC) -lreadline $(CFLAGS) -L ${READLINE_L} $^ -o $(NAME) 
+	$(CC) -lreadline $(CFLAGS) -L ${READLINE_L} $^ -o $(NAME) 
 
 %.o:%.c $(HEADER)
 	$(CC) $(CFLAGS) -I ${READLINE_I} -c $< -o $@
