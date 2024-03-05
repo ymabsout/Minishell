@@ -24,7 +24,7 @@ void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
         close(fd[0]);
         executing(exec_tree->left, env, s);
         while (wait(0) != -1);
-        exit(0);
+        exit(s->status_code);
     }
     else
     {
@@ -41,7 +41,7 @@ void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
     {
         executing(exec_tree->right, env, s);
         while (wait(0) != -1);
-        exit(0);
+        exit(s->status_code);
     }   
     else
     {

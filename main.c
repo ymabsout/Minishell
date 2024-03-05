@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 20:38:46 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/05 23:10:58 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int main (int ac, char *av[], char **env)
     while (1)
     {
         handle_signal();
-        input = readline(">_:");
-        if (!input)
-            return (printf("exit\n"), s.status_code);
+        input = readline(">_: ");
         if (received_signal == 2)
             (received_signal = 0, s.status_code = 1);
+        if (!input)
+            return (printf("exit\n"), s.status_code);
         keep = ft_strtrim(input, " ");
         if (keep && keep[0])
         {

@@ -18,6 +18,8 @@
 #define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 int received_signal;
+//zaba w chta saba 
+//yassine wjah swa 
 typedef struct s_list
 {
     char *content;
