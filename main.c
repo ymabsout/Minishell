@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 23:10:58 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/05 23:31:15 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void *parsing(char *input)
     cmd = ft_strdup(input);
     saved_list = tokenize_lex(cmd);
     if (!saved_list)
-        return (free(cmd), NULL);
+        return (NULL);
     cleared_list = repair_list(saved_list);
     if (!cleared_list)
         return (lst_clear(&saved_list), NULL);
