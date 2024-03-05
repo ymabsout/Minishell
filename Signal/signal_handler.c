@@ -15,7 +15,20 @@ void handle_signal()
     signal(SIGINT, handle_ctrl_c);
 }
 
+// void child_ctrl()
+// {
+//     printf("\n");
+// }
+
+void sig_def()
+{
+    signal(SIGINT, SIG_IGN);
+    // signal(SIGINT, child_ctrl);
+    signal(SIGQUIT, SIG_IGN);
+}
 void return_def()
 {
+    signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
+    // signal(SIGQUIT, sig_def);
 }

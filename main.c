@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 18:34:11 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/05 20:38:46 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void *parsing(char *input)
     if (!cleared_list)
         return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
-    // printlist(cleared_list, 1);
     saved_list = cleared_list;
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
@@ -67,7 +66,7 @@ int main (int ac, char *av[], char **env)
         if (received_signal == 2)
             (received_signal = 0, s.status_code = 1);
         keep = ft_strtrim(input, " ");
-        if (keep[0] && keep)
+        if (keep && keep[0])
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
@@ -76,13 +75,25 @@ int main (int ac, char *av[], char **env)
             {
                 return_def();
                 executing(exec_tree, root_env, &s);
+                sig_def();
+                if (waitpid(s.pids, &s.status_code, 0) != -1)
+                {
+                    if (WIFSIGNALED(s.status_code))
+                    {
+                        s.status_code = WTERMSIG(s.status_code) + 128;
+                        if (s.status_code == 131)
+                            printf("Quit: %d\n", WTERMSIG(s.status_code));
+                        else if (s.status_code == 130)
+                            printf("\n");
+                    }
+                    else
+                        s.status_code = WEXITSTATUS(s.status_code);
+                }
+                while (waitpid(-1, 0, 0) != -1)
+                    ;
+                // printf("StatusCode: [%d]\n", s.status_code);
             }
             // Handle cat | cat | ls last child waiting on him!
-            if (waitpid(s.pids, &s.status_code, 0) != -1)
-                s.status_code = WEXITSTATUS(s.status_code);
-            while (waitpid(-1, 0, 0) != -1)
-                ;
-            printf("StatusCode: [%d]\n", s.status_code);
         }
         add_history(input);
         free(input);

@@ -212,7 +212,7 @@ void printlist(t_list *root, int a);
 void handle_signal();
 void return_def();
 void handle_ctrl_d();
-
+void sig_def();
 void	lst_addback(t_list **lst, t_list *new);
 
 //PARSING
