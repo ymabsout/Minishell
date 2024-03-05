@@ -15,9 +15,9 @@
 #include <termios.h>
 #include <dirent.h>
 #include <signal.h>
-
 #define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
+int received_signal;
 typedef struct s_list
 {
     char *content;
@@ -200,10 +200,13 @@ void lst_clear(t_list **root);
 void print_next_tree(t_btree *root);
 void print_down_tree(t_btree *root);
 void print_tree(t_btree *root);
-
 void printdownlist(t_list *root);
 void printlist(t_list *root, int a);
 
+//signal
+void handle_signal();
+void return_def();
+void handle_ctrl_d();
 
 void	lst_addback(t_list **lst, t_list *new);
 
