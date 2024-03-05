@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo_built_In.c                                    :+:      :+:    :+:   */
+/*   echo_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:51:38 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/10 22:49:25 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/05 00:07:00 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int echo_built_in(char **cmd)
 
     if (!cmd[1])
         return (ft_putstr_fd("\n", 1), 0);
-    if (!ft_strncmp(cmd[1], "-n", ft_strlen(cmd[1])))
+    if (!ft_strncmp(cmd[1], "-n", ft_strlen("-n") + 1))
         new_line = 0;
     else
         new_line = 1;
