@@ -52,6 +52,8 @@ typedef struct s_tree
     int stdin;
     int stdout;
     int stderr;
+
+    //
 } t_btree;
 
 typedef struct s_listt
@@ -181,14 +183,17 @@ void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
-char **ft_join_all_nexts(t_btree *exec_tree, int status_code);
-char *ft_joinAllDowns(t_btree *exec_tree, int status_code);
+char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env);
+char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env);
 void print_down_tree(t_btree *root);
 
 // Wild card
-void handle_wild(t_btree *exec_tree, int status_code);
+void handle_wild(t_btree *exec_tree, int status_code, t_listt *env);
 t_btree *check_wild_card(char *str);
 char *match(char *file_name, char *pattern);
+
+void expand_single_quote(t_btree *exec_tree);
+void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 
 
 t_btree *lst_last_tree(t_btree *root);

@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/04 22:44:56 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:58:47 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int main (int ac, char *av[], char **env)
     if (ac != 1) 
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
+    s.status_code = 0;
     input = NULL;   
     while (1)
     {
