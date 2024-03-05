@@ -43,26 +43,6 @@ void *parsing(char *input)
     return (rootoftree);
 }
 
-void handle_ctrl_d()
-{
-    printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
-
-void handle_signal()
-{
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGINT, handle_ctrl_d);
-}
-
-// void return_def()
-// {
-//     signal(SIGQUIT, SIGQUIT);
-// }
-
-
  // syntax error should be exit_status 258
 int main (int ac, char *av[], char **env)
 {
@@ -72,36 +52,31 @@ int main (int ac, char *av[], char **env)
     t_listt *root_env;
     s_lol s;
     (void)av;
-    
-    // char *salah = ft_strdup("salah");
-    // while (1)
-    // {
-    //     printf("%s\n", salah);
-    // }
 
-    if (ac != 1) 
+    if (ac != 1)
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
     s.status_code = 0;
     input = NULL;   
     while (1)
     {
-        // handle_signal();
+        handle_signal();
         input = readline(">_:");
         if (!input)
             return (printf("exit\n"), s.status_code);
+        if (received_signal == 2)
+            (received_signal = 0, s.status_code = 1);
         keep = ft_strtrim(input, " ");
         if (keep[0] && keep)
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
                 (printf("Parsing Error\n"), s.status_code = 258);
-            // executing(exec_tree, root_env);
-            // while (wait(0) != -1);
         }
         add_history(input);
         if (exec_tree)
         {
+            return_def();
             executing(exec_tree, root_env, &s);
         }
         // Handle cat | cat | ls last child waiting on him!

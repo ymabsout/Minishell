@@ -18,7 +18,7 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c parsing/quote_handler.c\
 	parsing/type_giver.c
 
-UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c \
+UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c\
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
 
 EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c execution/exe_red_inp.c\
@@ -32,7 +32,9 @@ PRINT=list_print.c
 WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c\
 	execution/wild_cards/match.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING)
+SIGNAL=Signal/signal_handler.c
+
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(SIGNAL)
 
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
