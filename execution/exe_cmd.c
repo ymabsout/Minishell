@@ -47,6 +47,7 @@ void execute_left_cmd(t_btree *exec_tree, t_listt *env)
         close(exec_tree->pipe_read_end);
     if (exec_tree->pipe_write_end != 0)
         close(exec_tree->pipe_write_end);
+    // system("lsof -c minishell");
     if (execve(cmd_path, exec_tree->string, envs) == -1)
         handle_cmd_not_found(exec_tree->string[0]);
 }
@@ -74,7 +75,9 @@ void execute_right_cmd(t_btree *exec_tree, t_listt *env)
     if (exec_tree->pipe_read_end != 0)
         close(exec_tree->pipe_read_end);
     if (exec_tree->pipe_write_end != 0)
-        close(exec_tree->pipe_write_end);        
+        close(exec_tree->pipe_write_end);
+    // system("lsof -c minishell");
+        
     if (execve(cmd_path, exec_tree->string, envs) == -1)
         handle_cmd_not_found(exec_tree->string[0]);
 }
@@ -91,6 +94,7 @@ void execute_solo_cmd(t_btree *exec_tree, t_listt *env)
     if (!cmd_path)
         handle_cmd_not_found(exec_tree->string[0]);
     envs = env_double_pointer(env);
+    // system("lsof -c minishell");
     if (execve(cmd_path, exec_tree->string, envs) == -1)
         handle_cmd_not_found(exec_tree->string[0]);
 }
@@ -100,15 +104,15 @@ void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
     pid_t pid;
 
     if (!(exec_tree->string))
-        exec_tree->string =  ft_join_all_nexts(exec_tree, s->status_code);
+        exec_tree->string =  ft_join_all_nexts(exec_tree, s->status_code, env);
     if (execute_built_in(exec_tree, env, s))
         return ;
-    failing_err((pid = fork()));
-    if (pid)
-    {
-        s->pids = pid;
-        return ;
-    }
+    // failing_err((pid = fork()));
+    // if (pid)
+    // {
+    //     s->pids = pid;
+    //     return ;
+    // }
     if (exec_tree->ln)
         execute_left_cmd(exec_tree, env);
     if (exec_tree->rn)

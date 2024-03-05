@@ -1,6 +1,6 @@
 #include "../mini_shell.h"
 
-static int read_stdin(t_btree *exec_tree, int status_code)
+static int read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
 {
     char *line;
     char *str;
@@ -11,7 +11,7 @@ static int read_stdin(t_btree *exec_tree, int status_code)
     fd = open("/tmp/heredoc_file", O_CREAT | O_WRONLY, 0644);
     if (fd < 0)
         return (fd);
-    exec_tree->string = ft_join_all_nexts(exec_tree, status_code);
+    exec_tree->string = ft_join_all_nexts(exec_tree, status_code, env);
     delimiter = exec_tree->string[0];
     while (1)
     {
@@ -63,7 +63,7 @@ static void special_case(t_btree *exec_tree, t_listt *env, s_lol *s)
     int fd;
     char *file;
 
-    fd = read_stdin(exec_tree->right, s->status_code);
+    fd = read_stdin(exec_tree->right, s->status_code, env);
     if (fd < 0)
         return ;
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
@@ -92,7 +92,7 @@ void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s)
 
     if (exec_tree->left == NULL)
         return (special_case(exec_tree, env, s));
-    fd = read_stdin(exec_tree->right, s->status_code);
+    fd = read_stdin(exec_tree->right, s->status_code, env);
     if (fd < 0)
         return ;
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
@@ -102,7 +102,7 @@ void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s)
     }
     file = exec_tree->right->string[0];
     free(file);
-    exec_tree->left->string = ft_join_all_nexts(exec_tree->left, s->status_code);
+    exec_tree->left->string = ft_join_all_nexts(exec_tree->left, s->status_code, env);
     create_string(exec_tree->left, exec_tree->right->string + 1);
     if (exec_tree->stdin != 0)
         exec_tree->left->stdin = exec_tree->stdin;
