@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/04 22:58:47 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:34:11 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,21 @@ int main (int ac, char *av[], char **env)
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
                 (printf("Parsing Error\n"), s.status_code = 258);
+            if (exec_tree)
+            {
+                return_def();
+                executing(exec_tree, root_env, &s);
+            }
+            // Handle cat | cat | ls last child waiting on him!
+            if (waitpid(s.pids, &s.status_code, 0) != -1)
+                s.status_code = WEXITSTATUS(s.status_code);
+            while (waitpid(-1, 0, 0) != -1)
+                ;
+            printf("StatusCode: [%d]\n", s.status_code);
         }
         add_history(input);
-        if (exec_tree)
-        {
-            return_def();
-            executing(exec_tree, root_env, &s);
-        }
-        // Handle cat | cat | ls last child waiting on him!
-        if (waitpid(s.pids, &s.status_code, 0) != -1)
-            s.status_code = WEXITSTATUS(s.status_code);
-        while (waitpid(-1, 0, 0) != -1)
-            ;
-        printf("StatusCode: [%d]\n", s.status_code);
+        free(input);
+        free(keep);
     }
 }
 /// $(pwd)
