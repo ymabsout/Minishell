@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 00:34:47 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 00:17:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 
 char	*ft_strchr(char *s, int c)
 {
-	size_t				i;
+	int				i;
 	unsigned char		*str;
 
 	if (!s[0] && c == '\0')

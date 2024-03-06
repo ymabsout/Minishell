@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/01 20:28:50 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/05 23:52:11 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,6 @@ t_list *duplicate_node(t_list *root)
 	return (new);
 }
 
-void deletenode(t_list *holder, t_list *node_delete)
-{
-	t_list *next_curr;
-
-	if (node_delete->next)
-		next_curr = node_delete->next;
-	(free(node_delete), node_delete = NULL);
-	holder->next = next_curr;
-}
 
 void clear_down(t_list **root)
 {

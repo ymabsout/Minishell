@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_built_in.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:30:50 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/03 19:44:38 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/05 23:51:44 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ static void export_plus(t_listt **head_env, char *env_var)
 
 int export_built_in(char **cmd, t_listt **head_env)
 {
-    t_listt *node;
     int status_code;
     int i;
     int is_plus;

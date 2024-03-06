@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 09:57:00 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/02 16:49:05 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 00:17:02 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, int dstsize)
 {
-	size_t	i;
-	size_t	src_len;
-	size_t	dst_len;
+	int	i;
+	int	src_len;
+	int	dst_len;
 
 	i = 0;
 	src_len = ft_strlen(src);
