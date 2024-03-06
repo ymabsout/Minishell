@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 02:30:15 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/06 02:52:31 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int main (int ac, char *av[], char **env)
             if (exec_tree)
             {
                 get_here_doc(exec_tree, s.status_code, root_env);
-                print_tree(exec_tree);
                 return_def();
                 executing(exec_tree, root_env, &s);
                 sig_def();

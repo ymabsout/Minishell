@@ -14,16 +14,13 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     index++;
     filetoconvert = ft_strjoin("/tmp/", ft_strjoin(exec_tree->right->item, index_of_file));
     unlink(filetoconvert);
-    // printf("%s\n", filetoconvert);
     fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
     if (fd < 0)
         return ;
-    // exec_tree->right->string = ft_join_all_nexts(exec_tree->right, status_code, env);)
     delimiter = exec_tree->right->item;
     while (1)
     {
         line = readline("> ");
-        printf("%s\n", delimiter);
         if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
         {
             break ;
@@ -35,7 +32,6 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     close(fd);
     free(exec_tree->right->item);
     exec_tree->right->item = ft_strdup (filetoconvert);
-    printf("%s\n", exec_tree->item);
     free(filetoconvert);
 }
 
