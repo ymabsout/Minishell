@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 02:52:31 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/06 22:12:41 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int main (int ac, char *av[], char **env)
         if (!input)
             return (printf("exit\n"), s.status_code);
         keep = ft_strtrim(input, " ");
-        if (keep && keep[0])
+        while (keep && keep[0])
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
@@ -84,6 +84,12 @@ int main (int ac, char *av[], char **env)
             if (exec_tree)
             {
                 get_here_doc(exec_tree, s.status_code, root_env);
+                if (received_signal == -1)
+                {
+                    received_signal = 0;
+                    s.status_code = 1;
+                    break ;
+                }
                 return_def();
                 executing(exec_tree, root_env, &s);
                 sig_def();
@@ -104,6 +110,7 @@ int main (int ac, char *av[], char **env)
                     ;
                 // printf("StatusCode: [%d]\n", s.status_code);
             }
+            break ;
             // Handle cat | cat | ls last child waiting on him!
         }
         add_history(input);

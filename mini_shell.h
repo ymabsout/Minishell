@@ -242,6 +242,7 @@ void *white_space_handle(char *cmd, int *index, t_list **root);
 void *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
 void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
 void *cmd_parse(t_list **root, t_list **new_list, int *track);
+void signal_heredoc(); //remove
 
 
 #endif

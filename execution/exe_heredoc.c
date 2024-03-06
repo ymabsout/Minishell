@@ -9,7 +9,9 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     int fd;
     char *filetoconvert;
     char *index_of_file;
+    int fd1_copy_0;
 
+    fd1_copy_0 = dup(STDIN_FILENO);
     index_of_file = ft_itoa(index);
     index++;
     filetoconvert = ft_strjoin("/tmp/", ft_strjoin(exec_tree->right->item, index_of_file));
@@ -18,10 +20,11 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     if (fd < 0)
         return ;
     delimiter = exec_tree->right->item;
-    while (1)
+    while (!received_signal && isatty(STDIN_FILENO))
     {
-        line = readline("> ");
-        if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
+        signal_heredoc();
+        line = readline(">_heredoc:");
+        if (!line || !ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
         {
             break ;
         }
@@ -29,9 +32,12 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
         free(line);
         write(fd, str, ft_strlen(str));
     }
+    puts("test");
     close(fd);
     free(exec_tree->right->item);
     exec_tree->right->item = ft_strdup (filetoconvert);
+    dup2(fd1_copy_0, 0);
+    close(fd1_copy_0);
     free(filetoconvert);
 }
 
