@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -fsanitize=address -g
+# CFLAGS = -fsanitize=address -g
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c
@@ -19,12 +19,12 @@ PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c pa
 	parsing/type_giver.c
 
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c\
-	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c
+	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c
 
 EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c execution/exe_red_inp.c\
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c execution/exe_red_out.c\
 	execution/exe_and_op.c execution/exe_or_op.c execution/exe_sub_shell.c execution/exe_built_in.c\
-	execution/exe_heredoc.c execution/ft_join_all_downs.c execution/expand.c\
+	execution/exe_heredoc.c execution/ft_join_all_downs.c execution/expand_double_quote.c execution/expand_single_quote.c\
 	execution/exe_heredoc.c
 
 PRINT=list_print.c

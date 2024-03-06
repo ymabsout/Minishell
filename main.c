@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 23:31:15 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:57:32 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 //ls && (ls) ls handle cmd after subshell
 // ls && >>f
 //>_:hello"test"yy'tt' world
+
+void f ()
+{
+    system("leaks minishell");
+}
 
 void *parsing(char *input)
 {
@@ -41,8 +46,8 @@ void *parsing(char *input)
     lst_clear (&saved_list);
     return (rootoftree);
 }
-
  // syntax error should be exit_status 258
+
 int main (int ac, char *av[], char **env)
 {
     char *input;

@@ -18,7 +18,7 @@ static int read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
         line = readline("> ");
         if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
             break ;
-        str = ft_strjoin(line, "\n");
+        str = ft_strjoin(line, "\n"); 
         free(line);
         write(fd, str, ft_strlen(str));
     }

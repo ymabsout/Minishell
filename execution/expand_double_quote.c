@@ -1,17 +1,34 @@
 #include "../mini_shell.h"
 
-// static char *get_my_env()
-// {
-//     ∆
-// }
+static void get_my_env(t_listt *envs, char **env_str)
+{
+    char *wr;
+    char **arr;
+
+    while (envs)
+    {
+        wr = ft_strnstr(envs->content, *env_str, ft_strlen(*env_str));
+        if (wr)
+            break ;
+        envs = envs->next;
+    }
+    free(*env_str);
+    if (wr)
+    {
+        arr = ft_split(wr, '=');
+        *env_str = ft_strdup(arr[1]);
+        free_double(arr);
+    }
+    *env_str = ft_strdup("");
+}
 
 static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
 {
     int i;
     char *env;
     char *first_part;
-    char *j;
-    char  **arr;
+    char *full;
+    char *final;
 
     i = 0;
     while (++i)
@@ -19,24 +36,12 @@ static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
             break ;
     first_part = ft_substr(complete_str, 0, del);
     env = ft_substr(str, 1, i - 1);
-    char *lol;
-    while (envs)
-    {
-        lol = ft_strnstr(envs->content, env, ft_strlen(env));
-        if (lol)
-            break ;
-        envs = envs->next;
-    }
-    if (!lol)
-        env = ft_strdup("");
-    else
-    {
-        arr = ft_split(lol, '=');
-        env = ft_strdup(arr[1]);
-        free_double(arr);
-    }
-    j = ft_strjoin(first_part, env);
-    char *final = ft_strjoin(j, &str[i]);
+    get_my_env(envs, &env);
+    full = ft_strjoin(first_part, env);
+    free(first_part);
+    free(env);
+    final = ft_strjoin(full, &str[i]);
+    free(full);
     free(complete_str);
     return (final);
 }
@@ -78,15 +83,6 @@ static void expand_dollar_sign(t_btree *exec_tree, int status_code, t_listt *env
                     exec_tree->item + i, i, status_code);
         }
     }
-}
-
-void expand_single_quote(t_btree *exec_tree)
-{
-    char *buffer;
-
-    buffer = ft_strtrim(exec_tree->item, "\'");
-    free(exec_tree->item);
-    exec_tree->item = buffer;
 }
 
 void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env)

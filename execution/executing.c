@@ -1,12 +1,20 @@
 
 #include "../mini_shell.h"
 
-void redirect_streams(t_btree *node)
+static void redirect_streams(t_btree *node)
 { 
     if (node->stdout == 0)
         node->stdout = 1;
     if (node->stderr == 0)
         node->stderr = 2;
+}
+
+static void free_tree(t_btree *tree)
+{
+    if (tree->string)
+        free_double(tree->string);
+    free(tree->item);
+    free(tree);
 }
 
 void  executing(t_btree *exec_tree, t_listt *env, s_lol *s)
@@ -31,4 +39,5 @@ void  executing(t_btree *exec_tree, t_listt *env, s_lol *s)
         execute_red_output(exec_tree, env, s, 0);
     else if (exec_tree->typeofcontent & (token_word | token_single_q | token_double_q))
         execute_cmd(exec_tree, env, s);
+    free_tree(exec_tree);
 }

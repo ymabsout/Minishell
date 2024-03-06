@@ -117,7 +117,6 @@ t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char *get_next_line(int fd);
 char *ft_strjoin(char const *s1, char const *s2);
 char *ft_substr(char const *s, unsigned int start, size_t len);
 char *ft_strdup(const char *s1);
@@ -175,9 +174,6 @@ t_btree *check_wild_card(char *str);
 void execute_or_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_and_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_pipe(t_btree *exec_tree, t_listt *env,  s_lol *s);
-void execute_left_cmd(t_btree *exec_tree, t_listt *env);
-void execute_right_cmd(t_btree *exec_tree, t_listt *env);
-void execute_solo_cmd(t_btree *exec_tree, t_listt *env);
 void execute_cmd(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_red_input(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_red_output(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
@@ -236,6 +232,8 @@ void *white_space_handle(char *cmd, int *index, t_list **root);
 void *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
 void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
 void *cmd_parse(t_list **root, t_list **new_list, int *track);
+
+void free_half_double(char **cmd, int i);
 
 
 #endif
