@@ -24,8 +24,8 @@ char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env)
             return (free(old_str), NULL);
         free(old_str);
         down = exec_tree->down;
-        free(exec_tree->item);
-        free(exec_tree);
+        // free(exec_tree->item);
+        // free(exec_tree);
         exec_tree = down;
     }
     return (str);

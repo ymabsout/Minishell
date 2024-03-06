@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 18:57:32 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 20:50:47 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,30 @@ void *parsing(char *input)
 }
  // syntax error should be exit_status 258
 
+static void free_tree(t_btree *tree)
+{
+    if (!tree)
+        return ;
+    
+    free_tree(tree->left);
+    free_tree(tree->right);
+    free_tree(tree->next);
+    free_tree(tree->down);
+    free_double(tree->string);
+    free(tree->item);
+    free(tree);
+} 
+
+void dl(void *content)
+{
+    free((char *)content);
+}
+
+void lol()
+{
+    system("leaks minishell");
+}
+
 int main (int ac, char *av[], char **env)
 {
     char *input;
@@ -56,6 +80,9 @@ int main (int ac, char *av[], char **env)
     t_listt *root_env;
     s_lol s;
     (void)av;
+
+    // testing leaks
+    atexit(lol);
 
     if (ac != 1)
         return (printf("error arguments\n"), 0);
@@ -69,7 +96,7 @@ int main (int ac, char *av[], char **env)
         if (received_signal == 2)
             (received_signal = 0, s.status_code = 1);
         if (!input)
-            return (printf("exit\n"), s.status_code);
+            return (printf("exit\n"), ft_lstclear(&root_env, dl), s.status_code);
         keep = ft_strtrim(input, " ");
         if (keep && keep[0])
         {
@@ -80,6 +107,7 @@ int main (int ac, char *av[], char **env)
             {
                 return_def();
                 executing(exec_tree, root_env, &s);
+                free_tree(exec_tree);
                 sig_def();
                 if (waitpid(s.pids, &s.status_code, 0) != -1)
                 {

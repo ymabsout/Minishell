@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 22:04:01 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/06 18:45:49 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 20:45:15 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void free_double(char **arr)
     int i;
 
     i = -1;
-    while (arr[++i])
+    while (arr && arr[++i])
         free(arr[i]);
     free(arr);
 }
