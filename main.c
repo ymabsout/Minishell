@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 23:31:15 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 02:30:15 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,19 @@ void *parsing(char *input)
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
         return (lst_clear(&cleared_list), NULL);
-    print_tree(rootoftree);
+    // print_tree(rootoftree);
     lst_clear (&saved_list);
     return (rootoftree);
+}
+
+void get_here_doc(t_btree *exec_tree, int status, t_listt *env)
+{
+    if (!exec_tree)
+        return ;
+    get_here_doc(exec_tree->left, status, env);
+    if (exec_tree->typeofcontent & token_red_here_doc)
+        read_stdin(exec_tree, status, env);
+    get_here_doc(exec_tree->right, status , env);
 }
 
  // syntax error should be exit_status 258
@@ -73,6 +83,8 @@ int main (int ac, char *av[], char **env)
                 (printf("Parsing Error\n"), s.status_code = 258);
             if (exec_tree)
             {
+                get_here_doc(exec_tree, s.status_code, root_env);
+                print_tree(exec_tree);
                 return_def();
                 executing(exec_tree, root_env, &s);
                 sig_def();

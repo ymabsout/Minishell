@@ -42,6 +42,8 @@ typedef struct s_tree
     struct s_tree *down;
     char *item;
 
+    //fd_heredoc
+    int fd_here;
     // PIPE
     int pipe_read_end;
     int pipe_write_end;
@@ -196,6 +198,10 @@ char *match(char *file_name, char *pattern);
 
 void expand_single_quote(t_btree *exec_tree);
 void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
+
+// HEREDOC
+void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
+void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 
 
 t_btree *lst_last_tree(t_btree *root);
