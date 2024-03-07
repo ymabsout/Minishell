@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/02 23:48:44 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/07 14:24:15 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_btree *parse_ampersand_or(t_list **root)
         tmp1 = parse_pipe(root);
         tmp2 = tmp;
         if (!tmp1)
-            return (NULL);
+            return (free_tree(tmp), NULL);
         token->left = tmp2;
         token->right = tmp1;
         tmp = token;

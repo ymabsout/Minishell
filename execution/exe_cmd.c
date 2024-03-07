@@ -116,8 +116,8 @@ void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
         exec_tree->string = ft_join_all_nexts(exec_tree, s->status_code, env);
     if (!(exec_tree->string[0]))
         return ;
-    // if (execute_built_in(exec_tree, env, s))
-    //     return ;
+    if (execute_built_in(exec_tree, env, s))
+        return ;
     if (!exec_tree->pipe_read_end && !exec_tree->pipe_read_end)
     {
         failing_err((pid = fork()));

@@ -19,7 +19,8 @@ PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c pa
 	parsing/type_giver.c
 
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c\
-	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c
+	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c\
+	utils/free_tree.c
 
 EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c execution/exe_red_inp.c\
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c execution/exe_red_out.c\

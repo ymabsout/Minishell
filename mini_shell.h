@@ -234,6 +234,7 @@ void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
 void *cmd_parse(t_list **root, t_list **new_list, int *track);
 
 void free_half_double(char **cmd, int i);
+void free_tree(t_btree *tree);
 
 
 #endif

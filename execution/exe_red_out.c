@@ -103,6 +103,6 @@ void execute_red_output(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
             exec_tree->left->stdout = fd;
         exec_tree->left->rn = 1;
         executing(exec_tree->left, env, s);
-    }
+    }	
     close(fd);
 }

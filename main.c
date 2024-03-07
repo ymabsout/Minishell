@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 20:50:47 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/07 14:34:44 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,12 @@ void *parsing(char *input)
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
         return (lst_clear(&cleared_list), NULL);
-    print_tree(rootoftree);
+    // print_tree(rootoftree);
     lst_clear (&saved_list);
     return (rootoftree);
 }
  // syntax error should be exit_status 258
 
-static void free_tree(t_btree *tree)
-{
-    if (!tree)
-        return ;
-    
-    free_tree(tree->left);
-    free_tree(tree->right);
-    free_tree(tree->next);
-    free_tree(tree->down);
-    free_double(tree->string);
-    free(tree->item);
-    free(tree);
-} 
 
 void dl(void *content)
 {
@@ -82,7 +69,7 @@ int main (int ac, char *av[], char **env)
     (void)av;
 
     // testing leaks
-    atexit(lol);
+    // atexit(lol);
 
     if (ac != 1)
         return (printf("error arguments\n"), 0);
