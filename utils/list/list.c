@@ -99,6 +99,7 @@ void lst_clear(t_list **root)
 	t_list *holder;
 	t_list *tmp;
 
+	(void)tmp;
 	while (*root)
 	{
 		holder = (*root)->next;

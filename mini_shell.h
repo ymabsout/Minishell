@@ -20,6 +20,7 @@
 int received_signal;
 //zaba w chta saba 
 //yassine wjah swa 
+
 typedef struct s_list
 {
     char *content;
@@ -97,7 +98,8 @@ enum token_type
     token_and_or = (token_ampersand | token_or),
     token_af_pipe = (token_pipe | token_and_or),
     token_meta = (token_pipe | token_red | token_and_or),
-    token_pth = (token_par_in | token_par_out)
+    token_pth = (token_par_in | token_par_out),
+    token_parse = (token_word | token_quote | token_red | token_pth)
 };
 
 char *ft_strchr(char *s, int c);
@@ -201,7 +203,8 @@ void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 
 // HEREDOC
 void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
-void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
+void routine_heredoc(int fd, char *delimiter);
+void *get_file(t_btree *ex_t);
 
 
 t_btree *lst_last_tree(t_btree *root);
@@ -219,9 +222,8 @@ void printlist(t_list *root, int a);
 //signal
 void handle_signal();
 void return_def();
-void handle_ctrl_d();
 void sig_def();
-void	lst_addback(t_list **lst, t_list *new);
+void lst_addback(t_list **lst, t_list *new);
 
 //PARSING
 void *tokenize_lex(char *cmd);

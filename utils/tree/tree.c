@@ -139,7 +139,8 @@ t_btree *parse_pipe(t_list **root)
         (*root) = (*root)->next;
         tmp1 = parse_heredoc_append(root);
         tmp2 = tmp;
-        if (!tmp1 || !(tmp1->typeofcontent & (token_word | token_quote | token_red | token_pth | token_and_or)))
+        if (!tmp1 \
+            || !(tmp1->typeofcontent & (token_parse | token_and_or)))
         {
             printf("Syntax error\n");
             return (NULL);

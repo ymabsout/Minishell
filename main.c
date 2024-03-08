@@ -63,11 +63,11 @@ int main (int ac, char *av[], char **env)
     (void)av;
     struct termios term;
 
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag = ~ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
     if (ac != 1)
         return (printf("error arguments\n"), 0);
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag = ~ECHOCTL; // removed every signal displayed on prompt 
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
     root_env = create_envs(env);
     s.status_code = 0;
     input = NULL;   
