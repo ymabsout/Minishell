@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:20:40 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/07 14:24:15 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/07 20:13:37 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void add_down_tree(t_list *root, t_btree **leaf)
 {
     t_btree * hold;
     hold = (*leaf);
-    printf("%s\n", hold->item);
+    // printf("%s\n", hold->item);
     while (root)
     {
         lstadd_down_tree(leaf, duplicate_for_tree(root));
@@ -117,7 +117,7 @@ t_btree *parse_ampersand_or(t_list **root)
         tmp1 = parse_pipe(root);
         tmp2 = tmp;
         if (!tmp1)
-            return (free_tree(tmp), NULL);
+            return (NULL);
         token->left = tmp2;
         token->right = tmp1;
         tmp = token;

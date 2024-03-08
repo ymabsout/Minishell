@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/07 14:34:44 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/08 01:47:46 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int main (int ac, char *av[], char **env)
     t_listt *root_env;
     s_lol s;
     (void)av;
-
     // testing leaks
     // atexit(lol);
 
@@ -109,9 +108,8 @@ int main (int ac, char *av[], char **env)
                     else
                         s.status_code = WEXITSTATUS(s.status_code);
                 }
-                while (waitpid(-1, 0, 0) != -1)
-                    ;
-                // printf("StatusCode: [%d]\n", s.status_code);
+                while (waitpid(-1, 0, 0) != -1);
+                printf("StatusCode: [%d]\n", s.status_code);
             }
             // Handle cat | cat | ls last child waiting on him!
         }

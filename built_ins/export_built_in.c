@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 19:30:50 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/03 19:44:38 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/07 18:57:06 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ static void export(t_listt **head_env, char *env_var)
     char **env_list;
     char **env_str;
 
-    printf("[%s]\n", env_var);
     curr = *head_env;
     while (curr)
     {

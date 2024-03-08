@@ -1,0 +1,16 @@
+Makefile
+README.md
+Signal
+built_ins
+code
+error
+execution
+f
+lib
+list_print.c
+main.c
+main.o
+mini_shell.h
+minishell
+parsing
+utils

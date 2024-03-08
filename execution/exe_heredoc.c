@@ -29,34 +29,34 @@ static int read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     return (fd);
 }
 
-static void create_string(t_btree *exec_tree, char **string)
-{
-    int l_s;
-    int r_s;
-    int i;
-    char **arr;
+// static void create_string(t_btree *exec_tree, char **string)
+// {
+//     int l_s;
+//     int r_s;
+//     int i;
+//     char **arr;
 
-    (l_s = 0, r_s = 0);
-    while (exec_tree->string[l_s])
-        l_s++;
-    while (string[r_s])
-        r_s++;
-    arr = malloc((sizeof(char *) * (l_s + r_s + 1)));
-    if (!arr)
-    {
-        exec_tree->string = NULL;
-        return ;
-    }
-    i = -1;
-    while (++i < l_s + r_s)
-    {
-        if (i < l_s)
-            arr[i] = exec_tree->string[i];
-        else
-            arr[i] = string[i - l_s];
-    }
-    (arr[i] = NULL, free(exec_tree->string), exec_tree->string = arr);
-}
+//     (l_s = 0, r_s = 0);
+//     while (exec_tree->string[l_s])
+//         l_s++;
+//     while (string[r_s])
+//         r_s++;
+//     arr = malloc((sizeof(char *) * (l_s + r_s + 1)));
+//     if (!arr)
+//     {
+//         exec_tree->string = NULL;
+//         return ;
+//     }
+//     i = -1;
+//     while (++i < l_s + r_s)
+//     {
+//         if (i < l_s)
+//             arr[i] = exec_tree->string[i];
+//         else
+//             arr[i] = string[i - l_s];
+//     }
+//     (arr[i] = NULL, free(exec_tree->string), exec_tree->string = arr);
+// }
 
 static void special_case(t_btree *exec_tree, t_listt *env, s_lol *s)
 {

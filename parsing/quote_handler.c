@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 21:34:58 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 21:35:21 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:19:04 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void *get_quotes(t_list **root, char *cmd, int index)
         update_trackers(cmd, index, &track);
     }
     if (track.sgl || track.dbl)
-        return(printf("Syntax Error\n"), NULL);
+        return(printf("Syntax Error\n"), free(cmd),  NULL);
     return (cmd);
 }
 

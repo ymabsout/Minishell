@@ -1,25 +1,27 @@
 #include "../mini_shell.h"
 
-static void get_my_env(t_listt *envs, char **env_str)
+static char *get_my_env(t_listt *envs, char *env_str)
 {
     char *wr;
     char **arr;
 
     while (envs)
     {
-        wr = ft_strnstr(envs->content, *env_str, ft_strlen(*env_str));
+        wr = ft_strnstr(envs->content, env_str, ft_strlen(env_str));
         if (wr)
             break ;
         envs = envs->next;
     }
-    free(*env_str);
+    free(env_str);
     if (wr)
     {
         arr = ft_split(wr, '=');
-        *env_str = ft_strdup(arr[1]);
+        env_str = ft_strdup(arr[1]);
         free_double(arr);
     }
-    *env_str = ft_strdup("");
+    else
+        env_str = ft_strdup("");
+    return (env_str);
 }
 
 static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
@@ -36,7 +38,7 @@ static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
             break ;
     first_part = ft_substr(complete_str, 0, del);
     env = ft_substr(str, 1, i - 1);
-    get_my_env(envs, &env);
+    env = get_my_env(envs, env);
     full = ft_strjoin(first_part, env);
     free(first_part);
     free(env);

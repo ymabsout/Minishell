@@ -164,6 +164,8 @@ int env_built_in(char **cmd, t_listt *head_env);
 
 // Error
 void failing_err(int failed);
+void fd_failure(char *file, int id, s_lol *s);
+int sys_failing(int err, char *fn, s_lol *s);
 
 // CODE
 void executing(t_btree *exec_tree, t_listt *env, s_lol *s);
@@ -176,7 +178,7 @@ void execute_and_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_pipe(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_cmd(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_red_input(t_btree *exec_tree, t_listt *env,  s_lol *s);
-void execute_red_output(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
+void execute_red(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
 void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
@@ -184,6 +186,10 @@ char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env);
 char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env);
 void print_down_tree(t_btree *root);
+
+// REDIRECTION
+int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env);
+void create_string(t_btree *exec_tree, char **string);
 
 // Wild card
 void handle_wild(t_btree *exec_tree, int status_code, t_listt *env);
