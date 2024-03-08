@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 23:31:15 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/08 03:18:36 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,19 @@ void *parsing(char *input)
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
         return (lst_clear(&cleared_list), NULL);
-    print_tree(rootoftree);
+    // print_tree(rootoftree);
     lst_clear (&saved_list);
     return (rootoftree);
+}
+
+void get_here_doc(t_btree *exec_tree, int status, t_listt *env)
+{
+    if (!exec_tree)
+        return ;
+    get_here_doc(exec_tree->left, status, env);
+    if (exec_tree->typeofcontent & token_red_here_doc)
+        read_stdin(exec_tree, status, env);
+    get_here_doc(exec_tree->right, status , env);
 }
 
  // syntax error should be exit_status 258
@@ -51,9 +61,13 @@ int main (int ac, char *av[], char **env)
     t_listt *root_env;
     s_lol s;
     (void)av;
+    struct termios term;
 
     if (ac != 1)
         return (printf("error arguments\n"), 0);
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag = ~ECHOCTL; // removed every signal displayed on prompt 
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
     root_env = create_envs(env);
     s.status_code = 0;
     input = NULL;   
@@ -66,13 +80,20 @@ int main (int ac, char *av[], char **env)
         if (!input)
             return (printf("exit\n"), s.status_code);
         keep = ft_strtrim(input, " ");
-        if (keep && keep[0])
+        while (keep && keep[0])
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
                 (printf("Parsing Error\n"), s.status_code = 258);
             if (exec_tree)
             {
+                received_signal = 0;
+                get_here_doc(exec_tree, s.status_code, root_env);
+                if (received_signal == -1)
+                {
+                    s.status_code = 1;
+                    break ;
+                }
                 return_def();
                 executing(exec_tree, root_env, &s);
                 sig_def();
@@ -93,6 +114,8 @@ int main (int ac, char *av[], char **env)
                     ;
                 // printf("StatusCode: [%d]\n", s.status_code);
             }
+            received_signal = 0;
+            break ;
             // Handle cat | cat | ls last child waiting on him!
         }
         add_history(input);

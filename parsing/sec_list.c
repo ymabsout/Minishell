@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:43:22 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 21:25:51 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/08 05:42:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void *cmd_parse(t_list **root, t_list **new_list, int *track)
 {
 	if ((*root)->typeofcontent & (token_word | token_quote))
 	{
-		if (lst_last((*new_list)) && lst_last((*new_list))->typeofcontent & token_par_out)
-			return (printf("Syntax error near \'%s'\n", (*root)->content), lst_clear(new_list), NULL);
+		if (lst_last((*new_list)) \
+			&& lst_last((*new_list))->typeofcontent & token_par_out)
+			return (printf("Syntax error near \'%s'\n", \
+				(*root)->content), lst_clear(new_list), NULL);
 		if ((*track) || lst_last((*new_list))->typeofcontent & token_meta)
 			lst_addback(new_list, duplicate_node((*root)));
 		else
@@ -33,13 +35,16 @@ void *meta_cmd_parser(t_list **root, t_list **new_list, int *track)
 {
 	if ((*root)->typeofcontent & token_meta)
 	{
-		if ((*new_list) && (*root)->typeofcontent & token_red && lst_last((*new_list))->typeofcontent & token_and_or)
+		if ((*new_list) && (*root)->typeofcontent & token_red \
+			&& lst_last((*new_list))->typeofcontent & token_and_or)
 			;
-		else if (((*new_list) && lst_last((*new_list))->typeofcontent & (token_red | token_and_or)) \
-			|| (*new_list) && lst_last((*new_list))->typeofcontent & token_pipe \
-			&& (*root)->typeofcontent & token_pipe || !(*root)->next \
+		else if (((*new_list) \
+			&& lst_last((*new_list))->typeofcontent & (token_red | token_and_or)) \
+			|| ((*new_list) && lst_last((*new_list))->typeofcontent & token_pipe \
+			&& (*root)->typeofcontent & token_pipe) || !(*root)->next \
 			|| (!(*new_list) && (*root)->typeofcontent & (token_pipe | token_and_or)))
-			return (printf("Syntax error near %s\n", (*root)->content), lst_clear(new_list),  NULL);
+			return (printf("Syntax error near %s\n", (*root)->content),\
+				 lst_clear(new_list),  NULL);
 		lst_addback(new_list, duplicate_node((*root)));
 		if (!(*track))
 			(*track) = 1;
@@ -54,9 +59,14 @@ void	*type_parser(t_list **root, t_list **new_list, int *track, int *pth)
 {
 	if ((*root)->typeofcontent & token_pth)
 	{
-		if (lst_last((*new_list)) && (lst_last((*new_list))->typeofcontent & token_par_out && ((*root)->typeofcontent & token_par_in)\
-			|| ((*root)->typeofcontent & token_par_in && !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or)))))
-			return (printf("syntax error neagr \'%s'\n", (*root)->content),  lst_clear(new_list), NULL);
+		if ((lst_last((*new_list)) \
+			&& (lst_last((*new_list))->typeofcontent & token_par_out)\
+			&& ((*root)->typeofcontent & token_par_in)) \
+    		|| (lst_last((*new_list)) \
+			&& ((*root)->typeofcontent & token_par_in) \
+			&& !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or))))
+			return (printf("syntax error neagr \'%s'\n", \
+				(*root)->content),  lst_clear(new_list), NULL);
 		lst_addback(new_list, duplicate_node((*root)));
 		if ((*root)->typeofcontent & token_par_in)
 			(*pth)++;

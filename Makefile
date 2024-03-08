@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -fsanitize=address -g
+CFLAGS = -g -Wall -Wextra -Werror
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c
@@ -34,7 +34,7 @@ WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wi
 
 SIGNAL=Signal/signal_handler.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(SIGNAL)
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(PRINT) $(SIGNAL)
 
 OBJS = $(SRCS:.c=.o)
 NAME = minishell
