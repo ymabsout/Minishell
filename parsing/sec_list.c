@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 20:43:22 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 16:05:06 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/08 05:42:50 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	*type_parser(t_list **root, t_list **new_list, int *track, int *pth)
 	if ((*root)->typeofcontent & token_pth)
 	{
 		if ((lst_last((*new_list)) && (lst_last((*new_list))->typeofcontent & token_par_out) && ((*root)->typeofcontent & token_par_in)) \
-    		|| (((*root)->typeofcontent & token_par_in) && !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or))))
+    		|| (lst_last((*new_list)) && ((*root)->typeofcontent & token_par_in) && !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or))))
 			return (printf("syntax error neagr \'%s'\n", (*root)->content),  lst_clear(new_list), NULL);
 		lst_addback(new_list, duplicate_node((*root)));
 		if ((*root)->typeofcontent & token_par_in)

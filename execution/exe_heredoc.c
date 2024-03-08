@@ -11,6 +11,8 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     char *index_of_file;
     int fd1_copy_0;
 
+    (void)status_code;
+    (void)env;
     fd1_copy_0 = dup(STDIN_FILENO);
     index = malloc(sizeof(int)* 1);
     if (!index)
