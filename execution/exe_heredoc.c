@@ -3,7 +3,7 @@
 void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
 {
     char *line;
-    static int index;
+    int *index;
     char *str;
     char *delimiter;
     int fd;
@@ -12,9 +12,12 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     int fd1_copy_0;
 
     fd1_copy_0 = dup(STDIN_FILENO);
-    index_of_file = ft_itoa(index);
-    index++;
-    filetoconvert = ft_strjoin("/tmp/", ft_strjoin(exec_tree->right->item, index_of_file));
+    index = malloc(sizeof(int)* 1);
+    if (!index)
+        return ;
+    index_of_file = ft_itoa((unsigned long )index);
+    free(index);
+    filetoconvert = ft_strjoin("/tmp/", ft_strjoin(exec_tree->right->item,index_of_file));
     unlink(filetoconvert);
     fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
     if (fd < 0)
