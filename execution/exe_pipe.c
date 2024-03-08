@@ -40,63 +40,23 @@ static void exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
     s->pids = pid;
 }
 
-// void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
-// {
-//     int fd[2];
+void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
+{
+    int fd[2];
 
-//     if (sys_failing(pipe(fd), "pipe", s))
-//         return ;
-//     if (exec_tree->pipe_write_end)
-//         exec_tree->stdout = exec_tree->pipe_write_end;
-//     /////
-//     // exe_left(exec_tree, env, s, fd[0]);
-//     pid_t pid2;
-
-//     if (sys_failing((pid2 = fork()), "fork", s))
-//         return ;
-//     if (!pid2)
-//     {
-
-//         exec_tree->left->stdout = fd[1]; 
-//         exec_tree->left->pipe_write_end = fd[1];
-//         // exec_tree->left->pipe_read_end = fd[0];
-//         if (exec_tree->pipe_write_end)
-//             close(exec_tree->pipe_write_end);
-//         close(fd[0]);
-//         executing(exec_tree->left, env, s);
-//         while (wait(&s->status_code) != -1)
-//             s->status_code = WEXITSTATUS(s->status_code);
-//         exit(s->status_code);
-//     }
-//     /////
-//     ////
-//     // exe_right(exec_tree->right, env, s, fd[0]);
-//     pid_t pid1;
-
-//     if (sys_failing((pid1 = fork()), "fork", s))
-//         return ;
-//     if (!pid1)
-//     {
-//         waitpid(pid2, &s->status_code, 0);
-//         s->status_code = WEXITSTATUS(s->status_code);
-//         if (s->status_code > 0)
-//             exit(s->status_code);
-//         // exec_tree->right->pipe_write_end = fd[1];
-//         exec_tree->right->stdout = exec_tree->stdout;
-//         exec_tree->right->stdin = fd[0];
-//         exec_tree->right->pipe_read_end = fd[0];
-//         close(fd[1]);
-//         executing(exec_tree->right, env, s);
-//         while (wait(&s->status_code) != -1)
-//             s->status_code = WEXITSTATUS(s->status_code);
-//         exit(s->status_code);
-//     }
-//     s->pids = pid1;
-//     ////
-//     if (exec_tree->pipe_read_end)
-//         close(exec_tree->pipe_read_end);
-//     if (exec_tree->pipe_write_end)
-//         close(exec_tree->pipe_write_end);
-//     close(fd[0]);
-//     close(fd[1]);
-// }
+    if (sys_failing(pipe(fd), "pipe", s))
+        return ;
+    if (exec_tree->pipe_write_end)
+        exec_tree->stdout = exec_tree->pipe_write_end;
+    exec_tree->left->stdout = fd[1]; 
+    exec_tree->left->pipe_write_end = fd[1];
+    exe_left(exec_tree, env, s, fd[0]);
+    exec_tree->right->stdout = exec_tree->stdout;
+    exe_right(exec_tree->right, env, s, fd[0]);
+    if (exec_tree->pipe_read_end)
+        close(exec_tree->pipe_read_end);
+    if (exec_tree->pipe_write_end)
+        close(exec_tree->pipe_write_end);
+    close(fd[0]);
+    close(fd[1]);
+}

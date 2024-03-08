@@ -48,7 +48,6 @@ static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
     return (final);
 }
 
-
 static char *expand_status_code(char *complete_str, char *str, int del, int status_code)
 {
     char *first_part;
@@ -57,10 +56,16 @@ static char *expand_status_code(char *complete_str, char *str, int del, int stat
     char *full;
 
     first_part = ft_substr(complete_str, 0, del);
-    code = ft_itoa(status_code);
-    half = ft_strjoin(first_part, code);
+    // May segfault ig
+    if (str[1] != '?')
+        half = ft_strjoin(first_part, "");
+    else
+    {
+        code = ft_itoa(status_code);
+        half = ft_strjoin(first_part, code);
+        free(code);
+    }
     free(first_part);
-    free(code);
     full = ft_strjoin(half, str + 2);
     free(complete_str);
     free(half);
@@ -76,7 +81,10 @@ static void expand_dollar_sign(t_btree *exec_tree, int status_code, t_listt *env
     {
         if (exec_tree->item[i] == '$')
         {
-            if (ft_isalnum(exec_tree->item[i + 1]) || \
+            if (exec_tree->item[i + 1] >= '0' && exec_tree->item[i + 1] <= '9')
+                exec_tree->item = expand_status_code(exec_tree->item,\
+                    exec_tree->item + i, i, status_code);
+            else if (ft_isalpha(exec_tree->item[i + 1]) || \
                 exec_tree->item[i + 1] == '_')
                 exec_tree->item = expand_env(exec_tree->item,\
                     exec_tree->item + i, i , env);
