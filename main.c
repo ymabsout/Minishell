@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 22:12:41 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/08 03:18:36 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ int main (int ac, char *av[], char **env)
     t_listt *root_env;
     s_lol s;
     (void)av;
+    struct termios term;
 
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag = ~ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
     if (ac != 1)
         return (printf("error arguments\n"), 0);
     root_env = create_envs(env);
@@ -83,10 +87,10 @@ int main (int ac, char *av[], char **env)
                 (printf("Parsing Error\n"), s.status_code = 258);
             if (exec_tree)
             {
+                received_signal = 0;
                 get_here_doc(exec_tree, s.status_code, root_env);
                 if (received_signal == -1)
                 {
-                    received_signal = 0;
                     s.status_code = 1;
                     break ;
                 }
@@ -110,6 +114,7 @@ int main (int ac, char *av[], char **env)
                     ;
                 // printf("StatusCode: [%d]\n", s.status_code);
             }
+            received_signal = 0;
             break ;
             // Handle cat | cat | ls last child waiting on him!
         }

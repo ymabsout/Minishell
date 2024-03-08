@@ -22,21 +22,18 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     delimiter = exec_tree->right->item;
     while (!received_signal && isatty(STDIN_FILENO))
     {
-        signal_heredoc();
+        signal(SIGINT, heredoc_signal);
         line = readline(">_heredoc:");
         if (!line || !ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
-        {
             break ;
-        }
         str = ft_strjoin(line, "\n");
         free(line);
         write(fd, str, ft_strlen(str));
     }
-    puts("test");
     close(fd);
     free(exec_tree->right->item);
     exec_tree->right->item = ft_strdup (filetoconvert);
-    dup2(fd1_copy_0, 0);
+    dup2(fd1_copy_0, STDIN_FILENO);
     close(fd1_copy_0);
     free(filetoconvert);
 }

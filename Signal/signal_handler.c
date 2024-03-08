@@ -1,12 +1,13 @@
 #include "../mini_shell.h"
 
-void handle_ctrl_c()
-{
+void handle_ctrl_c() {
+    if (received_signal != -1)
+        printf("\n");
     rl_replace_line("", 0);
-    write(STDOUT_FILENO, "\n", 1);
     rl_on_new_line();
     rl_redisplay();
-    received_signal = 2;
+    if (!received_signal)
+        received_signal = 2;   
 }
 
 void handle_signal()
@@ -28,14 +29,15 @@ void return_def()
 
 void heredoc_signal()
 {
-    rl_replace_line("", 0);
     write(STDOUT_FILENO, "\n", 1);
     close(STDIN_FILENO);
     received_signal = -1;
 }
 
-void signal_heredoc()
+void no_nl()
 {
-    signal(SIGINT, SIG_IGN);
-    signal(SIGINT, heredoc_signal);
-}
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    received_signal = 2;
+}  
