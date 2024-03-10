@@ -214,6 +214,9 @@ void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
 void routine_heredoc(int fd, char *delimiter);
 void *get_file(t_btree *ex_t);
+char *ft_joinAllDowns_heredoc(t_btree *exec_tree, int status_code, t_listt *env);
+void expand_single_quote_heredoc(t_btree *exec_tree);
+void expand_double_quote_heredoc(t_btree *exec_tree, t_listt *env);
 
 
 t_btree *lst_last_tree(t_btree *root);
