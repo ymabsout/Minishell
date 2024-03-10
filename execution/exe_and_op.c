@@ -10,20 +10,18 @@ void execute_and_op(t_btree *exec_tree, t_listt *env, s_lol *s)
     }
     exec_tree->left->stdin = exec_tree->stdin;
     exec_tree->left->stdout = exec_tree->stdout;
-    exec_tree->left->ln = 1;
     executing(exec_tree->left, env, s);
-    while (waitpid(-1, &s->status_code, 0) != -1);
-    s->status_code = WEXITSTATUS(s->status_code);
-    if (s->status_code == 0)
+    if (waitpid(s->pids, &s->status_code, 0) != -1)
+        s->status_code = WEXITSTATUS(s->status_code);
+    while (waitpid(-1, 0, 0) != -1);
+    if (s->status_code)
+        return ;
+    if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
     {
-        if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
-        {
-            exec_tree->right->pipe_write_end = exec_tree->pipe_write_end;
-            exec_tree->right->pipe_read_end = exec_tree->pipe_read_end;
-        }
-        exec_tree->right->stdin = exec_tree->stdin;
-        exec_tree->right->stdout = exec_tree->stdout;
-        exec_tree->right->rn = 1;
-        executing(exec_tree->right, env, s);
+        exec_tree->right->pipe_write_end = exec_tree->pipe_write_end;
+        exec_tree->right->pipe_read_end = exec_tree->pipe_read_end;
     }
+    exec_tree->right->stdin = exec_tree->stdin;
+    exec_tree->right->stdout = exec_tree->stdout;
+    executing(exec_tree->right, env, s);
 }

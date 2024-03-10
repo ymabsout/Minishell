@@ -26,7 +26,7 @@ void routine_heredoc(int fd, char *delimiter)
         line = readline(">_heredoc:");
         if (!line || !ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
             break ;
-        str = ft_strjoin(line, "\n");
+        str = ft_strjoin(line, "\n"); 
         free(line);
         write(fd, str, ft_strlen(str));
         free(str);

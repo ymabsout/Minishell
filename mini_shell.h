@@ -121,7 +121,6 @@ t_btree *parse_heredoc_append(t_list **root);
 t_btree *parse_ampersand_or(t_list **root);
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char *get_next_line(int fd);
 char *ft_strjoin(char const *s1, char const *s2);
 char *ft_substr(char const *s,  int start, int len);
 char *ft_strdup(const char *s1);
@@ -159,6 +158,13 @@ t_listt *create_envs(char **env);
 
 // BUILT-INS
 int export_built_in(char **cmd, t_listt **head_env);
+void export_no_args(t_listt *head_env);
+int check_args_export(char *cmd, int *is_plus);
+void export_plus(t_listt **head_env, char *env_var);
+void replace_env(t_listt *node, char *env_var);
+void add_env(t_listt **head_env, char *env_var);
+void export(t_listt **head_env, char *env_var);
+
 int env_built_in(char **cmd, t_listt *head_env);
 int unset_built_in(char **cmd, t_listt **head_env);
 int exit_built_in(char **cmd, int status_code);
@@ -169,6 +175,8 @@ int env_built_in(char **cmd, t_listt *head_env);
 
 // Error
 void failing_err(int failed);
+void fd_failure(char *file, int id, s_lol *s);
+int sys_failing(int err, char *fn, s_lol *s);
 
 // CODE
 void executing(t_btree *exec_tree, t_listt *env, s_lol *s);
@@ -179,12 +187,9 @@ t_btree *check_wild_card(char *str);
 void execute_or_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_and_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_pipe(t_btree *exec_tree, t_listt *env,  s_lol *s);
-void execute_left_cmd(t_btree *exec_tree, t_listt *env);
-void execute_right_cmd(t_btree *exec_tree, t_listt *env);
-void execute_solo_cmd(t_btree *exec_tree, t_listt *env);
 void execute_cmd(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_red_input(t_btree *exec_tree, t_listt *env,  s_lol *s);
-void execute_red_output(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
+void execute_red(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
 void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
@@ -192,6 +197,10 @@ char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env);
 char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env);
 void print_down_tree(t_btree *root);
+
+// REDIRECTION
+int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env);
+void create_string(t_btree *exec_tree, char **string);
 
 // Wild card
 void handle_wild(t_btree *exec_tree, int status_code, t_listt *env);
@@ -247,6 +256,9 @@ void *cmd_parse(t_list **root, t_list **new_list, int *track);
 void heredoc_signal();
 void handle_ctrl_c();
 void handle_signal();
+
+void free_half_double(char **cmd, int i);
+void free_tree(t_btree *tree);
 
 
 #endif

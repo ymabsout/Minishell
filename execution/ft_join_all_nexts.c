@@ -43,13 +43,11 @@ char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env)
     i = -1;
     while (++i < next_size)
     {
-        cmd[i] = malloc(ft_strlen(curr->item) + 1);
-        if (!cmd[i])
-            return (free_double(cmd), NULL);
         cmd[i] = ft_strdup(curr->item);
+        if (!cmd[i])
+            return (free_half_double(cmd, i), NULL);
         curr = curr->next;
     }
-    free_nexts(exec_tree->next);
     cmd[i] = NULL;
     return (cmd);
 }

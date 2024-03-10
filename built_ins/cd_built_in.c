@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:27:03 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/03 19:18:33 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/09 17:11:20 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,59 +55,23 @@ void mutate_env_dirs(char *new_pwd, char *old_pwd, t_listt **head_env)
         insert_new_env(head_env, "OLDPWD=", old_pwd);
 }
 
-// int handle_old_pwd(char **cmd, t_listt **head_env)
-// {
-//     t_listt *curr;
-//     t_listt *old_pwd;
-//     char **arr;
-//     char *w_dir;
-
-//     curr = *head_env;
-//     old_pwd = NULL;
-//     while (curr)
-//     {
-//         if (!ft_strncmp(curr->content, "OLDPWD", 6))
-//         {
-//             old_pwd = curr;
-//             break ;
-//         }
-//         curr = curr->next;
-//     }
-//     if (!old_pwd)
-//     {
-//         ft_putstr_fd("cd: OLDPWD not set\n", 2);
-//         return (1);
-//     }
-//     arr = ft_split(old_pwd->content, '=');
-//     w_dir = getcwd(0, 0);
-//     if (chdir(arr[1]) == -1)
-//     {
-//         perror("cd: ");
-//         perror(arr[1]);
-//         free_double(arr);
-//         return (errno);
-//     }
-//     mutate_env_dirs(arr[1], w_dir, head_env);
-//     free_double(arr);
-//     free(w_dir);
-//     return (0); 
-// }
-
 int cd_built_in(char **cmd, t_listt **head_env)
 {
     char *w_dir;
     char *c_dir;
 
-    // if (!ft_strncmp(cmd[1], "-", ft_strlen("-")))
-    //     return (handle_old_pwd(cmd, head_env));
     w_dir = getcwd(0, 0);
+    if (!w_dir)
+        return (1);
     if (chdir(cmd[1]) == -1)
     {
-        ft_putstr_fd("cd: ", 2);
+        ft_putstr_fd("BNW: cd: ", 2);
         perror(cmd[1]);
-        return (errno);
+        return (1);
     }
     c_dir = getcwd(0, 0);
+    if (!c_dir)
+        return (free(w_dir), 1);
     printf("%s\n", c_dir);
     mutate_env_dirs(c_dir, w_dir, head_env);
     free(w_dir);

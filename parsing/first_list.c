@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   first_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:30:32 by ymabsout          #+#    #+#             */
 /*   Updated: 2024/03/06 00:17:57 by ymabsout         ###   ########.fr       */

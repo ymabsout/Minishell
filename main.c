@@ -16,6 +16,11 @@
 // ls && >>f
 //>_:hello"test"yy'tt' world
 
+void f ()
+{
+    system("leaks minishell");
+}
+
 void *parsing(char *input)
 {
     char *cmd;
@@ -51,8 +56,19 @@ void get_here_doc(t_btree *exec_tree, int status, t_listt *env)
         read_stdin(exec_tree, status, env);
     get_here_doc(exec_tree->right, status , env);
 }
-
  // syntax error should be exit_status 258
+
+
+void dl(void *content)
+{
+    free((char *)content);
+}
+
+void lol()
+{
+    system("leaks minishell");
+}
+
 int main (int ac, char *av[], char **env)
 {
     char *input;
@@ -78,7 +94,7 @@ int main (int ac, char *av[], char **env)
         if (received_signal == 2)
             (received_signal = 0, s.status_code = 1);
         if (!input)
-            return (printf("exit\n"), s.status_code);
+            return (printf("exit\n"), ft_lstclear(&root_env, dl), s.status_code);
         keep = ft_strtrim(input, " ");
         while (keep && keep[0])
         {
@@ -96,6 +112,7 @@ int main (int ac, char *av[], char **env)
                 }
                 return_def();
                 executing(exec_tree, root_env, &s);
+                free_tree(exec_tree);
                 sig_def();
                 if (waitpid(s.pids, &s.status_code, 0) != -1)
                 {
@@ -110,9 +127,8 @@ int main (int ac, char *av[], char **env)
                     else
                         s.status_code = WEXITSTATUS(s.status_code);
                 }
-                while (waitpid(-1, 0, 0) != -1)
-                    ;
-                // printf("StatusCode: [%d]\n", s.status_code);
+                while (waitpid(-1, 0, 0) != -1);
+                printf("StatusCode: [%d]\n", s.status_code);
             }
             received_signal = 0;
             break ;
