@@ -23,7 +23,7 @@ void routine_heredoc(int fd, char *delimiter)
     while (!received_signal && isatty(STDIN_FILENO))
     {
         signal(SIGINT, heredoc_signal);
-        line = readline(">_heredoc:");
+        line = readline(">:");
         if (!line || !ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1))
             break ;
         str = ft_strjoin(line, "\n"); 
@@ -48,10 +48,12 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
     if (fd < 0)
         return ;
+    exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right, status_code, env);
+    exec_tree->right->down = NULL;
     delimiter = exec_tree->right->item;
     routine_heredoc(fd, delimiter);
     close(fd);
-    free(exec_tree->right->item);
+    free(delimiter);
     exec_tree->right->item = ft_strdup (filetoconvert);
     dup2(fd1_copy_0, STDIN_FILENO);
     close(fd1_copy_0);
