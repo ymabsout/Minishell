@@ -37,7 +37,6 @@ void *parsing(char *input)
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
         return (lst_clear(&cleared_list), NULL);
-    // print_tree(rootoftree);
     lst_clear (&saved_list);
     return (rootoftree);
 }

@@ -98,3 +98,20 @@ void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env)
     exec_tree->item = buffer;
     expand_dollar_sign(exec_tree, status_code, env);
 }
+void expand_single_quote_heredoc(t_btree *exec_tree)
+{
+    char *buffer;
+
+    buffer = ft_strtrim(exec_tree->item, "\'");
+    free(exec_tree->item);
+    exec_tree->item = buffer;
+}
+
+void expand_double_quote_heredoc(t_btree *exec_tree, t_listt *env)
+{
+    char *buffer;
+    (void)env;
+    buffer = ft_strtrim(exec_tree->item, "\"");
+    free(exec_tree->item);
+    exec_tree->item = buffer;
+}
