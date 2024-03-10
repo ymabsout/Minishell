@@ -57,9 +57,11 @@ void add_env(t_listt **head_env, char *env_var)
     if (arr[1])
         env_v = ft_strjoin(arr[0], str2);
     else
-        env_v = str;
+        env_v = ft_strdup(str);
     if (!env_v)
         return (free_double(arr), free(str), perror("malloc: "));
+    free(str);
+    free_double(arr);
     node = ft_lstnew(env_v);
     if (!node)
         exit(-1);

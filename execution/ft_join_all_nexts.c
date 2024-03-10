@@ -14,19 +14,6 @@ static int ft_size(t_btree *tree)
     return (i);
 }
 
-static void free_nexts(t_btree *exec_tree)
-{
-    t_btree *next;
-
-    while (exec_tree)
-    {
-        next = exec_tree->next;
-        free(exec_tree->item);
-        free(exec_tree);
-        exec_tree = next;
-    }
-}
-
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env)
 {
     t_btree *curr;

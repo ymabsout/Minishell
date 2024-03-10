@@ -40,7 +40,7 @@ static void dbl_setter(t_btree *exec_tree, char **string)
 static void cmd_on_right(t_btree *exec_tree, t_listt *env, s_lol *s)
 {
     int fd;
-    char *file;
+    // char *file;
 
     fd = open_input_file(exec_tree->right, s->status_code, env);
     if (fd < 0)
