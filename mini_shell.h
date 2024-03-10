@@ -154,6 +154,13 @@ t_listt *create_envs(char **env);
 
 // BUILT-INS
 int export_built_in(char **cmd, t_listt **head_env);
+void export_no_args(t_listt *head_env);
+int check_args_export(char *cmd, int *is_plus);
+void export_plus(t_listt **head_env, char *env_var);
+void replace_env(t_listt *node, char *env_var);
+void add_env(t_listt **head_env, char *env_var);
+void export(t_listt **head_env, char *env_var);
+
 int env_built_in(char **cmd, t_listt *head_env);
 int unset_built_in(char **cmd, t_listt **head_env);
 int exit_built_in(char **cmd, int status_code);

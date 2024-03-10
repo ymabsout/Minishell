@@ -20,12 +20,12 @@ static int check_wild_validation(t_btree *downs)
     return (valid);
 }
 
-static void add_ls(t_btree *exec_tree, t_btree *data)
+static t_btree *add_ls(t_btree *exec_tree, t_btree *data)
 {
     t_btree *last;
     t_btree *buf;
 
-    last = exec_tree->next; // U need to free the first node;
+    last = exec_tree->next;
     free(exec_tree->item);
     exec_tree->item = data->item;
     exec_tree->next = data->next;
@@ -34,7 +34,7 @@ static void add_ls(t_btree *exec_tree, t_btree *data)
         data = data->next;
     free(buf);
     data->next = last;
-    exec_tree = last;
+    return (last);
 }
 
 void handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
@@ -50,7 +50,7 @@ void handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
         if (is_valid)
             data = check_wild_card(exec_tree->item);
         if (data)
-            add_ls(exec_tree, data);
+            exec_tree = add_ls(exec_tree, data);
         else
             exec_tree = exec_tree->next;
     }

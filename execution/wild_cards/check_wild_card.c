@@ -25,8 +25,8 @@ static t_btree	*lstnew(char *content)
 	if (!new_list)
 		return (NULL);
 	
+    ft_memset(new_list, 0, sizeof(t_btree));
     new_list->item = content;
-	new_list->next = NULL; 
 	return (new_list);
 }
 

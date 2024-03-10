@@ -52,6 +52,7 @@ void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
     exec_tree->left->pipe_write_end = fd[1];
     exe_left(exec_tree, env, s, fd[0]);
     exec_tree->right->stdout = exec_tree->stdout;
+    exec_tree->right->pipe_write_end = fd[1];
     exe_right(exec_tree->right, env, s, fd[0]);
     if (exec_tree->pipe_read_end)
         close(exec_tree->pipe_read_end);

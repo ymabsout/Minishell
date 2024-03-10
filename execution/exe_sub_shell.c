@@ -5,7 +5,8 @@ void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s)
     pid_t pid;
 
     exec_tree->flag_subshell = 0;
-    pid = fork();
+    if (sys_failing((pid = fork()), "fork", s))
+        return ;
     if (pid > 0)
     {
         s->pids = pid;

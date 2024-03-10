@@ -3,7 +3,6 @@
 static char *get_my_env(t_listt *envs, char *env_str)
 {
     char *wr;
-    char **arr;
 
     while (envs)
     {
@@ -14,17 +13,14 @@ static char *get_my_env(t_listt *envs, char *env_str)
     }
     free(env_str);
     if (wr)
-    {
-        arr = ft_split(wr, '=');
-        env_str = ft_strdup(arr[1]);
-        free_double(arr);
-    }
+        env_str = ft_strdup(ft_strchr(wr, '=') + 1);
     else
         env_str = ft_strdup("");
     return (env_str);
 }
 
-static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
+static char *expand_env(char *complete_str, \
+    char *str, int del, t_listt *envs)
 {
     int i;
     char *env;
@@ -48,7 +44,8 @@ static char *expand_env(char *complete_str, char *str, int del, t_listt *envs)
     return (final);
 }
 
-static char *expand_status_code(char *complete_str, char *str, int del, int status_code)
+static char *expand_status_code(char *complete_str, \
+    char *str, int del, int status_code)
 {
     char *first_part;
     char *half;
@@ -56,7 +53,6 @@ static char *expand_status_code(char *complete_str, char *str, int del, int stat
     char *full;
 
     first_part = ft_substr(complete_str, 0, del);
-    // May segfault ig
     if (str[1] != '?')
         half = ft_strjoin(first_part, "");
     else
@@ -72,12 +68,13 @@ static char *expand_status_code(char *complete_str, char *str, int del, int stat
     return (full);
 }
 
-static void expand_dollar_sign(t_btree *exec_tree, int status_code, t_listt *env)
+static void expand_dollar_sign(t_btree *exec_tree, \
+    int status_code, t_listt *env)
 {
     int i;
 
-    i = -1;
-    while (exec_tree->item[++i])
+    i = 0;
+    while (exec_tree->item[i])
     {
         if (exec_tree->item[i] == '$')
         {
@@ -91,7 +88,11 @@ static void expand_dollar_sign(t_btree *exec_tree, int status_code, t_listt *env
             else if (exec_tree->item[i + 1] == '?')
                 exec_tree->item = expand_status_code(exec_tree->item,\
                     exec_tree->item + i, i, status_code);
+            else
+                i++;
         }
+        else
+            i++;
     }
 }
 

@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "mini_shell.h": "c"
-    }
+        "mini_shell.h": "c",
+        "errno.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
