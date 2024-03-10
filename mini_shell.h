@@ -20,6 +20,7 @@
 int received_signal;
 //zaba w chta saba 
 //yassine wjah swa 
+
 typedef struct s_list
 {
     char *content;
@@ -42,6 +43,8 @@ typedef struct s_tree
     struct s_tree *down;
     char *item;
 
+    //fd_heredoc
+    int fd_here;
     // PIPE
     int pipe_read_end;
     int pipe_write_end;
@@ -95,7 +98,8 @@ enum token_type
     token_and_or = (token_ampersand | token_or),
     token_af_pipe = (token_pipe | token_and_or),
     token_meta = (token_pipe | token_red | token_and_or),
-    token_pth = (token_par_in | token_par_out)
+    token_pth = (token_par_in | token_par_out),
+    token_parse = (token_word | token_quote | token_red | token_pth)
 };
 
 char *ft_strchr(char *s, int c);
@@ -118,13 +122,13 @@ t_btree *parse_ampersand_or(t_list **root);
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char *ft_strjoin(char const *s1, char const *s2);
-char *ft_substr(char const *s, unsigned int start, size_t len);
+char *ft_substr(char const *s,  int start, int len);
 char *ft_strdup(const char *s1);
-int ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t ft_strlen(const char *s);
+int ft_strncmp(const char *s1, const char *s2, int n);
+int ft_strlen(const char *s);
 void ft_putstr_fd(char *s, int fd);
-size_t ft_strlcat(char *dst, const char *src, size_t dstsize);
-size_t ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t ft_strlcat(char *dst, const char *src, int dstsize);
+size_t ft_strlcpy(char *dst, const char *src, int dstsize);
 char *ft_itoa(int n);
 int ft_isalnum(int c);
 void ft_lstadd_back(t_listt **lst, t_listt *new);
@@ -206,6 +210,11 @@ char *match(char *file_name, char *pattern);
 void expand_single_quote(t_btree *exec_tree);
 void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 
+// HEREDOC
+void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
+void routine_heredoc(int fd, char *delimiter);
+void *get_file(t_btree *ex_t);
+
 
 t_btree *lst_last_tree(t_btree *root);
 
@@ -222,9 +231,8 @@ void printlist(t_list *root, int a);
 //signal
 void handle_signal();
 void return_def();
-void handle_ctrl_d();
 void sig_def();
-void	lst_addback(t_list **lst, t_list *new);
+void lst_addback(t_list **lst, t_list *new);
 
 //PARSING
 void *tokenize_lex(char *cmd);
@@ -245,6 +253,9 @@ void *white_space_handle(char *cmd, int *index, t_list **root);
 void *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
 void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
 void *cmd_parse(t_list **root, t_list **new_list, int *track);
+void heredoc_signal();
+void handle_ctrl_c();
+void handle_signal();
 
 void free_half_double(char **cmd, int i);
 void free_tree(t_btree *tree);
