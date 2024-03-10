@@ -68,7 +68,7 @@ static char *expand_status_code(char *complete_str, \
     return (full);
 }
 
-static void expand_dollar_sign(t_btree *exec_tree, \
+void expand_dollar_sign(t_btree *exec_tree, \
     int status_code, t_listt *env)
 {
     int i;

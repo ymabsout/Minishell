@@ -19,10 +19,10 @@ void  executing(t_btree *exec_tree, t_listt *env, s_lol *s)
         execute_and_op(exec_tree, env, s);
     else if (exec_tree->typeofcontent & token_or)
         execute_or_op(exec_tree, env, s);
-    else if (exec_tree->typeofcontent & token_heredoc_append)
-        execute_red_input(exec_tree, env, s);
     else if (exec_tree->typeofcontent & token_pipe)
         execute_pipe(exec_tree, env, s);
+    else if (exec_tree->typeofcontent & token_heredoc_append)
+        execute_red(exec_tree, env, s, 3);
     else if (exec_tree->typeofcontent & token_red_input)
         execute_red(exec_tree, env, s, 2);
     else if (exec_tree->typeofcontent & token_red_out_trunc)

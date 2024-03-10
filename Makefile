@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS =-Wall -Wextra -Werror
+CFLAGS =-Wall -Wextra -Werror 
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c error/fd_failure.c error/sys_failing.c
@@ -25,11 +25,12 @@ UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c\
 	utils/free_tree.c
 
-EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c execution/exe_red_inp.c\
+EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c\
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c\
 	execution/exe_and_op.c execution/exe_or_op.c execution/exe_sub_shell.c execution/exe_built_in.c\
 	execution/exe_heredoc.c execution/ft_join_all_downs.c execution/expand_double_quote.c execution/expand_single_quote.c\
 	execution/exe_heredoc.c execution/redirection/exe_red.c execution/redirection/open_file.c execution/redirection/create_string.c\
+	execution/expandtemp.c
 	
 
 PRINT=list_print.c
@@ -39,7 +40,8 @@ WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wi
 
 SIGNAL=Signal/signal_handler.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS) $(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(PRINT) $(SIGNAL)
+SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS)\
+	$(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(PRINT) $(SIGNAL)
 
 OBJS = $(SRCS:.c=.o)
 NAME = minishell

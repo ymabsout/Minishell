@@ -196,6 +196,7 @@ int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s);
 char *get_path_cmd(char *cmd, t_listt *env);
 char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env);
 char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env);
+void expand_dollar_sign(t_btree *exec_tree, int status_code, t_listt *env);
 void print_down_tree(t_btree *root);
 
 // REDIRECTION
@@ -212,8 +213,8 @@ void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 
 // HEREDOC
 void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
-void routine_heredoc(int fd, char *delimiter);
-void *get_file(t_btree *ex_t);
+void routine_heredoc(int fd, t_btree *exec_tree, int status_code, t_listt *env);
+void *get_file(void);
 char *ft_joinAllDowns_heredoc(t_btree *exec_tree, int status_code, t_listt *env);
 void expand_single_quote_heredoc(t_btree *exec_tree);
 void expand_double_quote_heredoc(t_btree *exec_tree, t_listt *env);

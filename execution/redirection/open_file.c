@@ -26,7 +26,6 @@ int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env)
             O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
             return (-1);
     }
-    // flag == 2
     if (access(exec_tree->string[0], F_OK) == -1)
         return (-1);
     if (access(exec_tree->string[0], R_OK) == -1)
@@ -34,5 +33,4 @@ int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env)
     if ((fd = open(exec_tree->string[0], O_RDONLY)) == -1)
         return (-1); 
     return (fd);
-    // return (fd);
 }

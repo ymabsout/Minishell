@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/08 03:18:36 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/10 22:50:54 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int main (int ac, char *av[], char **env)
                         s.status_code = WEXITSTATUS(s.status_code);
                 }
                 while (waitpid(-1, 0, 0) != -1);
-                printf("StatusCode: [%d]\n", s.status_code);
+                // printf("StatusCode: [%d]\n", s.status_code);
             }
             received_signal = 0;
             break ;
