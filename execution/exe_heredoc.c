@@ -70,7 +70,7 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
     if (fd < 0)
         return ;
-    exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right, status_code, env);
+    exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right);
     routine_heredoc(fd, exec_tree->right, status_code, env);
     exec_tree->right->down = NULL;
     close(fd);

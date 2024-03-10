@@ -107,10 +107,10 @@ void expand_single_quote_heredoc(t_btree *exec_tree)
     exec_tree->item = buffer;
 }
 
-void expand_double_quote_heredoc(t_btree *exec_tree, t_listt *env)
+void expand_double_quote_heredoc(t_btree *exec_tree)
 {
     char *buffer;
-    (void)env;
+    
     buffer = ft_strtrim(exec_tree->item, "\"");
     free(exec_tree->item);
     exec_tree->item = buffer;

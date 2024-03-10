@@ -188,7 +188,6 @@ void execute_or_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_and_op(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_pipe(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_cmd(t_btree *exec_tree, t_listt *env,  s_lol *s);
-void execute_red_input(t_btree *exec_tree, t_listt *env,  s_lol *s);
 void execute_red(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag);
 void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s);
 void execute_heredoc(t_btree *exec_tree, t_listt *env, s_lol *s);
@@ -215,9 +214,9 @@ void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env);
 void read_stdin(t_btree *exec_tree, int status_code, t_listt *env);
 void routine_heredoc(int fd, t_btree *exec_tree, int status_code, t_listt *env);
 void *get_file(void);
-char *ft_joinAllDowns_heredoc(t_btree *exec_tree, int status_code, t_listt *env);
+char *ft_joinAllDowns_heredoc(t_btree *exec_tree);
 void expand_single_quote_heredoc(t_btree *exec_tree);
-void expand_double_quote_heredoc(t_btree *exec_tree, t_listt *env);
+void expand_double_quote_heredoc(t_btree *exec_tree);
 
 
 t_btree *lst_last_tree(t_btree *root);
