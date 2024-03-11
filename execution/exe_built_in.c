@@ -26,9 +26,9 @@ static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
         return ;
     if (sys_failing((out = dup(STDOUT_FILENO)), "dup", s))
         return ;
-    if (sys_failing(dup2(exec_tree->stdin, 0), "dup2", s))
+    if (sys_failing(dup2(exec_tree->stdin, STDIN_FILENO), "dup2", s))
         return ;
-    if (sys_failing(dup2(exec_tree->stdout, 1), "dup2", s))
+    if (sys_failing(dup2(exec_tree->stdout, STDOUT_FILENO), "dup2", s))
         return ;
     if (exec_tree->stdin != 0)
         close(exec_tree->stdin);
