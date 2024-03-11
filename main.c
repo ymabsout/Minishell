@@ -57,7 +57,6 @@ void get_here_doc(t_btree *exec_tree, int status, t_listt *env)
 }
  // syntax error should be exit_status 258
 
-
 void dl(void *content)
 {
     free((char *)content);
