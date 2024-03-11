@@ -23,7 +23,6 @@ static t_btree	*lstnew(char *content)
 	new_list = (t_btree *)malloc(sizeof(t_btree));
 	if (!new_list)
 		return (NULL);
-	
     ft_memset(new_list, 0, sizeof(t_btree));
     new_list->item = ft_strdup(content);
 	return (new_list);

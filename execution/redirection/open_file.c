@@ -17,7 +17,7 @@ int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env)
     }
     else if (flag == 0)
     {
-        if (access(exec_tree->string[0], F_OK))
+        if (access(exec_tree->string[0], F_OK) != -1)
         {
             if (access(exec_tree->string[0], W_OK) == -1)
                 return (-3);

@@ -1,22 +1,16 @@
 #include "../../mini_shell.h"
 
 static void setting_streams_out(t_btree *exec_tree, \
-    int above_st , int target_st, int fd)
+    int above_st , int fd)
 {
+    exec_tree->stdout = fd;
     exec_tree->stdin = above_st;
-    if (target_st != 1)
-        exec_tree->stdout = target_st;
-    else
-        exec_tree->stdout = fd;
 }
 static void setting_streams_in(t_btree *exec_tree, \
-    int above_st , int target_st, int fd)
+    int above_st, int fd)
 {
+    exec_tree->stdin = fd;
     exec_tree->stdout = above_st;
-    if (target_st != 0)
-        exec_tree->stdin = target_st;
-    else
-        exec_tree->stdin = fd;
 }
 
 static void dbl_setter(t_btree *exec_tree, char **string)
@@ -58,10 +52,10 @@ static void cmd_on_right(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag)
     dbl_setter(exec_tree->right, exec_tree->right->string);
     if (flag >= 2)
         setting_streams_in(exec_tree->right, \
-            exec_tree->stdout, exec_tree->stdin, fd);
+            exec_tree->stdout, fd);
     else
         setting_streams_out(exec_tree->right, \
-            exec_tree->stdin, exec_tree->stdout, fd);
+            exec_tree->stdin, fd);
     executing(exec_tree->right, env, s);
     close(fd);
     (flag == 3 && unlink(exec_tree->right->item));
@@ -89,9 +83,9 @@ void execute_red(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
     create_string(exec_tree->left, exec_tree->right->string + 1);
     (free(exec_tree->right->string), exec_tree->right->string = NULL);
     if (flag >= 2)
-        setting_streams_in(exec_tree->left, exec_tree->stdout, exec_tree->stdin, fd);
+        setting_streams_in(exec_tree->left, exec_tree->stdout, fd);
     else
-        setting_streams_out(exec_tree->left, exec_tree->stdin, exec_tree->stdout, fd);
+        setting_streams_out(exec_tree->left, exec_tree->stdin, fd);
     (executing(exec_tree->left, env, s), close(fd));
     (flag == 3 && unlink(exec_tree->right->item));
 }

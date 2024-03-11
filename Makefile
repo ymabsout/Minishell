@@ -1,4 +1,5 @@
 CC = cc
+
 CFLAGS =-Wall -Wextra -Werror -fsanitize=address -g
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
