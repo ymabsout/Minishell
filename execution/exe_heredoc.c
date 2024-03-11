@@ -65,20 +65,22 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     char *filetoconvert;
     int fd1_copy_0;
 
-    fd1_copy_0 = dup(STDIN_FILENO);
-    filetoconvert = (char *)get_file();
-    unlink(filetoconvert);
-    fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
-    if (fd < 0)
-        return ;
-    exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right);
-    routine_heredoc(fd, exec_tree->right, status_code, env);
-    exec_tree->right->down = NULL;
-    close(fd);
-    free(exec_tree->right->item); 
-    exec_tree->right->item = ft_strdup(filetoconvert);
-    dup2(fd1_copy_0, STDIN_FILENO);
-    close(fd1_copy_0);
-    free(filetoconvert);
-
+    if (received_signal != -1)
+    {
+        fd1_copy_0 = dup(STDIN_FILENO);
+        filetoconvert = (char *)get_file();
+        unlink(filetoconvert);
+        fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
+        if (fd < 0)
+            return ;
+        exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right);
+        routine_heredoc(fd, exec_tree->right, status_code, env);
+        exec_tree->right->down = NULL;
+        close(fd);
+        free(exec_tree->right->item); 
+        exec_tree->right->item = ft_strdup(filetoconvert);
+        dup2(fd1_copy_0, STDIN_FILENO);
+        close(fd1_copy_0);
+        free(filetoconvert);
+    }
 }
