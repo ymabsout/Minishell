@@ -58,10 +58,10 @@ static void cmd_on_right(t_btree *exec_tree, t_listt *env,  s_lol *s, int flag)
     dbl_setter(exec_tree->right, exec_tree->right->string);
     if (flag >= 2)
         setting_streams_in(exec_tree->right, \
-            exec_tree->stdin, exec_tree->stdout, fd);
+            exec_tree->stdout, exec_tree->stdin, fd);
     else
         setting_streams_out(exec_tree->right, \
-            exec_tree->stdout, exec_tree->stdin, fd);
+            exec_tree->stdin, exec_tree->stdout, fd);
     executing(exec_tree->right, env, s);
     close(fd);
     (flag == 3 && unlink(exec_tree->right->item));

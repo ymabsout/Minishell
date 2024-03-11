@@ -36,8 +36,9 @@ void exe_cmd(t_btree *exec_tree, t_listt *env)
     if (!cmd_path)
         handle_cmd_not_found(exec_tree->string[0]);
     envs = env_double_pointer(env);
-    if (sys_failing(dup2(exec_tree->stdin, 0), "dup2", 0) || \
-        sys_failing(dup2(exec_tree->stdout, 1), "dup2", 0))
+    if (sys_failing(dup2(exec_tree->stdin, 0), "dup2", 0))
+        exit(errno);
+    if (sys_failing(dup2(exec_tree->stdout, 1), "dup2", 0))
         exit(errno);
     if (exec_tree->stdin != 0)
         close(exec_tree->stdin);

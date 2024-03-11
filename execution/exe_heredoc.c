@@ -36,10 +36,11 @@ void routine_heredoc(int fd, t_btree *exec_tree, int status_code, t_listt *env)
     t_btree *l;
     int expand_or_not;
 
-    if (!(exec_tree->down))
-        expand_or_not = 1;
-    else
+    if (exec_tree->typeofcontent & (token_double_q | token_single_q) || \
+        exec_tree->down)
         expand_or_not = 0;
+    else
+        expand_or_not = 1;
     while (!received_signal && isatty(STDIN_FILENO))
     {
         signal(SIGINT, heredoc_signal);

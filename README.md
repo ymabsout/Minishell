@@ -3,3 +3,5 @@
 // fix exit numeric value
 
 // leak export
+
+// dup2 pwd | pwd failiaure why

@@ -22,16 +22,16 @@ static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
     int in;
     int out;
 
-    if (sys_failing(in = dup(0), "dup", s))
+    if (sys_failing((in = dup(0)), "dup", s))
         return ;
-    if (sys_failing(out = dup(1), "dup", s))
+    if (sys_failing((out = dup(1)), "dup", s))
         return ;
     if (sys_failing(dup2(exec_tree->stdin, 0), "dup2", s))
         return ;
     if (sys_failing(dup2(exec_tree->stdout, 1), "dup2", s))
         return ;
     if (exec_tree->stdin != 0)
-        close(exec_tree->stdout);
+        close(exec_tree->stdin);
     if (exec_tree->stdout != 1)
         close(exec_tree->stdout);
     if (exec_tree->pipe_read_end != 0)
@@ -40,9 +40,9 @@ static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
         close(exec_tree->pipe_write_end);
     s->status_code = run_built_in(exec_tree->string, env, \
         s->status_code, flag);
-    if (sys_failing(dup2(in, 0), "dup2", s) || \
-        sys_failing(dup2(out, 1), "dup2", s))
-        return ;
+    fprintf(stderr, "[%d]\n", in);
+    fprintf(stderr, "[%d]\n", dup2(in, 0));
+    fprintf(stderr, "[%d]\n", dup2(out, 1));
 }
 
 int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s)
