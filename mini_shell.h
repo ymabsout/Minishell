@@ -72,7 +72,9 @@ typedef struct s_quote
 {
     int dbl;
     int sgl;
-}   t_data_q;typedef struct t_lol {
+}   t_data_q;
+
+typedef struct t_lol {
     int status_code;
     pid_t pids;
 } s_lol;

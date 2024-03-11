@@ -23,7 +23,6 @@ static t_btree	*lstnew(char *content)
 	new_list = (t_btree *)malloc(sizeof(t_btree));
 	if (!new_list)
 		return (NULL);
-	
     ft_memset(new_list, 0, sizeof(t_btree));
     new_list->item = ft_strdup(content);
 	return (new_list);
@@ -78,7 +77,5 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     free(exec_tree->right->item); 
     exec_tree->right->item = ft_strdup(filetoconvert);
     dup2(fd1_copy_0, STDIN_FILENO);
-    // close(fd1_copy_0);
-    // Start from here
     free(filetoconvert);
 }

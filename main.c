@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/10 22:50:54 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:31:24 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ int main (int ac, char *av[], char **env)
             }
             received_signal = 0;
             break ;
-            // Handle cat | cat | ls last child waiting on him!
         }
         add_history(input);
         free(input);
