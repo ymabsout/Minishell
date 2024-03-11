@@ -78,7 +78,7 @@ void read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
     free(exec_tree->right->item); 
     exec_tree->right->item = ft_strdup(filetoconvert);
     dup2(fd1_copy_0, STDIN_FILENO);
-    close(fd1_copy_0);
+    // close(fd1_copy_0);
+    // Start from here
     free(filetoconvert);
-
 }

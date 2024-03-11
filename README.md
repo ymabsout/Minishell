@@ -5,3 +5,5 @@
 // leak export
 
 // dup2 pwd | pwd failiaure why
+// (echo 1 && ls) << a
+// () leak
