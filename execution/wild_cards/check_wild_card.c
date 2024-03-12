@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:47:34 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:13:17 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/12 22:03:45 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,24 @@ t_btree	*check_wild_card(char *str)
 	if (!dir)
 		return (0);
 	whole = 0;
-	while ((dp = readdir(dir)))
+	dp = readdir(dir);
+	while (dp)
 	{
 		if (dp->d_name[0] == '.')
+		{
+			dp = readdir(dir);
 			continue ;
+		}
 		matched = match(dp->d_name, str);
 		if (!matched)
+		{
+			dp = readdir(dir);
 			continue ;
+		}
 		add_back(&whole, lstnew(ft_strdup(matched)));
+		dp = readdir(dir);
 	}
-	(void)closedir(dir);
+	closedir(dir);
 	if (!whole)
 		return (0);
 	return (whole);
