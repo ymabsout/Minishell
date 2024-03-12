@@ -59,12 +59,15 @@ void	*type_parser(t_list **root, t_list **new_list, int *track, int *pth)
 {
 	if ((*root)->typeofcontent & token_pth)
 	{
-		if ((lst_last((*new_list)) \
+		if ((lst_last((*new_list))\
 			&& (lst_last((*new_list))->typeofcontent & token_par_out)\
 			&& ((*root)->typeofcontent & token_par_in)) \
-    		|| (lst_last((*new_list)) \
+    		|| (lst_last((*new_list))\
 			&& ((*root)->typeofcontent & token_par_in) \
-			&& !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or))))
+			&& !(lst_last((*new_list))->typeofcontent & (token_pipe | token_and_or | token_par_in)))\
+			|| ((((*root)->typeofcontent & token_par_in))
+			&&	(*root)->next\
+			&& !((*root)->next->typeofcontent & (token_quote | token_word | token_par_in))))
 			return (printf("syntax error neagr \'%s'\n", \
 				(*root)->content),  lst_clear(new_list), NULL);
 		lst_addback(new_list, duplicate_node((*root)));

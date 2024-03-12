@@ -1,6 +1,6 @@
 CC = cc
 
-# CFLAGS =-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS =-Wall -Wextra -Werror 
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c error/fd_failure.c error/sys_failing.c
