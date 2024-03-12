@@ -41,8 +41,8 @@ void *parsing(char *input)
     saved_list = cleared_list;
     rootoftree = parse_ampersand_or(&cleared_list);
     if (!rootoftree)
-        return (lst_clear(&cleared_list), NULL);
-    lst_clear (&saved_list);
+        return (lst_clear(&saved_list), NULL);
+    lst_clear(&saved_list);
     return (rootoftree);
 }
 

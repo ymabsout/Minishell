@@ -97,8 +97,6 @@ t_btree *duplicate_for_tree(t_list *root)
     ft_memset(node , 0, sizeof(t_btree));
     node->item = ft_strdup((char *)root->content);
     node->typeofcontent = root->typeofcontent;
-    // free(root->content);
-    // free(root);
     return (node);
 }
 
@@ -117,7 +115,12 @@ t_btree *parse_ampersand_or(t_list **root)
         tmp1 = parse_pipe(root);
         tmp2 = tmp;
         if (!tmp1)
+        {
+            free_tree(token);
+            free_tree(tmp1);
+            free_tree(tmp);
             return (NULL);
+        }
         token->left = tmp2;
         token->right = tmp1;
         tmp = token;
@@ -142,6 +145,9 @@ t_btree *parse_pipe(t_list **root)
         if (!tmp1 \
             || !(tmp1->typeofcontent & (token_parse | token_and_or)))
         {
+            free_tree(token);
+            free_tree(tmp1);
+            free_tree(tmp);
             printf("Syntax error\n");
             return (NULL);
         }
@@ -170,6 +176,9 @@ t_btree *parse_heredoc_append(t_list **root)
         tmp2 = tmp;
         if (!tmp1 || (tmp && !(tmp1->typeofcontent & (token_word | token_quote))))
         {
+            free_tree(token);
+            free_tree(tmp1);
+            free_tree(tmp);
             printf("Syntax Error\n");
             return (NULL);
         }
@@ -210,7 +219,9 @@ t_btree *parse_cmd(t_list **root)
         tmp = parse_ampersand_or(root);
         if (!*root || !((*root)->typeofcontent & token_par_out) || !tmp)
         {
+            // printf("item in tree %s\n",tmp->item);
             printf("Syntax error\n");
+            free_tree(tmp);
             return (NULL);
         }
         (*root) = (*root)->next;
