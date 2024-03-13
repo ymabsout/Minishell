@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:48:09 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 15:48:11 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 02:55:00 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
 	{
 		data = 0;
 		is_valid = check_wild_validation(exec_tree);
-		exec_tree->item = ft_joinAllDowns(exec_tree, status_code, env);
+		exec_tree->item = ft_join_all_downs(exec_tree, status_code, env);
 		if (is_valid)
 			data = check_wild_card(exec_tree->item);
 		if (data)

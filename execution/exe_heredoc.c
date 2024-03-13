@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:37:12 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:03:18 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 02:48:39 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
 		fd = open(filetoconvert, O_CREAT | O_WRONLY, 0644);
 		if (fd < 0)
 			return ;
-		exec_tree->right->item = ft_joinAllDowns_heredoc(exec_tree->right);
+		exec_tree->right->item = ft_join_alldowns_heredoc(exec_tree->right);
 		routine_heredoc(fd, exec_tree->right, status_code, env);
 		exec_tree->right->down = NULL;
 		close(fd);

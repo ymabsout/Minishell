@@ -6,13 +6,13 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:44:38 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 15:45:08 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 02:48:07 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-char	*ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env)
+char	*ft_join_all_downs(t_btree *exec_tree, int status_code, t_listt *env)
 {
 	char	*str;
 	char	*old_str;
@@ -41,7 +41,7 @@ char	*ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env)
 	return (str);
 }
 
-char	*ft_joinAllDowns_heredoc(t_btree *exec_tree)
+char	*ft_join_alldowns_heredoc(t_btree *exec_tree)
 {
 	char	*str;
 	char	*old_str;
