@@ -143,7 +143,8 @@ t_btree *parse_pipe(t_list **root)
         tmp1 = parse_heredoc_append(root);
         tmp2 = tmp;
         if (!tmp1 \
-            || !(tmp1->typeofcontent & (token_parse | token_and_or)))
+            || (!(tmp1->typeofcontent & (token_parse | token_and_or))\
+            && !tmp1->flag_subshell))
         {
             free_tree(token);
             free_tree(tmp1);
