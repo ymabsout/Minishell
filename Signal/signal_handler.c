@@ -1,13 +1,13 @@
 #include "../mini_shell.h"
 
 void handle_ctrl_c() {
-    if (received_signal != -1)
+    if (g_received_signal != -1)
         printf("\n");
     rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
-    if (!received_signal)
-        received_signal = 2;   
+    if (!g_received_signal)
+        g_received_signal = 2;   
 }
 
 void handle_signal()
@@ -31,7 +31,7 @@ void heredoc_signal()
 {
     write(STDOUT_FILENO, "\n", 1);
     close(STDIN_FILENO);
-    received_signal = -1;
+    g_received_signal = -1;
 }
 
 void no_nl()
@@ -39,5 +39,5 @@ void no_nl()
     rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
-    received_signal = 2;
+    g_received_signal = 2;
 }  

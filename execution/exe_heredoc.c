@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:37:12 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 02:48:39 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:55:52 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	routine_heredoc(int fd, t_btree *exec_tree, \
 		expand_or_not = 0;
 	else
 		expand_or_not = 1;
-	while (!received_signal && isatty(STDIN_FILENO))
+	while (!g_received_signal && isatty(STDIN_FILENO))
 	{
 		signal(SIGINT, heredoc_signal);
 		line = readline("> ");
@@ -76,7 +76,7 @@ void	read_stdin(t_btree *exec_tree, int status_code, t_listt *env)
 	char	*filetoconvert;
 	int		fd1_copy_0;
 
-	if (received_signal != -1)
+	if (g_received_signal != -1)
 	{
 		fd1_copy_0 = dup(STDIN_FILENO);
 		filetoconvert = (char *)get_file();

@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:24:05 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:03:10 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:09:07 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	run_built_in(char **str, t_listt *env, int status_code, int flag)
 	return (exit_built_in(str, status_code));
 }
 
-static int	duping(int *in, int *out, t_btree *exec_tree, s_lol *s)
+static int	duping(int *in, int *out, t_btree *exec_tree, t_util *s)
 {
 	*in = dup(STDIN_FILENO);
 	*out = dup(STDOUT_FILENO);
@@ -44,7 +44,7 @@ static int	duping(int *in, int *out, t_btree *exec_tree, s_lol *s)
 	return (0);
 }
 
-static void	execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
+static void	execute(t_btree *exec_tree, t_listt *env, t_util *s, int flag)
 {
 	int	in;
 	int	out;
@@ -67,7 +67,7 @@ static void	execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
 		return ;
 }
 
-int	execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s)
+int	execute_built_in(t_btree *exec_tree, t_listt *env, t_util *s)
 {
 	if (!ft_strncmp(exec_tree->string[0], "echo", 5))
 		return (execute(exec_tree, env, s, 0), 1);

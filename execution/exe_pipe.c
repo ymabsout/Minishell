@@ -6,13 +6,13 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:40:04 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:04:00 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:07:48 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-static void	exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
+static void	exe_left(t_btree *exec_tree, t_listt *env, t_util *s, int fd)
 {
 	pid_t	pid;
 
@@ -25,7 +25,7 @@ static void	exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
 			close(exec_tree->pipe_write_end);
 		close(fd);
 		executing(exec_tree->left, env, s);
-		if (waitpid(s->pids, &s->status_code, 0) != -1)
+		if (waitpid(s->pid, &s->status_code, 0) != -1)
 			s->status_code = WEXITSTATUS(s->status_code);
 		while (wait(0) != -1)
 			;
@@ -33,7 +33,7 @@ static void	exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
 	}
 }
 
-static void	exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
+static void	exe_right(t_btree *exec_tree, t_listt *env, t_util *s, int fd)
 {
 	pid_t	pid;
 
@@ -45,16 +45,16 @@ static void	exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
 	if (!pid)
 	{
 		executing(exec_tree, env, s);
-		if (waitpid(s->pids, &s->status_code, 0) != -1)
+		if (waitpid(s->pid, &s->status_code, 0) != -1)
 			s->status_code = WEXITSTATUS(s->status_code);
 		while (wait(0) != -1)
 			;
 		exit(s->status_code);
 	}
-	s->pids = pid;
+	s->pid = pid;
 }
 
-void	execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
+void	execute_pipe(t_btree *exec_tree, t_listt *env, t_util *s)
 {
 	int	fd[2];
 

@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:23:01 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 17:51:55 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:08:14 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	closing_streams(int in, int out)
 		close(out);
 }
 
-void	execute_and_op(t_btree *exec_tree, t_listt *env, s_lol *s)
+void	execute_and_op(t_btree *exec_tree, t_listt *env, t_util *s)
 {
 	int	in;
 	int	out;
@@ -44,7 +44,7 @@ void	execute_and_op(t_btree *exec_tree, t_listt *env, s_lol *s)
 		out = dup(exec_tree->stdout);
 	exec_tree->left->stdout = exec_tree->stdout;
 	executing(exec_tree->left, env, s);
-	if (waitpid(s->pids, &s->status_code, 0) != -1)
+	if (waitpid(s->pid, &s->status_code, 0) != -1)
 		s->status_code = WEXITSTATUS(s->status_code);
 	while (waitpid(-1, 0, 0) != -1)
 		;

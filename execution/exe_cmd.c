@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:33:18 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:00:59 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:08:01 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	exe_cmd(t_btree *exec_tree, t_listt *env)
 		handle_cmd_not_found(exec_tree->string[0]);
 }
 
-void	execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
+void	execute_cmd(t_btree *exec_tree, t_listt *env, t_util *s)
 {
 	pid_t	pid;
 
@@ -80,7 +80,7 @@ void	execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
 			return ;
 		if (pid)
 		{
-			s->pids = pid;
+			s->pid = pid;
 			return ;
 		}
 	}

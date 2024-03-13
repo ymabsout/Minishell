@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:12:37 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:04:59 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:07:13 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	redirect_streams(t_btree *node)
 		node->stderr = 2;
 }
 
-void	executing(t_btree *exec_tree, t_listt *env, s_lol *s)
+void	executing(t_btree *exec_tree, t_listt *env, t_util *s)
 {
 	redirect_streams(exec_tree);
 	if (exec_tree->flag_subshell)

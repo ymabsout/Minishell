@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:50:41 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 18:10:17 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 20:53:39 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	dbl_setter(t_btree *exec_tree, char **string)
 	free_double(string);
 }
 
-static void	cmd_on_right(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
+static void	cmd_on_right(t_btree *exec_tree, t_listt *env, t_util *s, int flag)
 {
 	int	fd;
 
@@ -73,7 +73,7 @@ static void	cmd_on_right(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
 	(flag == 3 && unlink(exec_tree->right->item));
 }
 
-void	execute_red(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
+void	execute_red(t_btree *exec_tree, t_listt *env, t_util *s, int flag)
 {
 	int		fd;
 	char	*file;
