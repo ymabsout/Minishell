@@ -5,6 +5,7 @@ static void exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
 {
     pid_t pid;
 
+    exec_tree->left->stdin = exec_tree->stdin;
     if (sys_failing((pid = fork()), "fork", s))
         return ;
     if (!pid)
