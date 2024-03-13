@@ -62,11 +62,11 @@ void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
         return ;
     if (execute_built_in(exec_tree, env, s))
         return ;
-    if (!exec_tree->pipe_read_end && !exec_tree->pipe_read_end)
+    if (!exec_tree->pipe_read_end && !exec_tree->pipe_write_end)
     {
         if (sys_failing((pid = fork()), "fork", s))
             return ;
-        if (pid)
+        if (pid > 0)
         {
             s->pids = pid;
             return ;

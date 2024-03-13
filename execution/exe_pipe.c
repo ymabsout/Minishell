@@ -5,7 +5,6 @@ static void exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
 {
     pid_t pid;
 
-    // exec_tree->left->pipe_read_end = fd;
     if (sys_failing((pid = fork()), "fork", s))
         return ;
     if (!pid)
@@ -31,9 +30,11 @@ static void exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
         return ;
     if (!pid)
     {
+        close(exec_tree->pipe_write_end);
+        exec_tree->pipe_write_end = 0;
         executing(exec_tree, env, s);
         if (waitpid(s->pids, &s->status_code, 0) != -1)
-                s->status_code = WEXITSTATUS(s->status_code);
+            s->status_code = WEXITSTATUS(s->status_code);
         while (wait(0) != -1);
         exit(s->status_code);
     }   

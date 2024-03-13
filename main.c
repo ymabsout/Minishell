@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/11 17:31:24 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 01:16:40 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void *parsing(char *input)
     if (!rootoftree)
         return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
+    // print_tree(rootoftree);
     return (rootoftree);
 }
 
@@ -66,6 +67,10 @@ void lol()
 {
     system("leaks minishell");
 }
+void o()
+{
+    system("lsof -c minishell");
+}
 
 int main (int ac, char *av[], char **env)
 {
@@ -76,6 +81,8 @@ int main (int ac, char *av[], char **env)
     s_lol s;
     (void)av;
     struct termios term;
+
+    // atexit(o);
 
     if (ac != 1)
         return (printf("error arguments\n"), 0);
@@ -94,7 +101,7 @@ int main (int ac, char *av[], char **env)
         if (!input)
             return (printf("exit\n"), ft_lstclear(&root_env, dl), s.status_code);
         keep = ft_strtrim(input, " ");
-        while (keep && keep[0])
+        if (keep && keep[0])
         {
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
@@ -126,12 +133,10 @@ int main (int ac, char *av[], char **env)
                         s.status_code = WEXITSTATUS(s.status_code);
                 }
                 while (waitpid(-1, 0, 0) != -1);
-                // printf("StatusCode: [%d]\n", s.status_code);
             }
             received_signal = 0;
-            break ;
+            add_history(input);
         }
-        add_history(input);
         free(input);
         free(keep);
     }

@@ -7,3 +7,5 @@
 // dup2 pwd | pwd failiaure why
 // (echo 1 && ls) << a
 // () leak
+// ls | (echo 1 && echo 1)
+// ls | (wc && wc)
