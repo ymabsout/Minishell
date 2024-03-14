@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:00 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 20:56:42 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:06:47 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_tree
 	struct s_tree	*next;
 	struct s_tree	*down;
 	char			*item;
-	int				pipe_read_end;// int fd_here;
+	int				pipe_read_end;
 	int				pipe_write_end;
 	int				stdin;
 	int				stdout;
