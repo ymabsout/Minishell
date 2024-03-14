@@ -52,7 +52,7 @@ void exe_cmd(t_btree *exec_tree, t_listt *env)
         handle_cmd_not_found(exec_tree->string[0]);
 }
 
-void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
+void execute_cmd(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     pid_t pid;
 
@@ -72,5 +72,5 @@ void execute_cmd(t_btree *exec_tree, t_listt *env, s_lol *s)
             return ;
         }
     }
-    exe_cmd(exec_tree, env);
+    exe_cmd(exec_tree, *env);
 }

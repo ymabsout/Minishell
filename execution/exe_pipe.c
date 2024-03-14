@@ -1,7 +1,7 @@
 
 #include "../mini_shell.h"
 
-static void exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
+static void exe_left(t_btree *exec_tree, t_listt **env, s_lol *s, int fd)
 {
     pid_t pid;
 
@@ -21,7 +21,7 @@ static void exe_left(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
     }
 }
 
-static void exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
+static void exe_right(t_btree *exec_tree, t_listt **env, s_lol *s, int fd)
 {
     pid_t pid;
 
@@ -42,7 +42,7 @@ static void exe_right(t_btree *exec_tree, t_listt *env, s_lol *s, int fd)
     s->pids = pid;
 }
 
-void execute_pipe(t_btree *exec_tree, t_listt *env, s_lol *s)
+void execute_pipe(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     int fd[2];
 

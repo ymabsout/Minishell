@@ -1,6 +1,6 @@
 #include "../mini_shell.h"
 
-void execute_sub_shell(t_btree *exec_tree, t_listt *env, s_lol *s)
+void execute_sub_shell(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     pid_t pid;
 

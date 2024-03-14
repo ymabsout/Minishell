@@ -2,7 +2,7 @@
 #include "../../mini_shell.h"
 
 
-int open_file(t_btree *exec_tree, int flag, int status_code, t_listt *env)
+int open_file(t_btree *exec_tree, int flag, int status_code, t_listt **env)
 {
     int fd;
 

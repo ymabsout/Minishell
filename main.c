@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/13 17:24:50 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 22:48:38 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,9 @@ int main (int ac, char *av[], char **env)
         if (!input)
             return (printf("exit\n"), ft_lstclear(&root_env, dl), s.status_code);
         keep = ft_strtrim(input, " ");
-        if (keep && keep[0])
+        while (keep && keep[0])
         {
+            add_history(input);
             exec_tree = (t_btree *)parsing(keep);
             if (!exec_tree && input[0] != '\0')
                 (printf("Parsing Error\n"), s.status_code = 258);
@@ -116,7 +117,7 @@ int main (int ac, char *av[], char **env)
                     break ;
                 }
                 return_def();
-                executing(exec_tree, root_env, &s);
+                executing(exec_tree, &root_env, &s);
                 free_tree(exec_tree);
                 sig_def();
                 if (waitpid(s.pids, &s.status_code, 0) != -1)
@@ -135,7 +136,7 @@ int main (int ac, char *av[], char **env)
                 while (waitpid(-1, 0, 0) != -1);
             }
             received_signal = 0;
-            add_history(input);
+			break ;
         }
         free(input);
         free(keep);

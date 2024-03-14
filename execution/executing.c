@@ -9,10 +9,9 @@ static void redirect_streams(t_btree *node)
         node->stderr = 2;
 }
 
-void  executing(t_btree *exec_tree, t_listt *env, s_lol *s)
+void  executing(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     redirect_streams(exec_tree);
-
     if (exec_tree->flag_subshell)
         execute_sub_shell(exec_tree, env, s);
     else if (exec_tree->typeofcontent & token_ampersand)

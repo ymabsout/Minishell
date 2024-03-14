@@ -14,14 +14,14 @@ static int ft_size(t_btree *tree)
     return (i);
 }
 
-char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env)
+char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt **env)
 {
     t_btree *curr;
     char **cmd;
     int next_size;
     int i;
 
-    handle_wild(exec_tree, status_code, env);
+    handle_wild(exec_tree, status_code, *env);
     next_size = ft_size(exec_tree);
     cmd = (char **)malloc((sizeof(char *) * (next_size + 1)));
     if (!cmd)

@@ -1,23 +1,23 @@
 #include "../mini_shell.h"
 
-static int run_built_in(char **str, t_listt *env, int status_code, int flag)
+static int run_built_in(char **str, t_listt **env, int status_code, int flag)
 {
     if (flag == 0)
         return (echo_built_in(str));
     else if (flag == 1)
-        return (cd_built_in(str, &env));
+        return (cd_built_in(str, env));
     else if (flag == 2)
         return (pwd_built_in(str));
     else if (flag == 3)
-        return (export_built_in(str, &env));
+        return (export_built_in(str, env));
     else if (flag == 4)
-        return (unset_built_in(str, &env));
+        return (unset_built_in(str, env));
     else if (flag == 5)
-        return (env_built_in(str, env));
+        return (env_built_in(str, *env));
     return (exit_built_in(str, status_code));
 }
 
-static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
+static void execute(t_btree *exec_tree, t_listt **env, s_lol *s, int flag)
 {
     int in;
     int out;
@@ -46,7 +46,7 @@ static void execute(t_btree *exec_tree, t_listt *env, s_lol *s, int flag)
         return ;
 }
 
-int execute_built_in(t_btree *exec_tree, t_listt *env, s_lol *s)
+int execute_built_in(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     if (!ft_strncmp(exec_tree->string[0], "echo", 5))
         return (execute(exec_tree, env, s, 0), 1);

@@ -1,7 +1,7 @@
 
 #include "../mini_shell.h"
 
-void execute_or_op(t_btree *exec_tree, t_listt *env, s_lol *s)
+void execute_or_op(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
     {

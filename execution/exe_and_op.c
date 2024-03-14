@@ -10,7 +10,7 @@ static void setting_pipe(t_btree *exec_tree, t_btree *wanted)
     }    
 }
 
-void execute_and_op(t_btree *exec_tree, t_listt *env, s_lol *s)
+void execute_and_op(t_btree *exec_tree, t_listt **env, s_lol *s)
 {
     int in;
     int out;
