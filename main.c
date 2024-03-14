@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/13 22:48:38 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/14 20:47:27 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void *parsing(char *input)
     if (!rootoftree)
         return (lst_clear(&saved_list), NULL);
     lst_clear(&saved_list);
-    // print_tree(rootoftree);
+    print_tree(rootoftree);
     return (rootoftree);
 }
 
@@ -142,4 +142,3 @@ int main (int ac, char *av[], char **env)
         free(keep);
     }
 }
-/// $(pwd)

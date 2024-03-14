@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS =-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS =-Wall -Wextra -Werror
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c error/fd_failure.c error/sys_failing.c
@@ -31,7 +31,7 @@ EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c\
 	execution/exe_and_op.c execution/exe_or_op.c execution/exe_sub_shell.c execution/exe_built_in.c\
 	execution/exe_heredoc.c execution/ft_join_all_downs.c execution/expand_double_quote.c execution/expand_single_quote.c\
 	execution/exe_heredoc.c execution/redirection/exe_red.c execution/redirection/open_file.c execution/redirection/create_string.c\
-	execution/expandtemp.c
+	execution/expandtemp.c execution/redirection/check_files.c
 	
 
 PRINT=list_print.c

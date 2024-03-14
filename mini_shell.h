@@ -203,6 +203,7 @@ void print_down_tree(t_btree *root);
 // REDIRECTION
 int open_file(t_btree *exec_tree, int flag, int status_code, t_listt **env);
 void create_string(t_btree *exec_tree, char **string);
+int into_files(int *i, t_btree *exec_tree, s_lol *s, t_listt **env);
 
 // Wild card
 void handle_wild(t_btree *exec_tree, int status_code, t_listt *env);
