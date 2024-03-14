@@ -35,7 +35,7 @@ void routine_heredoc(int fd, t_btree *exec_tree, int status_code, t_listt *env)
     t_btree *l;
     int expand_or_not;
 
-    if (exec_tree->typeofcontent & (token_double_q | token_single_q) || \
+    if (exec_tree->type & (token_double_q | token_single_q) || \
         exec_tree->down)
         expand_or_not = 0;
     else

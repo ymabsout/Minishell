@@ -6,15 +6,15 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 21:31:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/03 21:32:11 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/14 21:49:48 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void  *white_space_handle(char *cmd, int *index, t_list **root)
+void	*white_space_handle(char *cmd, int *index, t_list **root)
 {
-	char *tmp;
+	char	*tmp;
 
 	if ((*index) != 0)
 	{
@@ -23,18 +23,18 @@ void  *white_space_handle(char *cmd, int *index, t_list **root)
 		free(tmp);
 	}
 	lst_addback(root, set_correct_type(lst_new(ft_strdup(" ")), 1));
-	while (cmd[++(*index)] && cmd[(*index)] == ' ')
+	while (cmd[++(*index)] && (cmd[(*index)] == ' ' || cmd[(*index)] == '\t'))
 		;
 	tmp = ft_strdup (cmd + (*index));
 	free(cmd);
 	cmd = ft_strdup(tmp);
 	free(tmp);
-	return(cmd);
+	return (cmd);
 }
 
-void *statement_delim(char *cmd, int *index, int *track, t_list **root)
+void	*statement_delim(char *cmd, int *index, int *track, t_list **root)
 {
-	char *tmp;
+	char	*tmp;
 
 	if ((cmd[(*index)] == '|' && cmd[(*index) + 1] != cmd[(*index)]) \
 		|| cmd[(*index)] != cmd[(*index) + 1])
@@ -53,20 +53,21 @@ void *statement_delim(char *cmd, int *index, int *track, t_list **root)
 	return (cmd);
 }
 
-void *delim_follows(char *cmd, t_list **root, int *index, int *track)
+void	*delim_follows(char *cmd, t_list **root, int *index, int *track)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (cmd[(*index)] == '&')
 	{
 		if (cmd[(*index)] == cmd[(*index) + 1])
 			lst_addback(root, set_correct_type(lst_new(ft_strdup("&&")), 2));
 		else
-			return (printf("syntax error %c\n", cmd[(*index)]), lst_clear(root), NULL);
+			return (printf("syntax error %c\n", \
+				cmd[(*index)]), lst_clear(root), NULL);
 		(*track) = 1;
 	}
 	else if (delimeter(cmd[(*index) + 1]) && cmd[(*index) + 1] != ')'\
-		 && cmd[(*index) + 1] != '(')
+		&& cmd[(*index) + 1] != '(')
 		statement_delim(cmd, index, track, root);
 	else
 	{
@@ -77,9 +78,9 @@ void *delim_follows(char *cmd, t_list **root, int *index, int *track)
 	return (cmd);
 }
 
-void *handle_delimeter(char *cmd, t_list **root, int *index,  int *track)
+void	*handle_delimeter(char *cmd, t_list **root, int *index, int *track)
 {
-	char *tmp;
+	char	*tmp;
 
 	if ((*index) != 0)
 	{

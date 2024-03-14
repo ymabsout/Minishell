@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tree.c                                        :+:      :+:    :+:   */
+/*   signal_handle_sec.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 22:40:54 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/14 22:41:04 by ymabsout         ###   ########.fr       */
+/*   Created: 2024/03/14 17:01:05 by ymabsout          #+#    #+#             */
+/*   Updated: 2024/03/14 17:01:18 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void	free_tree(t_btree *tree)
+void	return_def(int c)
 {
-	if (!tree)
-		return ;
-	free_tree(tree->left);
-	free_tree(tree->right);
-	free_tree(tree->next);
-	free_tree(tree->down);
-	free_double(tree->string);
-	free(tree->item);
-	free(tree);
+	(void)c;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	heredoc_signal(int c)
+{
+	(void)c;
+	write(STDOUT_FILENO, "\n", 1);
+	close(STDIN_FILENO);
+	received_signal = -1;
+}
+
+void	no_nl(int c)
+{
+	(void)c;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	received_signal = 2;
 }

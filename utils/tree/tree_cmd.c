@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   tree_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/14 16:57:42 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/14 17:01:21 by ymabsout         ###   ########.fr       */
+/*   Created: 2024/03/14 17:33:43 by ymabsout          #+#    #+#             */
+/*   Updated: 2024/03/14 19:44:26 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini_shell.h"
+#include "../../mini_shell.h"
 
-void	handle_ctrl_c(int c)
+t_btree	*parin(t_list **root)
 {
-	(void)c;
-	if (received_signal != -1)
-		printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-	if (!received_signal)
-		received_signal = 2;
+	t_btree	*tmp;
+
+	(*root) = (*root)->next;
+	tmp = parse_ampersand_or(root);
+	if (!*root || !((*root)->type & token_par_out) || !tmp)
+		return (free_tree(tmp), NULL);
+	(*root) = (*root)->next;
+	tmp->flag_subshell = 1;
+	return (tmp);
 }
 
-void	handle_signal(int c)
+void	tree_freeir(t_btree *token, t_btree *tmp, t_btree *tmp1)
 {
-	(void)c;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_ctrl_c);
-}
-
-void	sig_def(int c)
-{
-	(void)c;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	free_tree(token);
+	free_tree(tmp1);
+	free_tree(tmp);
 }
