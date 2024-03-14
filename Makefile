@@ -20,11 +20,11 @@ LIB=lib/ft_putstr_fd.c lib/ft_isalnum.c lib/ft_strjoin.c lib/ft_strlcat.c lib/ft
 	lib/ft_atoi.c lib/ft_strtrim.c lib/ft_strnstr.c
 
 PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c parsing/quote_handler.c\
-	parsing/type_giver.c
+	parsing/type_giver.c parsing/parsingstart.c
 
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c\
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c\
-	utils/free_tree.c ./utils/tree/tree_sec.c ./utils/tree/tree_cmd.c
+	utils/free_tree.c ./utils/tree/tree_sec.c ./utils/tree/tree_cmd.c ./utils/list/listsec.c 
 
 EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c\
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c\

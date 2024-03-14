@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   free_double.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 22:04:01 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/06 20:45:15 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:40:26 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void free_double(char **arr)
+void	free_double(char **arr)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (arr && arr[++i])
-        free(arr[i]);
-    free(arr);
+	i = -1;
+	while (arr && arr[++i])
+		free(arr[i]);
+	free(arr);
 }

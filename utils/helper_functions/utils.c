@@ -6,17 +6,16 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/14 22:22:27 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/14 22:39:59 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../mini_shell.h"
 
-
 char	*ft_strchr(char *s, int c)
 {
 	int				i;
-	unsigned char		*str;
+	unsigned char	*str;
 
 	if (!s[0] && c == '\0')
 		return ((char *)s);
@@ -66,7 +65,7 @@ char	*ft_strrchr(char *s, int c)
 	return (NULL);
 }
 
-void dl(void *content)
+void	dl(void *content)
 {
 	free((char *)content);
 }
