@@ -50,7 +50,7 @@ char *match(char *file_name, char *pattern)
     i = -1;
     while (arr[++i])
     {
-        dummy = ft_strnstr(dummy, arr[i], ft_strlen(dummy));         // ft_strstr;
+        dummy = ft_strnstr(dummy, arr[i], ft_strlen(dummy));
         if (!dummy)
             return (free_double(arr), NULL);
     }

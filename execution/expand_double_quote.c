@@ -3,12 +3,19 @@
 static char *get_my_env(t_listt *envs, char *env_str)
 {
     char *wr;
+    char **arr;
 
+    wr = 0;
     while (envs)
     {
-        wr = ft_strnstr(envs->content, env_str, ft_strlen(env_str));
-        if (wr)
+        arr = ft_split(envs->content, '=');
+        if (!ft_strncmp(arr[0], env_str, ft_strlen(env_str) + 1))
+        {
+            wr = (char *)(envs->content);
+            free_double(arr);
             break ;
+        }
+        free_double(arr);
         envs = envs->next;
     }
     free(env_str);
