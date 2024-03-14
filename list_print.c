@@ -4,7 +4,7 @@ void printdownlist(t_list *root)
 {
     while (root)
     {
-        printf("^^^^^down level ->{%s} --> type :{%d}^^^^\n", root->content, root->typeofcontent);
+        printf("^^^^^down level ->{%s} --> type :{%d}^^^^\n", root->content, root->type);
         root = root->down;
     }
 }
@@ -15,7 +15,7 @@ void printlist(t_list *root, int a)
     {
         while (root)
         {
-            printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
+            printf("{%s} --> type :{%d}\n",  root->content, root->type);
             if (root->down)
                 printdownlist(root->down);
             root = root->next;
@@ -23,7 +23,7 @@ void printlist(t_list *root, int a)
     }
     while (root)
     {
-        printf("{%s} --> type :{%d}\n",  root->content, root->typeofcontent);
+        printf("{%s} --> type :{%d}\n",  root->content, root->type);
         root = root->next;
     }
 }

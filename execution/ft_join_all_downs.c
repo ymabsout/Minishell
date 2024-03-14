@@ -6,7 +6,7 @@ char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env)
     char *old_str;
     t_btree *down;
 
-    if (exec_tree->typeofcontent & token_single_q)
+    if (exec_tree->type & token_single_q)
         expand_single_quote(exec_tree);
     else
         expand_double_quote(exec_tree, status_code, env);
@@ -15,7 +15,7 @@ char *ft_joinAllDowns(t_btree *exec_tree, int status_code, t_listt *env)
     while (exec_tree)
     {
         old_str = str;
-        if (exec_tree->typeofcontent & token_single_q)
+        if (exec_tree->type & token_single_q)
             expand_single_quote(exec_tree);
         else
             expand_double_quote(exec_tree, status_code, env);
@@ -35,7 +35,7 @@ char *ft_joinAllDowns_heredoc(t_btree *exec_tree)
     char *old_str;
     t_btree *down;
 
-    if (exec_tree->typeofcontent & token_single_q)
+    if (exec_tree->type & token_single_q)
         expand_single_quote_heredoc(exec_tree);
     else
         expand_double_quote_heredoc(exec_tree);
@@ -44,7 +44,7 @@ char *ft_joinAllDowns_heredoc(t_btree *exec_tree)
     while (exec_tree)
     {
         old_str = str;
-        if (exec_tree->typeofcontent & token_single_q)
+        if (exec_tree->type & token_single_q)
             expand_single_quote_heredoc(exec_tree);
         else
             expand_double_quote_heredoc(exec_tree);

@@ -24,7 +24,7 @@ int received_signal;
 typedef struct s_list
 {
     char *content;
-    int typeofcontent;
+    int type;
     char **joined_content;
     struct s_list *next;
     struct s_list *previous;
@@ -36,7 +36,7 @@ typedef struct s_tree
 {
     struct s_tree *left;
     struct s_tree *right;
-    int typeofcontent;
+    int type;
     char **string;
     int flag_subshell;
     struct s_tree *next;
@@ -101,6 +101,8 @@ enum token_type
     token_af_pipe = (token_pipe | token_and_or),
     token_meta = (token_pipe | token_red | token_and_or),
     token_pth = (token_par_in | token_par_out),
+    token_par = (token_quote | token_word | token_par_in | token_space),
+    token_pars = (token_pipe | token_and_or | token_par_in),
     token_parse = (token_word | token_quote | token_red | token_pth)
 };
 
@@ -179,6 +181,8 @@ int env_built_in(char **cmd, t_listt *head_env);
 void failing_err(int failed);
 void fd_failure(char *file, int id, s_lol *s);
 int sys_failing(int err, char *fn, s_lol *s);
+void dl(void *content);
+
 
 // CODE
 void executing(t_btree *exec_tree, t_listt **env, s_lol *s);
@@ -240,30 +244,35 @@ void sig_def();
 void lst_addback(t_list **lst, t_list *new);
 
 //PARSING
-void *tokenize_lex(char *cmd);
-int delimeter(int c);
-void *set_correct_follow(t_list *root, int numb);
+void    *tokenize_lex(char *cmd);
+int     delimeter(int c);
+void*set_correct_follow(t_list *root, int numb);
 void *set_correct_type(t_list *root, int numb);
-int db_sl_quote(int c);
+int     db_sl_quote(int c);
 void *get_cmd_back(char *cmd, int index, t_list **root, int type);
 void *update_trackers(char *cmd, int index, t_data_q * track);
 void *get_quotes(t_list **root, char *cmd, int index);
 t_list *repair_list(t_list *root);
-void *parsing(char *input);
-void *dbl_sgl_handle(t_list **root, char *cmd, int *index);
-void *handle_delimeter(char *cmd, t_list **root, int *index,  int *track);
-void *delim_follows(char *cmd, t_list **root, int *index, int *track);
-void *statement_delim(char *cmd, int *index, int *track, t_list **root);
-void *white_space_handle(char *cmd, int *index, t_list **root);
-void *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
-void *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
-void *cmd_parse(t_list **root, t_list **new_list, int *track);
-void heredoc_signal();
-void handle_ctrl_c();
-void handle_signal();
-
-void free_half_double(char **cmd, int i);
-void free_tree(t_btree *tree);
-
+void    *parsing(char *input);
+void    *dbl_sgl_handle(t_list **root, char *cmd, int *index);
+void    *handle_delimeter(char *cmd, t_list **root, int *index,  int *track);
+void    *delim_follows(char *cmd, t_list **root, int *index, int *track);
+void    *statement_delim(char *cmd, int *index, int *track, t_list **root);
+void    *white_space_handle(char *cmd, int *index, t_list **root);
+void    *type_parser(t_list **root, t_list **new_list, int *track, int *pth);
+void    *meta_cmd_parser(t_list **root, t_list **new_list, int *track);
+void    *cmd_parse(t_list **root, t_list **new_list, int *track);
+void    heredoc_signal(int c);
+void    handle_ctrl_c(int c);
+void    handle_signal(int c);
+void    tree_freeir(t_btree *token, t_btree *tmp, t_btree *tmp1);
+void    free_half_double(char **cmd, int i);
+void    free_tree(t_btree *tree);
+t_btree	*lstaddback_tree(t_btree *root, t_btree *leaf);
+void	lstadd_down_tree(t_btree **root, t_btree *leaf);
+void	add_down_tree(t_list *root, t_btree **leaf);
+t_btree	*duplicate_for_tree(t_list *root);
+t_btree	*lst_last_tree(t_btree *root);
+t_btree *parin(t_list **root);
 
 #endif

@@ -6,57 +6,12 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 18:41:19 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 00:17:50 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/14 22:22:27 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../mini_shell.h"
 
-
-// char	*ft_strdup(char *s)
-// {
-// 	char	*ptr;
-// 	size_t	length_s;
-// 	size_t	i;
-
-// 	i = 0;
-// 	length_s = ft_strlen(s);
-// 	ptr = (char *)malloc((length_s * sizeof(char)) + 1);
-// 	if (ptr == NULL)
-// 		return (NULL);
-// 	while (i <= length_s && s[i] != '\0')
-// 	{
-// 		ptr[i] = s[i];
-// 		i++;
-// 	}
-// 	ptr[i] = '\0';
-// 	return (ptr);
-// }
-
-// char	*ft_substr(char *s, unsigned int start, size_t len)
-// {
-// 	char	*ptr;
-// 	size_t	i;
-
-// 	i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	if (start > ft_strlen(s))
-// 		return (ft_strdup(""));
-// 	if (len > ft_strlen(s) - start)
-// 		len = ft_strlen(s) - start;
-// 	ptr = malloc(sizeof(char) * len + 1);
-// 	if (ptr == NULL)
-// 		return (NULL);
-// 	while (i < len)
-// 	{
-// 		ptr[i] = s[start];
-// 		i++;
-// 		start++;
-// 	}
-// 	ptr[i] = '\0';
-// 	return (ptr);
-// }
 
 char	*ft_strchr(char *s, int c)
 {
@@ -111,26 +66,7 @@ char	*ft_strrchr(char *s, int c)
 	return (NULL);
 }
 
-// int	ft_strncmp(char *s1, char *s2, size_t n)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	if (!s1 || !s2)
-// 		return (-1);
-// 	while (i < n)
-// 	{
-// 		if ((unsigned char)s1[i] == (unsigned char)s2[i] && i < ft_strlen(s1))
-// 			i++;
-// 		else
-// 		{
-// 			if ((unsigned char)s1[i] > (unsigned char)s2[i])
-// 				return (1);
-// 			else if ((unsigned char)s1[i] < (unsigned char)s2[i])
-// 				return (-1);
-// 			else
-// 				return (0);
-// 		}
-// 	}
-// 	return (0);
-// }
+void dl(void *content)
+{
+	free((char *)content);
+}

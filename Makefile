@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS =-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS =-Wall -Wextra -Werror -g
 
 ERROR=error/err_handler.c error/syntax_error.c error/valid_id.c error/failing_err.c\
 	error/handle_cmd_not_found.c error/fd_failure.c error/sys_failing.c
@@ -24,7 +24,7 @@ PARSING=parsing/first_list.c parsing/sec_list.c parsing/first_list_follower.c pa
 
 UTILS=utils/find_num_char.c utils/free_double.c ./utils/helper_functions/utils.c\
 	./utils/list/list.c ./utils/helper_functions/ft_memset.c ./utils/tree/tree.c utils/free_half_double.c\
-	utils/free_tree.c
+	utils/free_tree.c ./utils/tree/tree_sec.c ./utils/tree/tree_cmd.c
 
 EXECUTION=execution/executing.c execution/exe_pipe.c execution/exe_cmd.c\
 	execution/ft_join_all_nexts.c execution/get_path_cmd.c\
@@ -39,7 +39,7 @@ PRINT=list_print.c
 WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wild.c\
 	execution/wild_cards/match.c
 
-SIGNAL=Signal/signal_handler.c
+SIGNAL=Signal/signal_handler.c Signal/signal_handle_sec.c
 
 SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS)\
 	$(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(PRINT) $(SIGNAL)

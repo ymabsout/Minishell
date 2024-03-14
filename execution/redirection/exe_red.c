@@ -75,11 +75,11 @@ static int fn1(t_listt *l, int flag, s_lol *s, t_listt **env)
     c = l;
     while (c)
     {
-        if (((t_btree *)(c->content))->typeofcontent & token_red_input)
+        if (((t_btree *)(c->content))->type & token_red_input)
             fd = open_file(((t_btree *)(c->content))->right, 2, s->status_code, env);
-        else if (((t_btree *)(c->content))->typeofcontent & token_red_out_trunc)
+        else if (((t_btree *)(c->content))->type & token_red_out_trunc)
             fd = open_file(((t_btree *)(c->content))->right, 1, s->status_code, env);
-        else if (((t_btree *)(c->content))->typeofcontent & token_red_out_append)
+        else if (((t_btree *)(c->content))->type & token_red_out_append)
             fd = open_file(((t_btree *)(c->content))->right, 0, s->status_code, env);
         if (fd < 0)
         {
@@ -94,7 +94,7 @@ static int fn1(t_listt *l, int flag, s_lol *s, t_listt **env)
     c = l; 
     while (c)
     {
-        if (((t_btree *)(c->content))->typeofcontent & token_red_out_trunc)
+        if (((t_btree *)(c->content))->type & token_red_out_trunc)
             unlink(((t_btree *)(c->content))->right->string[0]);
         free_double(((t_btree *)(c->content))->right->string);
         ((t_btree *)(c->content))->right->string = 0;
@@ -111,7 +111,7 @@ static int fn(t_btree *exec_tree, int flag, s_lol *s, t_listt **env)
     l = 0;
     ft_lstadd_front(&l, ft_lstnew(exec_tree));
     curr = exec_tree->left;
-    while (curr && curr->typeofcontent & token_red)
+    while (curr && curr->type & token_red)
     {
         ft_lstadd_front(&l, ft_lstnew(curr));
         curr = curr->left;

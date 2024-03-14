@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:43:08 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/05 23:52:11 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:43:38 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_list *duplicate_node(t_list *root)
 	if (!new)
 		return (NULL);
 	new->content =  ft_strdup((char *)root->content);
-	new->typeofcontent = root->typeofcontent;
+	new->type = root->type;
 	new->down = root->down;
 	return (new);
 }
