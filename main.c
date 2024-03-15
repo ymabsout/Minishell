@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/13 21:10:04 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 02:37:12 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,4 @@ int	main(int ac, char *av[], char **env)
         free(input);
         free(keep);
     }
-}
+} 
