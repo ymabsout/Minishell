@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_built_in.c                                     :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 19:28:45 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/12 22:33:02 by smoumni          ###   ########.fr       */
+/*   Created: 2023/11/08 23:13:31 by smoumni           #+#    #+#             */
+/*   Updated: 2024/02/24 17:27:45 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-int pwd_built_in(char **cmd)
+t_listt	*ft_lstmap(t_listt *lst, void *(*f)(void *), void (*del)(void *))
 {
-    char *path_name;
+	t_listt	*new;
+	t_listt	*head;
+	void	*data;
 
-    if (cmd[1] && cmd[1][0] == '-')
-    {
-        ft_putstr_fd("pwd: no options are required\n", 2);
-        return (1);
-    }
-    path_name = getcwd(0, 0);
-    if (!path_name)
-        return (1);
-    printf("%s\n", path_name);
-    free(path_name);
-    return (0);
+	if (!lst || !f || !del)
+		return (NULL);
+	head = NULL;
+	while (lst)
+	{
+		data = f(lst->content);
+		new = ft_lstnew(data);
+		if (!new)
+		{
+			del(data);
+			ft_lstclear(&head, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&head, new);
+		lst = lst->next;
+	}
+	return (head);
 }

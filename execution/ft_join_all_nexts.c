@@ -1,51 +1,40 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_join_all_nexts.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 15:45:18 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/12 15:46:29 by smoumni          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-static int	ft_size(t_btree *tree)
+static int ft_size(t_btree *tree)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	while (tree)
-	{
-		i++;
-		tree = tree->next;
-	}
-	return (i);
+    i = 0;
+    while (tree)
+    {
+        i++;
+        tree = tree->next;
+    }
+    return (i);
 }
 
-char	**ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt *env)
+char **ft_join_all_nexts(t_btree *exec_tree, int status_code, t_listt **env)
 {
-	t_btree	*curr;
-	char	**cmd;
-	int		next_size;
-	int		i;
+    t_btree *curr;
+    char **cmd;
+    int next_size;
+    int i;
 
-	handle_wild(exec_tree, status_code, env);
-	next_size = ft_size(exec_tree);
-	cmd = (char **)malloc((sizeof(char *) * (next_size + 1)));
-	if (!cmd)
-		return (NULL);
-	curr = exec_tree;
-	i = -1;
-	while (++i < next_size)
-	{
-		cmd[i] = ft_strdup(curr->item);
-		if (!cmd[i])
-			return (free_half_double(cmd, i), NULL);
-		curr = curr->next;
-	}
-	cmd[i] = NULL;
-	return (cmd);
+    handle_wild(exec_tree, status_code, *env);
+    next_size = ft_size(exec_tree);
+    cmd = (char **)malloc((sizeof(char *) * (next_size + 1)));
+    if (!cmd)
+        return (NULL);
+    curr = exec_tree;
+    i = -1;
+    while (++i < next_size)
+    {
+        cmd[i] = ft_strdup(curr->item);
+        if (!cmd[i])
+            return (free_half_double(cmd, i), NULL);
+        curr = curr->next;
+    }
+    cmd[i] = NULL;
+    return (cmd);
 }

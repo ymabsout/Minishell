@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 17:43:37 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 17:44:01 by smoumni          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../mini_shell.h"
 
 static int	find_start_index(char const *str, char const *set)
@@ -40,7 +28,7 @@ static int	find_end_index(char const *str, char const *set)
 	end = ft_strlen(str) - 1;
 	i = 0;
 	while (set[i] && end >= 0)
-	{
+	{		
 		if (set[i] == str[end])
 		{
 			end--;

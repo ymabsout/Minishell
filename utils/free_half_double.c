@@ -1,20 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free_half_double.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 17:30:55 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 17:31:16 by smoumni          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../mini_shell.h"
 
-void	free_half_double(char **cmd, int i)
+
+void free_half_double(char **cmd, int i)
 {
-	while (i >= 0)
-		free(cmd[i--]);
-	free(cmd);
+    while (i >= 0)
+        free(cmd[i--]);
+    free(cmd);
 }

@@ -1,68 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   handle_wild.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 15:48:09 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 02:55:00 by smoumni          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../mini_shell.h"
 
-static int	check_wild_validation(t_btree *downs)
+static int check_wild_validation(t_btree *downs)
 {
-	int	valid;
+    int valid;
 
-	valid = 0;
-	while (downs)
-	{
-		if (find_num_char(downs->item, '*'))
-		{
-			valid = 1;
-			if (find_num_char(downs->item, '\'') || \
-				find_num_char(downs->item, '\"'))
-				return (0);
-		}
-		downs = downs->down;
-	}
-	return (valid);
+    valid = 0;
+    while (downs)
+    {
+        if (find_num_char(downs->item, '*'))
+        {
+            valid = 1;
+            if (find_num_char(downs->item, '\'') || \
+                find_num_char(downs->item, '\"'))
+                return (0);
+        }
+        downs = downs->down;
+    }
+    return (valid);
 }
 
-static t_btree	*add_ls(t_btree *exec_tree, t_btree *data)
+static t_btree *add_ls(t_btree *exec_tree, t_btree *data)
 {
-	t_btree	*last;
-	t_btree	*buf;
+    t_btree *last;
+    t_btree *buf;
 
-	last = exec_tree->next;
-	free(exec_tree->item);
-	exec_tree->item = data->item;
-	exec_tree->next = data->next;
-	buf = data;
-	while (data->next)
-		data = data->next;
-	free(buf);
-	data->next = last;
-	return (last);
+    last = exec_tree->next;
+    free(exec_tree->item);
+    exec_tree->item = data->item;
+    exec_tree->next = data->next;
+    buf = data;
+    while (data->next)
+        data = data->next;
+    free(buf);
+    data->next = last;
+    return (last);
 }
 
-void	handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
+void handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
 {
-	t_btree	*data;
-	int		is_valid;
+    t_btree *data;
+    int is_valid;
 
-	while (exec_tree)
-	{
-		data = 0;
-		is_valid = check_wild_validation(exec_tree);
-		exec_tree->item = ft_join_all_downs(exec_tree, status_code, env);
-		if (is_valid)
-			data = check_wild_card(exec_tree->item);
-		if (data)
-			exec_tree = add_ls(exec_tree, data);
-		else
-			exec_tree = exec_tree->next;
-	}
+    while (exec_tree)
+    {
+        data = 0;
+        exec_tree->item = ft_joinAllDowns(&exec_tree, status_code, env);
+        is_valid = check_wild_validation(exec_tree);
+        if (is_valid)
+            data = check_wild_card(exec_tree->item);
+        if (data)
+            exec_tree = add_ls(exec_tree, data);
+        else
+            exec_tree = exec_tree->next;
+    }
 }

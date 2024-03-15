@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:03:22 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/13 17:44:20 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/06 00:17:23 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-char	*ft_substr(char const *s, int start, int len)
+char	*ft_substr(char const *s,  int start, int len)
 {
-	int		i;
+	int	i;
 	char	*arr;
 
 	if (!s)
