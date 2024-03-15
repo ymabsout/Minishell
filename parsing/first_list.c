@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   first_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 17:30:32 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/06 00:17:57 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/15 07:25:30 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void *dbl_sgl_handle(t_list **root, char *cmd, int *index)
+void	*dbl_sgl_handle(t_list **root, char *cmd, int *index)
 {
-	char *tmp;
+	char	*tmp;
 
 	if ((*index) != 0)
 	{
 		tmp = ft_substr(cmd, 0, (*index));
 		lst_addback(root, set_correct_type(lst_new(ft_strdup(tmp)), 1));
 		free(tmp);
-		tmp = ft_substr(cmd ,(*index), ft_strlen(cmd + (*index)));
+		tmp = ft_substr(cmd, (*index), ft_strlen(cmd + (*index)));
 		free(cmd);
 		cmd = ft_strdup(tmp);
 		free(tmp);
@@ -33,11 +33,11 @@ void *dbl_sgl_handle(t_list **root, char *cmd, int *index)
 	return (cmd);
 }
 
-void *tokenize_lex(char *cmd)
+void	*tokenize_lex(char *cmd)
 {
-	t_list *root;
-	int index;
-	int track;
+	t_list	*root;
+	int		index;
+	int		track;
 
 	track = 0;
 	root = NULL;
@@ -53,11 +53,11 @@ void *tokenize_lex(char *cmd)
 			cmd = handle_delimeter(cmd, &root, &index, &track);
 		else if (db_sl_quote(cmd[index]))
 		{
-			cmd = dbl_sgl_handle(&root, cmd ,&index);
+			cmd = dbl_sgl_handle(&root, cmd, &index);
 			if (!cmd)
 				return (lst_clear(&root), NULL);
 		}
 	}
 	free(cmd);
-	return(root);
+	return (root);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:37:12 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 06:30:19 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 07:28:40 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	routine_heredoc(int fd, t_btree *exec_tree, \
 	t_btree	*l;
 	int		expand_or_not;
 
-	if (exec_tree->typeofcontent & (token_double_q | token_single_q) || \
+	if (exec_tree->type & (token_double_q | token_single_q) || \
 		exec_tree->down)
 		expand_or_not = 0;
 	else

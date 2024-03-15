@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_join_all_downs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 03:49:31 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 04:02:42 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 07:27:53 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_joinalldowns(t_btree **exec_tree, int status_code, t_listt *env)
 	char	*old_str;
 	t_btree	*down;
 
-	if ((*exec_tree)->typeofcontent & token_single_q)
+	if ((*exec_tree)->type & token_single_q)
 		expand_single_quote((*exec_tree));
 	else
 		expand_double_quote(exec_tree, status_code, env);
@@ -27,7 +27,7 @@ char	*ft_joinalldowns(t_btree **exec_tree, int status_code, t_listt *env)
 	while (down)
 	{
 		old_str = str;
-		if (down->typeofcontent & token_single_q)
+		if (down->type & token_single_q)
 			expand_single_quote(down);
 		else
 			expand_double_quote(&down, status_code, env);
@@ -46,7 +46,7 @@ char	*ft_joinalldowns_heredoc(t_btree *exec_tree)
 	char	*old_str;
 	t_btree	*down;
 
-	if (exec_tree->typeofcontent & token_single_q)
+	if (exec_tree->type & token_single_q)
 		expand_single_quote_heredoc(exec_tree);
 	else
 		expand_double_quote_heredoc(exec_tree);
@@ -55,7 +55,7 @@ char	*ft_joinalldowns_heredoc(t_btree *exec_tree)
 	while (exec_tree)
 	{
 		old_str = str;
-		if (exec_tree->typeofcontent & token_single_q)
+		if (exec_tree->type & token_single_q)
 			expand_single_quote_heredoc(exec_tree);
 		else
 			expand_double_quote_heredoc(exec_tree);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:00 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 06:45:09 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 07:31:43 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	g_received_signal;
 typedef struct s_list
 {
 	char			*content;
-	int				typeofcontent;
+	int				type;
 	char			**joined_content;
 	struct s_list	*next;
 	struct s_list	*previous;
@@ -44,7 +44,7 @@ typedef struct s_tree
 {
 	struct s_tree	*left;
 	struct s_tree	*right;
-	int				typeofcontent;
+	int				type;
 	char			**string;
 	int				flag_subshell;
 	struct s_tree	*next;
@@ -97,6 +97,8 @@ enum e_token_type
 	token_af_pipe = (token_pipe | token_and_or),
 	token_meta = (token_pipe | token_red | token_and_or),
 	token_pth = (token_par_in | token_par_out),
+	token_par = (token_quote | token_word | token_par_in | token_space),
+	token_pars = (token_pipe | token_and_or | token_par_in),
 	token_parse = (token_word | token_quote | token_red | token_pth)
 };
 
@@ -159,6 +161,8 @@ int		pwd_built_in(char **cmd);
 int		echo_built_in(char **cmd);
 int		cd_built_in(char **cmd, t_listt **head_env);
 int		env_built_in(char **cmd, t_listt *head_env);
+void	get_here_doc(t_btree *exec_tree, int status, t_listt *env);
+void	tree_freeir(t_btree *token, t_btree *tmp, t_btree *tmp1);
 
 void	executing(t_btree *exec_tree, t_listt **env, t_util *s);
 void	execute_or_op(t_btree *exec_tree, t_listt **env, t_util *s);
@@ -232,5 +236,16 @@ void	free_half_double(char **cmd, int i);
 void	free_tree(t_btree *tree);
 int		find_num_char(char *str, int c);
 void	free_double(char **arr);
+void	setterm(void);
+t_btree	*lst_last_tree(t_btree *root);
+t_btree	*parin(t_list **root);
+t_btree	*duplicate_for_tree(t_list *root);
+void	add_down_tree(t_list *root, t_btree **leaf);
+void	lstadd_down_tree(t_btree **root, t_btree *leaf);
+t_btree	*lstaddback_tree(t_btree *root, t_btree *leaf);
+t_list	*lst_last_down(t_list *root);
+t_list	*lst_last(t_list *root);
+void	lst_clear(t_list **root);
+void	clear_down(t_list **root);
 
 #endif

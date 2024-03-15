@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:12:19 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 06:42:58 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 07:28:25 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	free_unlink(t_listt *l, int flag)
 	while (c)
 	{
 		if (flag && \
-			((t_btree *)(c->content))->typeofcontent & token_red_out_trunc)
+			((t_btree *)(c->content))->type & token_red_out_trunc)
 			unlink(((t_btree *)(c->content))->right->string[0]);
 		free_double(((t_btree *)(c->content))->right->string);
 		((t_btree *)(c->content))->right->string = 0;
@@ -39,14 +39,14 @@ static int	checking(t_listt *l, t_util *s, t_listt **env)
 	c = l;
 	while (c)
 	{
-		if (((t_btree *)(c->content))->typeofcontent & \
+		if (((t_btree *)(c->content))->type & \
 			(token_red_input | token_red_here_doc))
 			fd = open_file(((t_btree *)(c->content))->right, 2, \
 				s->status_code, env);
-		else if (((t_btree *)(c->content))->typeofcontent & token_red_out_trunc)
+		else if (((t_btree *)(c->content))->type & token_red_out_trunc)
 			fd = open_file(((t_btree *)(c->content))->right, 1, \
 				s->status_code, env);
-		else if (((t_btree *)(c->content))->typeofcontent & \
+		else if (((t_btree *)(c->content))->type & \
 			token_red_out_append)
 			fd = open_file(((t_btree *)(c->content))->right, 0, \
 				s->status_code, env);
@@ -68,7 +68,7 @@ static int	check_files(t_btree *exec_tree, t_util *s, t_listt **env)
 	l = 0;
 	ft_lstadd_front(&l, ft_lstnew(exec_tree));
 	curr = exec_tree->left;
-	while (curr && curr->typeofcontent & token_red)
+	while (curr && curr->type & token_red)
 	{
 		ft_lstadd_front(&l, ft_lstnew(curr));
 		curr = curr->left;
