@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   listsec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 07:18:39 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/15 07:18:40 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/15 09:01:45 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,9 @@ t_list	*lst_last_down(t_list *root)
 	while (root->down)
 		root = root->down;
 	return (root);
+}
+
+void	dl(void *content)
+{
+	free((char *)content);
 }

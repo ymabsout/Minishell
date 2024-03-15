@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 15:33:18 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 03:51:32 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 07:54:13 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ void	execute_cmd(t_btree *exec_tree, t_listt **env, t_util *s)
 
 	if (!(exec_tree->string))
 		exec_tree->string = ft_join_all_nexts(exec_tree, s->status_code, env);
-	if (!(exec_tree->string[0]))
+	if (!(exec_tree->string[0]) || !(exec_tree->string[0][0]))
+	{
+		s->status_code = 0;
 		return ;
+	}
 	if (execute_built_in(exec_tree, env, s))
 		return ;
 	if (!exec_tree->pipe_read_end && !exec_tree->pipe_read_end)

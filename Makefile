@@ -38,12 +38,12 @@ WILD_CARDS=execution/wild_cards/check_wild_card.c execution/wild_cards/handle_wi
 
 SIGNAL=Signal/signal_handler.c Signal/signal_handle_sec.c
 
-SRCS = main.c  $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS)\
+SRCS = main.c $(LIB) $(ERROR) $(CODE) $(BUILT_INS) $(UTILS)\
 	$(EXECUTION) $(GET_NEXT_LINE) $(WILD_CARDS) $(PARSING) $(SIGNAL)
 
-OBJS = $(SRCS:.c=.o)
-NAME = minishell
-HEADER = mini_shell.h
+OBJS=$(SRCS:.c=.o)
+NAME=minishell
+HEADER=mini_shell.h
 
 READLINE_L = $(shell brew --prefix readline)/lib 
 READLINE_I = $(shell brew --prefix readline)/include

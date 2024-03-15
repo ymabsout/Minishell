@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:00 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 07:31:43 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/15 09:02:16 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,5 +247,6 @@ t_list	*lst_last_down(t_list *root);
 t_list	*lst_last(t_list *root);
 void	lst_clear(t_list **root);
 void	clear_down(t_list **root);
+void	dl(void *content);
 
 #endif
