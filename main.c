@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/15 01:21:45 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/15 06:26:11 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int main (int ac, char *av[], char **env)
     char *keep;
     t_btree *exec_tree;
     t_listt *root_env;
-    s_lol s;
+    t_util s;
     (void)av;
     struct termios term;
 
@@ -94,10 +94,10 @@ int main (int ac, char *av[], char **env)
     input = NULL;   
     while (1)
     {
-        handle_signal();
+        handle_signal(0);
         input = readline(">_: ");
-        if (received_signal == 2)
-            (received_signal = 0, s.status_code = 1);
+        if (g_received_signal == 2)
+            (g_received_signal = 0, s.status_code = 1);
         if (!input)
             return (printf("exit\n"), ft_lstclear(&root_env, dl), s.status_code);
         keep = ft_strtrim(input, " ");
@@ -109,19 +109,19 @@ int main (int ac, char *av[], char **env)
                 (printf("Parsing Error\n"), s.status_code = 258);
             if (exec_tree)
             {
-                received_signal = 0;
+                g_received_signal = 0;
                 get_here_doc(exec_tree, s.status_code, root_env);
-                if (received_signal == -1)
+                if (g_received_signal == -1)
                 {
                     s.status_code = 1;
                     break ;
                 }
-                return_def();
+                return_def(0);
                 executing(exec_tree, &root_env, &s);
                 // print_tree(exec_tree);
                 free_tree(exec_tree);
-                sig_def();
-                if (waitpid(s.pids, &s.status_code, 0) != -1)
+                sig_def(0);
+                if (waitpid(s.pid, &s.status_code, 0) != -1)
                 {
                     if (WIFSIGNALED(s.status_code))
                     {
@@ -136,7 +136,7 @@ int main (int ac, char *av[], char **env)
                 }
                 while (waitpid(-1, 0, 0) != -1);
             }
-            received_signal = 0;
+            g_received_signal = 0;
 			break ;
         }
         free(input);

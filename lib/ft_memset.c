@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2024/03/13 17:58:22 by smoumni           #+#    #+#             */
+/*   Updated: 2024/03/15 03:20:30 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {
