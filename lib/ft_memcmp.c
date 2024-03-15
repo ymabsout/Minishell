@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 10:32:49 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/02/24 17:38:21 by smoumni          ###   ########.fr       */
+/*   Created: 2024/03/13 17:59:30 by smoumni           #+#    #+#             */
+/*   Updated: 2024/03/13 17:59:40 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../mini_shell.h"
+#include "../mini_shell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	ft_memcmp(void *s1, void *s2, size_t n)
 {
 	size_t			i;
-	unsigned char	*ptr;
+	unsigned char	*p1;
+	unsigned char	*p2;
 
-	ptr = (unsigned char *)s;
+	p1 = (unsigned char *)s1;
+	p2 = (unsigned char *)s2;
 	i = 0;
 	while (i < n)
 	{
-		ptr[i] = (unsigned char)c;
+		if (p1[i] != p2[i])
+			return (p1[i] - p2[i]);
 		i++;
 	}
-	return (ptr);
+	return (0);
 }

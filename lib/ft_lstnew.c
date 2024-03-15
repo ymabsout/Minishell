@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 17:06:57 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/24 17:27:02 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:44:37 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ t_listt	*ft_lstnew(void *content)
 	if (!new_list)
 		return (NULL);
 	new_list->content = content;
-	new_list->next = NULL; 
+	new_list->next = NULL;
 	return (new_list);
 }

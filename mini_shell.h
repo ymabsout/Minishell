@@ -1,85 +1,81 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_shell.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/13 17:50:00 by smoumni           #+#    #+#             */
+/*   Updated: 2024/03/15 02:08:37 by ymabsout         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINI_SHELL_H
-#define MINI_SHELL_H
+# define MINI_SHELL_H
 
-#include <stdlib.h>
-#include <string.h>
-#include <sys/errno.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <termios.h>
-#include <dirent.h>
-#include <signal.h>
-#define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
+# include <stdlib.h>
+# include <string.h>
+# include <sys/errno.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <termios.h>
+# include <dirent.h>
+# include <signal.h>
+# define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
-int received_signal;
-//zaba w chta saba 
-//yassine wjah swa 
+int	g_received_signal;
 
 typedef struct s_list
 {
-    char *content;
-    int type;
-    char **joined_content;
-    struct s_list *next;
-    struct s_list *previous;
-    struct s_list *up;
-    struct s_list *down;
-} t_list;
+	char			*content;
+	int				typeofcontent;
+	char			**joined_content;
+	struct s_list	*next;
+	struct s_list	*previous;
+	struct s_list	*up;
+	struct s_list	*down;
+}	t_list;
 
 typedef struct s_tree
 {
-    struct s_tree *left;
-    struct s_tree *right;
-    int type;
-    char **string;
-    int flag_subshell;
-    struct s_tree *next;
-    struct s_tree *down;
-    char *item;
-
-    //fd_heredoc
-    int fd_here;
-    // PIPE
-    int pipe_read_end;
-    int pipe_write_end;
-
-    //
-    int ln;
-    int rn;
-
-    //
-    int stdin;
-    int stdout;
-    int stderr;
-
-    //
-} t_btree;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	int				typeofcontent;
+	char			**string;
+	int				flag_subshell;
+	struct s_tree	*next;
+	struct s_tree	*down;
+	char			*item;
+	int				pipe_read_end;
+	int				pipe_write_end;
+	int				stdin;
+	int				stdout;
+	int				stderr;
+}	t_btree;
 
 typedef struct s_listt
 {
-    struct s_listt *next;
-    void *content;
-} t_listt;
+	struct s_listt	*next;
+	void			*content;
+}	t_listt;
 
-// struct
 typedef struct s_quote
 {
-    int dbl;
-    int sgl;
-}   t_data_q;
+	int	dbl;
+	int	sgl;
+}	t_data_q;
 
-typedef struct t_lol {
-    int status_code;
-    pid_t pids;
-} s_lol;
+typedef struct s_util
+{
+	int		status_code;
+	pid_t	pid;
+}	t_util;
 
-enum token_type
+enum e_token_type
 {
     token_ampersand = 1 << 0,
     token_or = 1 << 1,
@@ -106,47 +102,44 @@ enum token_type
     token_parse = (token_word | token_quote | token_red | token_pth)
 };
 
-char *ft_strchr(char *s, int c);
-char *ft_strrchr(char *s, int c);
-void lst_addback(t_list **lst, t_list *new);
-t_list *lst_new(char *content);
-void *parsing(char *input);
-void *tokenize_lex(char *cmd);
-t_list *duplicate_node(t_list *root);
-void deletenode(t_list *holder, t_list *node_delete);
-t_list *lst_last(t_list *root);
-void lst_add_down(t_list **lst, t_list *new);
-void *ft_memset(void *s, int c, size_t n);
-void print_tree(t_btree *root);
-t_btree *parse_cmd(t_list **root);
-t_btree *duplicate_for_tree(t_list *root);
-t_btree *parse_pipe(t_list **root);
-t_btree *parse_heredoc_append(t_list **root);
-t_btree *parse_ampersand_or(t_list **root);
+void	lst_addback(t_list **lst, t_list *new);
+t_list	*lst_new(char *content);
+void	*parsing(char *input);
+void	*tokenize_lex(char *cmd);
+t_list	*duplicate_node(t_list *root);
+void	deletenode(t_list *holder, t_list *node_delete);
+t_list	*lst_last(t_list *root);
+void	lst_add_down(t_list **lst, t_list *new);
+void	print_tree(t_btree *root);
+t_btree	*parse_cmd(t_list **root);
+t_btree	*duplicate_for_tree(t_list *root);
+t_btree	*parse_pipe(t_list **root);
+t_btree	*parse_heredoc_append(t_list **root);
+t_btree	*parse_ampersand_or(t_list **root);
 
+void	*ft_memset(void *s, int c, size_t n);
+char	*ft_strchr(char *s, int c);
+char	*ft_strrchr(char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char *ft_strjoin(char const *s1, char const *s2);
-char *ft_substr(char const *s,  int start, int len);
-char *ft_strdup(const char *s1);
-int ft_strncmp(const char *s1, const char *s2, int n);
-int ft_strlen(const char *s);
-void ft_putstr_fd(char *s, int fd);
-size_t ft_strlcat(char *dst, const char *src, int dstsize);
-size_t ft_strlcpy(char *dst, const char *src, int dstsize);
-char *ft_itoa(int n);
-int ft_isalnum(int c);
-void ft_lstadd_back(t_listt **lst, t_listt *new);
-void ft_lstadd_front(t_listt **lst, t_listt *new);
-void ft_lstclear(t_listt **lst, void (*del)(void *));
-void ft_lstdelone(t_listt *lst, void (*del)(void *));
-void ft_lstiter(t_listt *lst, void (*f)(void *));
-t_listt *ft_lstlast(t_listt *lst);
-t_listt *ft_lstmap(t_listt *lst, void *(*f)(void *), void (*del)(void *));
-t_listt *ft_lstnew(void *content);
-int ft_lstsize(t_listt *lst);
-char **ft_split(char const *s, char c);
-int ft_isalpha(int c);
-int ft_atoi(const char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, int start, int len);
+char	*ft_strdup(const char *s1);
+int		ft_strncmp(const char *s1, const char *s2, int n);
+int		ft_strlen(const char *s);
+void	ft_putstr_fd(char *s, int fd);
+size_t	ft_strlcat(char *dst, const char *src, int dstsize);
+size_t	ft_strlcpy(char *dst, const char *src, int dstsize);
+char	*ft_itoa(int n);
+int		ft_isalnum(int c);
+void	ft_lstadd_back(t_listt **lst, t_listt *new);
+void	ft_lstadd_front(t_listt **lst, t_listt *new);
+void	ft_lstclear(t_listt **lst, void (*del)(void *));
+void	ft_lstdelone(t_listt *lst, void (*del)(void *));
+t_listt	*ft_lstnew(void *content);
+int		ft_lstsize(t_listt *lst);
+char	**ft_split(char const *s, char c);
+int		ft_isalpha(int c);
+int		ft_atoi(const char *str);
 char	*ft_strtrim(char const *s1, char const *set);
 
 void syntax_error(void);
@@ -207,6 +200,7 @@ void print_down_tree(t_btree *root);
 // REDIRECTION
 int open_file(t_btree *exec_tree, int flag, int status_code, t_listt **env);
 void create_string(t_btree *exec_tree, char **string);
+int into_files(int *i, t_btree *exec_tree, s_lol *s, t_listt **env);
 
 // Wild card
 void handle_wild(t_btree *exec_tree, int status_code, t_listt *env);
@@ -276,6 +270,5 @@ t_btree *lst_last_tree(t_btree *root);
 t_btree *parin(t_list **root);
 void	get_here_doc(t_btree *exec_tree, int status, t_listt *env);
 void	setterm(void);
-void	clear_down(t_list **root);
 
 #endif

@@ -6,19 +6,19 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/14 22:34:04 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:15:30 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_shell.h"
 
-void	kept_exec(t_btree *exec_tree, s_lol *s, t_listt **root_env)
+void	kept_exec(t_btree *exec_tree, t_util *s, t_listt **root_env)
 {
 	return_def();
 	executing(exec_tree, root_env, s);
 	free_tree(exec_tree);
 	sig_def();
-	if (waitpid((*s).pids, &s->status_code, 0) != -1)
+	if (waitpid((*s).pid, &s->status_code, 0) != -1)
 	{
 		if (WIFSIGNALED((*s).status_code))
 		{
@@ -33,7 +33,7 @@ void	kept_exec(t_btree *exec_tree, s_lol *s, t_listt **root_env)
 	}
 }
 
-void	exec_st(t_listt **root_env, t_btree *exec_tree, s_lol *s, char *keep)
+void	exec_st(t_listt **root_env, t_btree *exec_tree, t_util *s, char *keep)
 {
 	while (keep && keep[0])
 	{
@@ -43,9 +43,9 @@ void	exec_st(t_listt **root_env, t_btree *exec_tree, s_lol *s, char *keep)
 			(printf("Parsing Error\n"), (*s).status_code = 258);
 		if (exec_tree)
 		{
-			received_signal = 0;
+			g_received_signal = 0;
 			get_here_doc(exec_tree, (*s).status_code, (*root_env));
-			if (received_signal == -1)
+			if (g_received_signal == -1)
 			{
 				(*s).status_code = 1;
 				break ;
@@ -54,7 +54,7 @@ void	exec_st(t_listt **root_env, t_btree *exec_tree, s_lol *s, char *keep)
 			while (waitpid(-1, 0, 0) != -1)
 				;
 		}
-		received_signal = 0;
+		g_received_signal = 0;
 		break ;
 	}
 	free(keep);
@@ -65,7 +65,7 @@ int	start_minishell(char **env)
 	char	*input;
 	char	*keep;
 	t_btree	*exec_tree;
-	s_lol	s;
+	t_util	s;
 	t_listt	*root_env;
 
 	exec_tree = NULL;
@@ -74,9 +74,9 @@ int	start_minishell(char **env)
 	{
 		handle_signal(0);
 		input = readline(">_: ");
-		if (received_signal == 2)
+		if (g_received_signal == 2)
 		{
-			received_signal = 0;
+			g_received_signal = 0;
 			s.status_code = 1;
 		}
 		if (!input)

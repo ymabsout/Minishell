@@ -6,7 +6,7 @@
 /*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 17:01:05 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/14 17:01:18 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/15 00:10:59 by ymabsout         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	heredoc_signal(int c)
 	(void)c;
 	write(STDOUT_FILENO, "\n", 1);
 	close(STDIN_FILENO);
-	received_signal = -1;
+	g_received_signal = -1;
 }
 
 void	no_nl(int c)
@@ -33,5 +33,5 @@ void	no_nl(int c)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	received_signal = 2;
+	g_received_signal = 2;
 }

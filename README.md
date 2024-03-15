@@ -3,11 +3,4 @@
 // fix exit numeric value
 
 // leak export
-
-// dup2 pwd | pwd failiaure why
-// (echo 1 && ls) << a
-// () leak
-// ls | (echo 1 && echo 1)
-// ls | (wc && wc)
-// ls > f1 > f2 > f3
-// echo $"$HOME"
+// $LS ft_strncmp
