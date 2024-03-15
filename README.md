@@ -10,4 +10,4 @@
 // ls | (echo 1 && echo 1)
 // ls | (wc && wc)
 // ls > f1 > f2 > f3
-// echo $"$HOME"
+// echo $"$HOME"w
