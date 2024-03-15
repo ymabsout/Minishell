@@ -276,5 +276,6 @@ t_btree *lst_last_tree(t_btree *root);
 t_btree *parin(t_list **root);
 void	get_here_doc(t_btree *exec_tree, int status, t_listt *env);
 void	setterm(void);
+void	clear_down(t_list **root);
 
 #endif
