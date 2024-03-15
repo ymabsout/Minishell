@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:09:45 by smoumni           #+#    #+#             */
-/*   Updated: 2024/02/06 20:18:11 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:44:31 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	count_words(const char *s, char c)
 	found = 1;
 	while (s[i])
 	{
-		if (s[i] != c) 
+		if (s[i] != c)
 		{
 			if (found == 1)
 			{
@@ -64,7 +64,7 @@ static void	insert_strings(char *arr, char const **s, char c)
 	s1 = (char **)s;
 	while (**s1)
 	{
-		if (**s1 != c) 
+		if (**s1 != c)
 		{
 			arr[i] = **s1;
 			found = 0;
