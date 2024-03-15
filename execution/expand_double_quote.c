@@ -103,12 +103,66 @@ void expand_dollar_sign(t_btree *exec_tree, \
     }
 }
 
-void expand_double_quote(t_btree *exec_tree, int status_code, t_listt *env)
+static t_btree	*lstnew(char *content)
+{
+	t_btree	*new_list;
+
+	new_list = (t_btree *)malloc(sizeof(t_btree));
+	if (!new_list)
+		return (NULL);
+	
+    ft_memset(new_list, 0, sizeof(t_btree));
+    new_list->item = content;
+	return (new_list);
+}
+
+static void add_lss(t_btree **exec_tree)
+{
+    t_btree *node;
+    t_btree *next;
+    t_btree *curr;
+    char **arr;
+
+    int i = -1;
+    curr = (*exec_tree);
+    arr = ft_split((*exec_tree)->item, ' ');
+    while (arr[++i])
+    {
+        if (!i)
+        {
+            free(curr->item);
+            curr->item = ft_strdup(arr[i]);
+        }
+        else
+        {
+            next = curr->next;
+            node = lstnew(ft_strdup(arr[i]));
+            node->next = next;
+            curr->next = node;
+            curr = curr->next;
+        }
+    }
+    free_double(arr);
+    if (i > 1) 
+    {
+        node->down = (*exec_tree)->down;
+        (*exec_tree)->down = 0;
+        (*exec_tree) = node;
+    }
+}
+
+void expand_double_quote(t_btree **exec_tree, int status_code, t_listt *env)
 {
     char *buffer;
+    int flag;
 
-    buffer = ft_strtrim(exec_tree->item, "\"");
-    free(exec_tree->item);
-    exec_tree->item = buffer;
-    expand_dollar_sign(exec_tree, status_code, env);
+    flag = 0;
+    if ((*exec_tree)->item[0] == '"')
+        flag = 1;
+    buffer = ft_strtrim((*exec_tree)->item, "\"");
+    free((*exec_tree)->item);
+    (*exec_tree)->item = buffer;
+    expand_dollar_sign(*exec_tree, status_code, env);
+    if (!flag)
+        add_lss(exec_tree);
 }

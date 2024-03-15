@@ -45,8 +45,8 @@ void handle_wild(t_btree *exec_tree, int status_code, t_listt *env)
     while (exec_tree)
     {
         data = 0;
+        exec_tree->item = ft_joinAllDowns(&exec_tree, status_code, env);
         is_valid = check_wild_validation(exec_tree);
-        exec_tree->item = ft_joinAllDowns(exec_tree, status_code, env);
         if (is_valid)
             data = check_wild_card(exec_tree->item);
         if (data)
