@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymabsout <ymabsout@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 18:12:19 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 07:28:25 by ymabsout         ###   ########.fr       */
+/*   Updated: 2024/03/17 01:20:38 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	redirecting_pipe(t_btree *exec_tree)
 {
 	char	*file;
 
-	if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
+	if (exec_tree->pipe_write_end || exec_tree->pipe_read_end)
 	{
 		exec_tree->left->pipe_write_end = exec_tree->pipe_write_end;
 		exec_tree->left->pipe_read_end = exec_tree->pipe_read_end;

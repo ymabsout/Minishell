@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:27:03 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 03:25:14 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/16 19:47:06 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	cd_built_in(char **cmd, t_listt **head_env)
 		return (1);
 	if (chdir(cmd[1]) == -1)
 	{
+		free(w_dir);
 		ft_putstr_fd("BNW: cd: ", 2);
 		perror(cmd[1]);
 		return (1);

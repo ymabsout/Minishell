@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:50:00 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 09:02:16 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/17 01:37:42 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 # include <termios.h>
 # include <dirent.h>
 # include <signal.h>
+
 # define PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
+# define RED  "\x1B[31m"
+# define GRN  "\x1B[32m"
+# define RESET "\x1B[0m"
 
 int	g_received_signal;
 

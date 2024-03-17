@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 15:30:20 by ymabsout          #+#    #+#             */
-/*   Updated: 2024/03/15 09:02:22 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/17 01:37:33 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	start_minishell(char **env)
 	while (1)
 	{
 		handle_signal(0);
-		input = readline(">_: ");
+		if (!s.status_code)
+			input = readline(MAG ">_: " RESET);
+		else
+			input = readline(RED ">_: " RESET);
 		if (g_received_signal == 2)
 		{
 			g_received_signal = 0;

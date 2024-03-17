@@ -6,7 +6,7 @@
 /*   By: smoumni <smoumni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 03:55:23 by smoumni           #+#    #+#             */
-/*   Updated: 2024/03/15 06:42:44 by smoumni          ###   ########.fr       */
+/*   Updated: 2024/03/17 01:20:55 by smoumni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,17 @@
 static void	setting_streams_out(t_btree *exec_tree, \
 	int above_st, int target, int fd)
 {
-	if (target != 1)
-		exec_tree->stdout = target;
+	printf("[%d]\n",exec_tree->pipe_read_end); 
+	printf("[%d]\n",exec_tree->pipe_write_end); 
+	if (exec_tree->pipe_write_end == 0 && \
+		exec_tree->pipe_read_end == 0)
+	{
+		puts("lol");
+		if (target != 1)
+			exec_tree->stdout = target;
+		else
+			exec_tree->stdout = fd;
+	}
 	else
 		exec_tree->stdout = fd;
 	exec_tree->stdin = above_st;
@@ -25,8 +34,14 @@ static void	setting_streams_out(t_btree *exec_tree, \
 static void	setting_streams_in(t_btree *exec_tree, \
 	int above_st, int target, int fd)
 {
-	if (target != 0)
-		exec_tree->stdin = target;
+	if (exec_tree->pipe_read_end == 0 && \
+		exec_tree->pipe_write_end == 0)
+	{
+		if (target != 0)
+			exec_tree->stdin = target;
+		else
+			exec_tree->stdin = fd;
+	}
 	else
 		exec_tree->stdin = fd;
 	exec_tree->stdout = above_st;
@@ -65,7 +80,7 @@ static void	cmd_on_right(t_btree *exec_tree, t_listt **env, t_util *s, int flag)
 	fd = open_file(exec_tree->right, flag, s->status_code, env);
 	if (fd < 0)
 		return (fd_failure(exec_tree->right->string[0], fd, s));
-	if (exec_tree->pipe_write_end && exec_tree->pipe_read_end)
+	if (exec_tree->pipe_write_end || exec_tree->pipe_read_end)
 	{
 		exec_tree->right->pipe_write_end = exec_tree->pipe_write_end;
 		exec_tree->right->pipe_read_end = exec_tree->pipe_read_end;
